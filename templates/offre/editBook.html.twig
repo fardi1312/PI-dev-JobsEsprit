@@ -1,0 +1,58 @@
+{% extends 'offre/index.html.twig' %}
+{% block div %}
+    <h3>Editer Offres de Stages</h3>
+{% endblock %}
+{% block body %}
+<section class="section-padding section-bg">
+    <div class="container">
+        <form method="post" action="{{ path('app_form') }}" enctype="multipart/form-data">
+            {{ form_start(form) }}
+            <div class="row">
+                <div class="col-lg-6 col-md-6 col-12 mb-3 form-floating">
+                    {{ form_widget(form.titre, {'attr': {'class': 'form-control', 'placeholder': 'Titre', 'required': 'required'}}) }}
+                    <label for="{{ form.titre.vars.id }}">Titre</label>
+                    {{ form_errors(form.titre) }}
+                </div>
+              
+
+                <div class="col-lg-12 col-12 mb-3 form-floating">
+                    {{ form_widget(form.descreption, {'attr': {'class': 'form-control', 'placeholder': 'Description', 'required': 'required'}}) }}
+                    <label for="{{ form.descreption.vars.id }}">Description</label>
+                    {{ form_errors(form.descreption) }}
+                </div>
+
+               <div class="col-lg-6 col-md-6 col-12 mb-3 form-floating">
+    {{ form_widget(form.fonction, {'attr': {'class': 'form-control', 'placeholder': 'Fonction', 'required': 'required'}}) }}
+    <label for="{{ form.fonction.vars.id }}">Fonction</label>
+    {{ form_errors(form.fonction) }}
+</div>
+<div class="col-lg-6 col-md-6 col-12 mb-3 form-floating">
+    {{ form_widget(form.typeStage, {'attr': {'class': 'form-select', 'required': 'required'}}) }}
+    <label for="{{ form.typeStage.vars.id }}">Type de Stage</label>
+    {{ form_errors(form.typeStage) }}
+</div>
+<div class="col-lg-6 col-md-6 col-12 mb-3 form-floating">
+    {{ form_widget(form.secteurs, {'attr': {'class': 'form-select', 'required': 'required'}}) }}
+    <label for="{{ form.secteurs.vars.id }}">Secteurs</label>
+    {{ form_errors(form.secteurs) }}
+</div>
+<div class="col-lg-6 col-md-6 col-12 mb-3 form-floating">
+    {{ form_widget(form.dateInscription, {'attr': {'class': 'form-control datepicker', 'placeholder': 'Date Inscription', 'required': 'required'}}) }}
+    <label for="{{ form.dateInscription.vars.id }}">Date Inscription</label>
+    {{ form_errors(form.dateInscription) }}
+</div>
+
+
+
+              
+
+                <div class="col-lg-12 col-md-12 col-12">
+                    <button type="submit" class="btn btn-primary">Add Offre</button>
+                </div>
+            </div>
+            {{ form_end(form) }}
+            
+        </form>
+    </div>
+</section>
+{% endblock %}

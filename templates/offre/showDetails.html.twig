@@ -1,0 +1,31 @@
+{% extends 'offre/index.html.twig' %}
+{% block div %}
+    <h3>Voir Details</h3>
+{% endblock %}
+
+{% block body %}
+   <div class="col-lg-8 col-12 mt-3 mx-auto">
+                            <div class="custom-block bg-white shadow-lg">
+                                <a href="topics-detail.html">
+                                    <div class="d-flex">
+                                        <div>
+                                            <h5 class="mb-2">{{ offre.titre }}</h5>
+
+                                            <p class="mb-0">{{ offre.descreption }}</p>
+                                      <p class="mb-0">{{ offre.descreption }}</p>
+                                                        <p class="mb-0">{{ offre.typeStage }}</p>
+                                            <p class="mb-0">{{ offre.secteurs }}</p>
+                                            <p class="mb-0">{{ offre.fonction }}</p>
+
+                                        </div>
+
+                                        <span class="badge bg-finance rounded-pill ms-auto">{{ offre.dateInscription | date }}</span>
+                                    </div>
+
+                                    <img src="images/topics/undraw_Finance_re_gnv2.png" class="custom-block-image img-fluid" alt="">
+                                </a>
+                            </div>
+                        </div>
+                        
+                        
+                        {% endblock %}
