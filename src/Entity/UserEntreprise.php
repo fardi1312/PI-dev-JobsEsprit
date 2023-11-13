@@ -32,6 +32,9 @@ class UserEntreprise
     #[ORM\Column(length: 255)]
     private ?string $image = null;
 
+    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    private ?UserProfile $idprofile = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -117,6 +120,18 @@ class UserEntreprise
     public function setImage(?string $image): static
     {
         $this->image = $image;
+        return $this;
+    }
+
+    public function getIdprofile(): ?UserProfile
+    {
+        return $this->idprofile;
+    }
+
+    public function setIdprofile(?UserProfile $idprofile): static
+    {
+        $this->idprofile = $idprofile;
+
         return $this;
     }
 }

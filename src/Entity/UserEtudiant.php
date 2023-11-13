@@ -43,6 +43,9 @@ class UserEtudiant
     #[ORM\Column(nullable: true)]
     private ?float $rate = null;
 
+    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    private ?UserProfile $idprofile = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -171,6 +174,18 @@ class UserEtudiant
     public function setRate(?float $rate): static
     {
         $this->rate = $rate;
+
+        return $this;
+    }
+
+    public function getIdprofile(): ?UserProfile
+    {
+        return $this->idprofile;
+    }
+
+    public function setIdprofile(?UserProfile $idprofile): static
+    {
+        $this->idprofile = $idprofile;
 
         return $this;
     }
