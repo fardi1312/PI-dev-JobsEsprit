@@ -13,11 +13,12 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/covoiturage')]
 class CovoiturageController extends AbstractController
 {
-    #[Route('/', name: 'app_covoiturage_index', methods: ['GET'])]
+    #[Route('/list', name: 'app_covoiturage_index', methods: ['GET'])]
     public function index(CovoiturageRepository $covoiturageRepository): Response
     {
-        return $this->render('covoiturage/index.html.twig', [
-            'covoiturages' => $covoiturageRepository->findAll(),
+        $covoiturage = $covoiturageRepository->findAll();
+        return $this->render('covoiturage/show.html.twig', [
+            'covoiturage' => $covoiturage,
         ]);
     }
 
@@ -74,5 +75,16 @@ class CovoiturageController extends AbstractController
 
         return $this->redirectToRoute('app_covoiturage_index', [], Response::HTTP_SEE_OTHER);
     }
+
+
+
+
+
+
+
+
+
+
+
 
 }
