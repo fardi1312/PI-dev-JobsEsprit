@@ -13,13 +13,15 @@
 
                                             <p class="mb-0">{{ offre.descreption }}</p>
                                       <p class="mb-0">{{ offre.descreption }}</p>
+                                      <p class="mb-0">{{ offre.entrepriseid.nomEntreprise | default('N/A') }}</p>
+
                                                         <p class="mb-0">{{ offre.typeStage }}</p>
                                             <p class="mb-0">{{ offre.secteurs }}</p>
                                             <p class="mb-0">{{ offre.fonction }}</p>
 
                                         </div>
 
-                                        <span class="badge bg-finance rounded-pill ms-auto">{{ offre.dateInscription | date }}</span>
+                                        <span class="badge bg-finance  ms-auto">{{ offre.dateInscription | date }}</span>
                                     </div>
 
             <img src="{{ asset(offre.image) }}" class="custom-block-image img-fluid" alt="">
