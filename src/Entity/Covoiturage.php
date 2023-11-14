@@ -27,7 +27,7 @@ class Covoiturage
     private ?int $prix = null;
 
     #[ORM\Column]
-    private ?int $heurednombreplacesdisponiblesepart = null;
+    private ?int $nombreplacesdisponible = null;
 
     #[ORM\Column(length: 150)]
     private ?string $image = null;
@@ -85,14 +85,14 @@ class Covoiturage
         $this->prix = $prix;
     }
 
-    public function getHeurednombreplacesdisponiblesepart(): ?int
+    public function getnombreplacesdisponible(): ?int
     {
-        return $this->heurednombreplacesdisponiblesepart;
+        return $this->nombreplacesdisponible;
     }
 
-    public function setHeurednombreplacesdisponiblesepart(?int $heurednombreplacesdisponiblesepart): void
+    public function setnombreplacesdisponible(?int $nombreplacesdisponible): void
     {
-        $this->heurednombreplacesdisponiblesepart = $heurednombreplacesdisponiblesepart;
+        $this->nombreplacesdisponible = $nombreplacesdisponible;
     }
 
     public function getImage(): ?string

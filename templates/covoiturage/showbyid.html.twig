@@ -1,0 +1,31 @@
+
+{% block title %}Covoiturage Details{% endblock %}
+
+{% block body %}
+    <h1>Covoiturage Details</h1>
+
+    <dl class="row">
+        <dt class="col-sm-3">Heure de Départ:</dt>
+        <dd class="col-sm-9">{{ covoiturage.heuredepart }}</dd>
+
+        <dt class="col-sm-3">Lieu de Départ:</dt>
+        <dd class="col-sm-9">{{ covoiturage.lieudepart }}</dd>
+
+        <dt class="col-sm-3">Lieu d'Arrivée:</dt>
+        <dd class="col-sm-9">{{ covoiturage.lieuarrivee }}</dd>
+
+        <dt class="col-sm-3">Prix:</dt>
+        <dd class="col-sm-9">{{ covoiturage.prix }}</dd>
+
+        <dt class="col-sm-3">Nombre de Places Disponibles:</dt>
+        <dd class="col-sm-9">{{ covoiturage.nombreplacesdisponible }}</dd>
+
+        <dt class="col-sm-3">Image:</dt>
+        <dd class="col-sm-9">{{ covoiturage.image }}</dd>
+
+        <dt class="col-sm-3">Nom d'Utilisateur:</dt>
+        <dd class="col-sm-9">{{ covoiturage.username }}</dd>
+    </dl>
+
+    <a href="{{ path('app_covoiturage_index') }}">Back to List</a>
+{% endblock %}

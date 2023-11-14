@@ -21,6 +21,27 @@ class CovoiturageRepository extends ServiceEntityRepository
         parent::__construct($registry, Covoiturage::class);
     }
 
+
+    public function save(Covoiturage $covoiturage, bool $flush = true): void
+    {
+        $em = $this->getEntityManager();
+        $em->persist($covoiturage);
+
+        if ($flush) {
+            $em->flush();
+        }
+    }
+
+    public function remove(Covoiturage $covoiturage, $flush = false)
+    {
+        $entityManager = $this->getEntityManager();
+        $entityManager->remove($covoiturage);
+
+        if ($flush) {
+            $entityManager->flush();
+        }
+    }
+
 //    /**
 //     * @return Covoiturage[] Returns an array of Covoiturage objects
 //     */

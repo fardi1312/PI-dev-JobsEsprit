@@ -1,0 +1,23 @@
+{# templates/covoiturage/newCovoiturage.html.twig #}
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Create a New Covoiturage{% endblock %}
+
+{% block body %}
+    <h1>Create a New Covoiturage</h1>
+
+    {{ form_start(form) }}
+
+    {{ form_row(form.heuredepart) }}
+    {{ form_row(form.lieudepart) }}
+    {{ form_row(form.lieuarrivee) }}
+    {{ form_row(form.prix) }}
+    {{ form_row(form.nombreplacesdisponibles) }}
+    {{ form_row(form.image) }}
+    {{ form_row(form.username) }}
+
+    <button type="submit" class="btn btn-primary">Create</button>
+
+    {{ form_end(form) }}
+{% endblock %}
