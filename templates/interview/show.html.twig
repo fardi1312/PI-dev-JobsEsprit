@@ -1,0 +1,48 @@
+{% extends 'offre/index.html.twig' %}
+{% block div %}
+    <h3>La liste des Interviews</h3>
+{% endblock %}
+{% block body %}
+    {% block first_content %}
+        <div align="center" style="margin-top: 20px;">
+            <style>
+                table {
+                    border-collapse: collapse;
+                    width: 80%;
+                }
+
+                th, td {
+                    border: 1px solid #ddd;
+                    padding: 8px;
+                    text-align: left;
+                }
+            </style>
+            <table align="center">
+                <thead>
+                    <tr>
+                        <th>Heure</th>
+                        <th>Date</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for i in interview %}
+                        <tr>
+
+                            <td>{{ i.heure }}</td>
+                            <td>{{ i.Date ? i.Date|date('Y-m-d') : '' }}</td>
+                            <td>
+                                <a href="{{ path('edit_interview', { id: i.id }) }}">Edit</a>
+                                <a href="{{ path('interview_delete', { id: i.id }) }}">Delete</a>
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="3">Aucune interview trouvée.</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% endblock %}
+{% endblock %}

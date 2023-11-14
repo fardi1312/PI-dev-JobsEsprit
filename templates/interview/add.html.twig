@@ -1,0 +1,36 @@
+
+    <div class="modal" id="eventModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Ajouter un Entretien</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                        {{ form_start(form) }}
+                        <div class="form-group">
+                            {{ form_label(form.etudiant_id, 'Nom du Candidat :') }}
+                            {{ form_widget(form.etudiant_id, {'attr': {'class': 'form-control', 'id': 'eventNom'}}) }}
+                            {{ form_errors(form.etudiant_id) }}
+                        </div>
+
+                        <div class="form-group">
+                            {{ form_label(form.date, 'Date de l\'Entretien  :') }}
+                            {{ form_widget(form.date, {'attr': {'class': 'form-control', 'id': 'eventDate', name: 'eventDate'}}) }}
+                        </div>
+
+                        <div class="form-group">
+                            {{ form_label(form.heure, 'Heure de l\'Entretien :') }}
+                            {{ form_widget(form.heure, {'attr': {'class': 'form-control', 'id': 'eventHeure'}}) }}
+                            {{ form_errors(form.heure) }}
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">Ajouter un Entretien</button>
+                        {{ form_end(form) }}
+                 
+                </div>
+            </div>
+        </div>
+    </div>
