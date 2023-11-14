@@ -16,12 +16,11 @@ class CovoiturageType extends AbstractType
             ->add('lieudepart')
             ->add('lieuarrivee')
             ->add('prix')
-            ->add('heurednombreplacesdisponiblesepart')
+            ->add('nombreplacesdisponible')
             ->add('image')
             ->add('username')
         ;
     }
-
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([

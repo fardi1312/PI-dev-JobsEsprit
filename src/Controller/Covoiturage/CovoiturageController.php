@@ -26,10 +26,9 @@ class CovoiturageController extends AbstractController
     public function new(Request $request, CovoiturageRepository $covoiturageRepository): Response
     {
         $covoiturage = new Covoiturage();
-        $form = $this->createForm(CovoiturageType::class, $covoiturage);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
+            $form = $this->createForm(CovoiturageType::class, $covoiturage);
+            $form->handleRequest($request);
+            if ($form->isSubmitted() && $form->isValid()) {
             $covoiturageRepository->save($covoiturage, true);
             return $this->redirectToRoute('app_covoiturage_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -43,7 +42,7 @@ class CovoiturageController extends AbstractController
     #[Route('/{id}', name: 'app_covoiturage_show', methods: ['GET'])]
     public function show(Covoiturage $covoiturage): Response
     {
-        return $this->render('covoiturage/show.html.twig', [
+        return $this->render('covoiturage/showbyid.html.twig', [
             'covoiturage' => $covoiturage,
         ]);
     }
@@ -66,25 +65,14 @@ class CovoiturageController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_covoiturage_delete', methods: ['POST'])]
+    #[Route('/{id}/delete', name: 'app_covoiturage_delete', methods: ['POST'])]
     public function delete(Request $request, Covoiturage $covoiturage, CovoiturageRepository $covoiturageRepository): Response
     {
         if ($this->isCsrfTokenValid('delete'.$covoiturage->getId(), $request->request->get('_token'))) {
             $covoiturageRepository->remove($covoiturage, true);
         }
-
         return $this->redirectToRoute('app_covoiturage_index', [], Response::HTTP_SEE_OTHER);
     }
-
-
-
-
-
-
-
-
-
-
 
 
 }

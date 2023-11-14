@@ -42,11 +42,11 @@
     </div>
 
     <div class="form-group">
-        {{ form_label(form.heurednombreplacesdisponiblesepart, "Nombre de Places Disponibles") }}
-        {{ form_widget(form.heurednombreplacesdisponiblesepart, { 'attr': {'class': 'form-control'} }) }}
-        {% if form_errors(form.heurednombreplacesdisponiblesepart) is not empty %}
+        {{ form_label(form.nombreplacesdisponible, "Nombre de Places Disponibles") }}
+        {{ form_widget(form.nombreplacesdisponible, { 'attr': {'class': 'form-control'} }) }}
+        {% if form_errors(form.nombreplacesdisponible) is not empty %}
             <div class="alert alert-danger">
-                {{ form_errors(form.heurednombreplacesdisponiblesepart) }}
+                {{ form_errors(form.nombreplacesdisponible) }}
             </div>
         {% endif %}
     </div>
@@ -70,58 +70,6 @@
             </div>
         {% endif %}
     </div>
-
-
-
-
-
-
-
-
-<div class="form-group">
-    {{ form_label(form.image, "Image") }}
-    <div class="input-group">
-        <span class="input-group-btn">
-            <span class="btn btn-default btn-file">
-                Browse&hellip; <input type="file" name="image" id="imgInp">
-            </span>
-        </span>
-        <input type="text" class="form-control" readonly>
-    </div>
-    {% if form_errors(form.image) is not empty %}
-        <div class="alert alert-danger">
-            {{ form_errors(form.image) }}
-        </div>
-    {% endif %}
-</div>
-
-<script>
-    $(document).ready(function() {
-        $("#imgInp").change(function() {
-            readURL(this);
-        });
-    });
-
-    function readURL(input) {
-        if (input.files && input.files[0]) {
-            var reader = new FileReader();
-
-            reader.onload = function(e) {
-                $('.form-control').attr('value', e.target.result);
-            }
-
-            reader.readAsDataURL(input.files[0]); // convert to base64 string
-        }
-    }
-</script>
-
-
-
-
-
-
-
-
 
     <button class="btn">{{ button_label|default('Save') }}</button>
 
