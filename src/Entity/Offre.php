@@ -36,6 +36,9 @@ class Offre
         #[ORM\ManyToOne(inversedBy: 'offres')]
     private ?Userentreprise $entrepriseid = null;
 
+        #[ORM\Column(length: 255)]
+        private ?string $image = null;
+
  
    
 
@@ -126,6 +129,18 @@ class Offre
     public function setEntrepriseid(?Userentreprise $entrepriseid): static
     {
         $this->entrepriseid = $entrepriseid;
+
+        return $this;
+    }
+
+    public function getImage(): ?string
+    {
+        return $this->image;
+    }
+
+    public function setImage(string $image): static
+    {
+        $this->image = $image;
 
         return $this;
     }

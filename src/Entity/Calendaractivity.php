@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\CalendaractivityRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: CalendaractivityRepository::class)]
@@ -18,6 +19,9 @@ class Calendaractivity
 
     #[ORM\ManyToOne(inversedBy: 'calendaractivities')]
     private ?Useretudiant $etudiant_id = null;
+
+    #[ORM\Column(type: Types::DATE_MUTABLE)]
+    private ?\DateTimeInterface $date = null;
 
    
 
@@ -39,13 +43,24 @@ class Calendaractivity
     }
 
     public function getEtudiantId(): ?Useretudiant
+{
+    return $this->etudiant_id;
+}
+
+public function setEtudiantId(?Useretudiant $etudiant_id): self
+{
+    $this->etudiant_id = $etudiant_id;
+    return $this;
+}
+
+    public function getDate(): ?\DateTimeInterface
     {
-        return $this->etudiant_id;
+        return $this->date;
     }
 
-    public function setEtudiantId(?Useretudiant $etudiant_id): static
+    public function setDate(\DateTimeInterface $date): static
     {
-        $this->etudiant_id = $etudiant_id;
+        $this->date = $date;
 
         return $this;
     }

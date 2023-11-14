@@ -66,9 +66,8 @@
 </a>
 
     <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="navbarLightDropdownMenuLink">
-        <li><a class="dropdown-item">Liste de Covoiturage</a></li>
-        <li><a class="dropdown-item">Mes Covoiturages</a></li>
-        <li><a class="dropdown-item">Réservations</a></li>
+        <li><a class="dropdown-item">Ajouter covoiturage</a></li>
+        <li><a class="dropdown-item">Voir mes covoiturage</a></li>
     </ul>
 </li>
                      <li class="nav-item">
@@ -159,7 +158,7 @@
     <div class="container">
         <div class="row">
             <div class="col-12 text-center">
-                <h2 class="mb-4">Browse Topics</h2>
+                <h2 class="mb-4">Offre de Stage</h2>
             </div>
         </div>
     </div>
@@ -169,21 +168,39 @@
     <div class="container">
         <div class="row justify-content-center">
 
-            {% for _ in 1..3 %}
-            <div class="col-lg-4 col-12 mb-4 mb-lg-0">
-                <div class="custom-block bg-white shadow-lg">
-                    <div class="d-flex">
-                        <div>
-                            <h5 class="mb-2">Web Design</h5>
-                            <p class="mb-0">When you search for free CSS templates, you will notice that TemplateMo is one of the best websites.</p>
+            {% for offre in offres %}
+                <div class="col-lg-4 col-12 mb-4 mb-lg-0">
+                    <div class="custom-block bg-white shadow-lg">
+                        <div class="d-flex">
+                            <div>
+                                <h5 class="mb-2">{{ offre.titre }}</h5>
+                                <p class="mb-0">{{ offre.descreption }}</p>
+                            </div>
+                            <span class="badge bg-design rounded-pill ms-auto">{{ offre.dateInscription|date('d/m/Y') }}</span>
                         </div>
-                        <span class="badge bg-design rounded-pill ms-auto">14</span>
+                        {# Add your image if needed #}
+            <img src="{{ asset(offre.image) }}" class="custom-block-image img-fluid" alt="">
+                        {# Add your link if needed #}
+                        <!-- <a href="#">Link</a> -->
                     </div>
-                    <img src="{{ asset('images/topics/undraw_Remote_design_team_re_urdx.png') }}" class="custom-block-image img-fluid" alt="">
+                </div>
+            {% endfor %}
+            <br> <br> <br> <br>
+<a href="{{ path('offres') }}">
+    <section class="explore-section section-padding" id="section_2">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <h2 class="mb-4">Voir plus</h2>
                 </div>
             </div>
-            {% endfor %}
+        </div>
+    </section>
+</a>
 
+
+    
+</section>
         </div>
     </div>
 </section>

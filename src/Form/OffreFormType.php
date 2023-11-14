@@ -142,8 +142,36 @@ class OffreFormType extends AbstractType
                     ]),
                 ],
             ]) */
-       ->add('valider', SubmitType::class);
 
+            ->add('image', FileType::class, [
+                'label' => ' Votre image  (fichier image uniquement)',
+
+               'mapped' => false,
+
+               
+                'required' => false,
+
+                'constraints' => [
+                    new File([
+                        'maxSize' => '1024k',
+                        'mimeTypes' => [
+                            'image/jpeg',
+                            'image/gif',
+                            'image/png',
+                            'image/jpg',
+                        ],
+                        'mimeTypesMessage' => 'Veuillez télécharger un document image valide',
+                        'notFoundMessage' => 'Le fichier ne peut pas être vide',
+
+                    ]),
+                    new Assert\NotBlank([
+                        'message' => 'Le champ ne doit pas être vide',
+                    ])
+
+                ],
+            ])
+
+;
     }
 
     public function configureOptions(OptionsResolver $resolver): void
