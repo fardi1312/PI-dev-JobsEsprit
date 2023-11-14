@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Calendaractivity;
 use App\Repository\CalendaractivityRepository;
+use App\Repository\CalendarRepository;
 use App\Repository\OffreRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -29,7 +30,7 @@ class DashbordController extends AbstractController
         ]);
     }
     #[Route('/adminevents', name: 'events_admin')]
-    public function listEvent(CalendaractivityRepository $offrerepository): Response
+    public function listEvent(CalendarRepository $offrerepository): Response
     {
 
         return $this->render('dashboard/interview.html.twig', [
