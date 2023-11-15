@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fitness Sign Up</title>
+    <!-- Add links to your CSS stylesheets or include Bootstrap styles -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <!-- Add any additional styling for your fitness interface -->
+    <style>
+        body {
+            background-color: #f8f9fa; /* Light gray background */
+        }
+
+        .signup-container {
+            max-width: 400px;
+            margin: auto;
+            margin-top: 50px;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            background-color: #fff; /* White background */
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container signup-container">
+        <div align="center">
+            <h2>Sign up</h2>
+
+            {{ form_start(form) }}
+
+{# Render other form fields #}
+{{ form_row(form.nom) }}
+{{ form_row(form.prenom) }}
+{{ form_row(form.email) }}
+{{ form_row(form.role) }}
+{{ form_row(form.username) }}
+{{ form_row(form.motDePasse) }}
+
+{{ form_row(form.phone) }}
+{{ form_row(form.age) }}
+
+{# Render the submit button #}
+{{ form_widget(form.save, { 'attr': {'class': 'btn btn-primary btn-block'} }) }}
+
+{{ form_end(form) }}
+
+
+        </div>
+    </div>
+
+    <!-- Add links to your JS scripts or include Bootstrap scripts if needed -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</body>
+
+</html>

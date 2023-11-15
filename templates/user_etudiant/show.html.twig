@@ -1,0 +1,73 @@
+{% extends 'user_etudiant/dashboard.html.twig' %}
+{% block div %}
+    <h3>La liste des etudiants </h3>
+{% endblock %}
+{% block body %}
+{% block first_content %}
+
+    <div align="center" style="margin-top: 20px;">
+        <style>
+            table {
+                border-collapse: collapse;
+                width: 80%;
+            }
+
+            th, td {
+                border: 1px solid #ddd;
+                padding: 8px;
+                text-align: left;
+            }
+        </style>
+        <table align="center">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>idprofile</th>
+                    <th>phone</th>
+                    <th>role</th>
+                    <th>email</th>
+                    <th>Mot de passe</th>
+                    <th>nom</th>
+                    <th>prenom</th>
+                    <th>Username</th>
+                    <th>image</th>
+                    <th>age</th>
+                    <th>rate</th>
+                    <th>Action</th>
+
+
+                </tr>
+            </thead>
+            <tbody>
+                {% for i in users %}
+                    <tr>
+                        <td>{{ i.id}}</td>
+                        <td>{{ i.idprofile }}</td>
+                        <td>{{ i.phone }}</td>
+                        <td>{{ i.role }}</td>
+                        <td>{{ i.motDePasse }}</td>
+                        <td>{{ i.nom}}</td>
+                        <td>{{ i.prenom }}</td>
+                        <td>{{ i.username }}</td>
+                        <td>{{ i.image }}</td>
+                        <td>{{ i.age }}</td>
+                        <td>{{ i.rate }}</td>
+                        <td>
+                            <a href="{{ path('edit_portfolio', { id: portfolio.id }) }}">edit</a>
+                            <a href="{{ path('portfolio_delete', { id: portfolio.id }) }}">Delete</a>
+                            <a href="{{ path('portfolio_details', { id: portfolio.id }) }}">Show</a>
+                        </td>
+
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="7">Aucun etudiant trouvée.</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
+
+
+    {% endblock %}

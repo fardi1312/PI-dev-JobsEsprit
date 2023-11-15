@@ -38,7 +38,7 @@ class UserEtudiant
     private ?string $image = null;
 
     #[ORM\Column(nullable: true)]
-    private ?int $integer = null;
+    private ?int $age = null;
 
     #[ORM\Column(nullable: true)]
     private ?float $rate = null;
@@ -154,14 +154,14 @@ class UserEtudiant
         return $this;
     }
 
-    public function getInteger(): ?int
+    public function getAge(): ?int
     {
-        return $this->integer;
+        return $this->age;
     }
 
-    public function setInteger(?int $integer): static
+    public function setAge(?int $age): static
     {
-        $this->integer = $integer;
+        $this->age = $age;
 
         return $this;
     }
