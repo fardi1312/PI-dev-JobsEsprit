@@ -36,6 +36,9 @@ class Covoiturage
     #[ORM\Column(length: 150)]
     private ?string $username = null;
 
+    #[ORM\ManyToOne(inversedBy: 'covoiturages')]
+    private ?UserEtudiant $id_userEtudiant = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -128,5 +131,16 @@ class Covoiturage
     public function setUsername(?string $username): void
     {
         $this->username = $username;
+    }
+
+    public function getIdUserEtudiant(): ?UserEtudiant
+    {
+        return $this->id_userEtudiant;
+    }
+
+    public function setIdUserEtudiant(?int $id_userEtudiant): static
+    {
+        $this->id_userEtudiant = $id_userEtudiant;
+        return $this;
     }
 }
