@@ -36,7 +36,7 @@ class UserEtudiantController extends AbstractController
             throw new NotFoundHttpException('User not found');
         }
 
-        return $this->render('user_etudiant/show.html.twig', [
+        return $this->render('user_etudiant/showdetails.html.twig', [
             'user' => $userEtudiant,
         ]);
     }
@@ -83,10 +83,10 @@ class UserEtudiantController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $em->flush();
 
-            return $this->redirectToRoute('list_etudiant');
+            return $this->redirectToRoute('listetudiant');
         }
 
-        return $this->render('user_etudiant/editUserEtudiant.html.twig', [
+        return $this->render('user_etudiant/editetudiant.html.twig', [
             'userEtudiant' => $userEtudiant,
             'form' => $form->createView(),
         ]);

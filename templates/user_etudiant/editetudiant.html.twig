@@ -1,0 +1,70 @@
+{% extends 'user_etudiant/index.html.twig' %}
+{% block div %}
+    <h3>Editer votre compte </h3>
+{% endblock %}
+{% block body %}
+<section class="section-padding section-bg">
+    <div class="container">
+        <form method="post" action="{{ path('edit_useretudiant', {'id': userEtudiant.id}) }}" enctype="multipart/form-data">
+            {{ form_start(form) }}
+            <div class="row">
+                <div class="col-lg-6 col-md-6 col-12 mb-3 form-floating">
+                    {{ form_widget(form.nom, {'attr': {'class': 'form-control', 'placeholder': 'nom', 'required': 'required'}}) }}
+                    <label for="{{ form.nom.vars.id }}">nom</label>
+                    {{ form_errors(form.nom) }}
+                </div>
+              
+
+                <div class="col-lg-12 col-12 mb-3 form-floating">
+                    {{ form_widget(form.prenom, {'attr': {'class': 'form-control', 'placeholder': 'prenom', 'required': 'required'}}) }}
+                    <label for="{{ form.prenom.vars.id }}">prenom</label>
+                    {{ form_errors(form.prenom) }}
+                </div>
+
+               <div class="col-lg-6 col-md-6 col-12 mb-3 form-floating">
+    {{ form_widget(form.email, {'attr': {'class': 'form-control', 'placeholder': 'email', 'required': 'required'}}) }}
+    <label for="{{ form.email.vars.id }}">email</label>
+    {{ form_errors(form.email) }}
+</div>
+
+<div class="col-lg-6 col-md-6 col-12 mb-3 form-floating">
+    {{ form_widget(form.motDePasse, {'attr': {'class': 'form-control','placeholder':'motDePasse', 'required': 'required'}}) }}
+    <label for="{{ form.motDePasse.vars.id }}">motDePasse</label>
+    {{ form_errors(form.motDePasse) }}
+</div>
+<div class="col-lg-6 col-md-6 col-12 mb-3 form-floating">
+    {{ form_widget(form.phone, {'attr': {'class': 'form-control ', 'placeholder': 'phone ', 'required': 'required'}}) }}
+    <label for="{{ form.phone.vars.id }}">phone</label>
+    {{ form_errors(form.phone) }}
+</div>
+<div class="col-lg-6 col-md-6 col-12 mb-3 form-floating">
+    {{ form_widget(form.username, {'attr': {'class': 'form-control','placeholder':'username', 'required': 'required'}}) }}
+    <label for="{{ form.username.vars.id }}">username</label>
+    {{ form_errors(form.username) }}
+</div>
+<div class="col-lg-6 col-md-6 col-12 mb-3 form-floating">
+    {{ form_widget(form.age, {'attr': {'class': 'form-control','placeholder':'age', 'required': 'required'}}) }}
+    <label for="{{ form.age.vars.id }}">age</label>
+    {{ form_errors(form.age) }}
+</div>
+<div class="col-lg-6 col-md-6 col-12 mb-3 form-floating">
+    {{ form_widget(form.role, {'attr': {'class': 'form-control','placeholder':'role', 'required': 'required'}}) }}
+    <label for="{{ form.role.vars.id }}">role</label>
+    {{ form_errors(form.role) }}
+</div>
+
+
+
+
+              
+
+                <div class="col-lg-12 col-md-12 col-12">
+                    <button type="submit" class="btn btn-primary">Modifier compte</button>
+                </div>
+            </div>
+            {{ form_end(form) }}
+            
+        </form>
+    </div>
+</section>
+{% endblock %}

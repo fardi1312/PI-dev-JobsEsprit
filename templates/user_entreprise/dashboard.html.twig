@@ -125,12 +125,8 @@
                     <th>role</th>
                     <th>email</th>
                     <th>Mot de passe</th>
-                    <th>nom</th>
-                    <th>prenom</th>
-                    <th>Username</th>
-                    <th>image</th>
-                    <th>age</th>
-                    <th>rate</th>
+                    <th>nomEntreprise</th>
+                    <th>localisation</th>
                     <th>Action</th>
 
 
@@ -145,22 +141,18 @@
                         <td>{{ i.role }}</td>
                         <td>{{ i.email }}</td>
                         <td>{{ i.motDePasse }}</td>
-                        <td>{{ i.nom}}</td>
-                        <td>{{ i.prenom }}</td>
-                        <td>{{ i.username }}</td>
-                        <td>{{ i.image }}</td>
-                        <td>{{ i.age }}</td>
-                        <td>{{ i.rate }}</td>
+                        <td>{{ i.nomEntreprise}}</td>
+                        <td>{{ i.localisation }}</td>
                         <td>
-                            <a href="{{ path('edit_useretudiant', { id: i.id }) }}">edit</a>
-                            <a href="{{ path('user_delete', { id: i.id }) }}">Delete</a>
+                            <a href="{{ path('edit_userentreprise', { id: i.id }) }}">edit</a>
+                            <a href="{{ path('entreprise_delete', { id: i.id }) }}">Delete</a>
                             
                         </td>
 
                     </tr>
                 {% else %}
                     <tr>
-                        <td colspan="7">Aucun etudiant trouvée.</td>
+                        <td colspan="7">Aucune entreprise trouvée.</td>
                     </tr>
                 {% endfor %}
             </tbody>

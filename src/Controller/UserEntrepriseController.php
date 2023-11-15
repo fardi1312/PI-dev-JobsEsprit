@@ -48,7 +48,7 @@ class UserEntrepriseController extends AbstractController
             $entityManager->persist($userEntreprise);
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_home_entreprise');
+            return $this->redirectToRoute('app_user_entreprise');
         }
 
         return $this->render('user_entreprise/addentreprise.html.twig', [
@@ -72,10 +72,10 @@ class UserEntrepriseController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $em->flush();
 
-            return $this->redirectToRoute('list_entreprise');
+            return $this->redirectToRoute('listentreprise');
         }
 
-        return $this->render('user_entreprise/editUserEntreprise.html.twig', [
+        return $this->render('user_entreprise/editentreprise.html.twig', [
             'userEntreprise' => $userEntreprise,
             'form' => $form->createView(),
         ]);
@@ -101,15 +101,15 @@ class UserEntrepriseController extends AbstractController
         ]);
     }
 
-    #[Route('/list_entreprise', name: 'list_entreprise')]
+    #[Route('/listentreprise', name: 'listentreprise')]
     public function listEntreprise(UserEntrepriseRepository $userEntrepriseRepository): Response
     {
-        return $this->render('userentreprise/show.html.twig', [
-            'userentreprise' => $userEntrepriseRepository->findAll(),
+        return $this->render('user_entreprise/dashboard.html.twig', [
+            'users' => $userEntrepriseRepository->findAll(),
         ]);
     }
 
-    #[Route('/entreprises/{id}/delete', name: 'entreprise_delete')]
+    #[Route('/entreprise/{id}/delete', name: 'entreprise_delete')]
     public function deleteEntreprise(Request $request, $id, ManagerRegistry $manager, UserEntrepriseRepository $userEntrepriseRepository): Response
     {
         $em = $manager->getManager();
@@ -122,6 +122,6 @@ class UserEntrepriseController extends AbstractController
         $em->remove($userEntreprise);
         $em->flush();
 
-        return $this->redirectToRoute('list_entreprise');
+        return $this->redirectToRoute('listentreprise');
     }
 }
