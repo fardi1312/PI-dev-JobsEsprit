@@ -1,0 +1,85 @@
+
+{% block title %}List of Covoiturages{% endblock %}
+
+{% block stylesheets %}
+    <style>
+        .featured-section {
+            padding: 40px 0;
+            background-color: #f8f9fa;
+        }
+
+        .card {
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .card-img-top {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .card-body {
+            padding: 20px;
+        }
+
+        .card-title {
+            font-size: 1.25rem;
+            margin-bottom: 10px;
+        }
+
+        .card-text {
+            margin-bottom: 8px;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            color: #fff;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <section class="featured-section">
+        <div class="container">
+            <div class="row justify-content-center">
+                {% for covoiturage in covoiturage %}
+                    <div class="col-md-6 mb-4">
+                        <div class="card">
+                            <div class="row">
+
+                                <div class="col-md-6">
+                                    <div class="card-body">
+                                        <h5 class="card-title">{{ covoiturage.lieudepart }} to {{ covoiturage.lieuarrivee }}</h5>
+                                        <p class="card-text"><strong>Departure:</strong> {{ covoiturage.lieudepart }}</p>
+                                        <p class="card-text"><strong>Destination:</strong> {{ covoiturage.lieuarrivee }}</p>
+                                        <p class="card-text"><strong>Date and Time:</strong> {{ covoiturage.heuredepart }}</p>
+                                        <p class="card-text"><strong>Price:</strong> {{ covoiturage.prix }}</p>
+                                        <p class="card-text"><strong>Available Seats:</strong> {{ covoiturage.nombreplacesdisponible }}</p>
+                                        <p class="card-text"><strong>Posted by:</strong> {{ covoiturage.username }}</p>
+
+                                {% if covoiturage.image %}
+                                    <div class="col-md-6">
+                                        <img src="{{ asset('uploads/covoiturages/' ~ covoiturage.image) }}" >
+                                    </div>
+                                {% endif %}
+
+                                        <a href="{{ path('app_covoiturage_show', {'id': covoiturage.id}) }}" class="btn btn-primary">Interested</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        // You can add JavaScript functionality here if needed
+        // For example, you might want to add interactive features or handle form submissions
+    </script>
+{% endblock %}

@@ -1,24 +1,22 @@
-
 {% extends 'base.html.twig' %}
 
-{% block title %}Covoiturage{% endblock %}
+{% block title %}Carpooling{% endblock %}
 
 {% block body %}
-
-    <h1>Covoiturages</h1>
+    <h1>Carpooling</h1>
 
     {% if covoiturage is not empty %}
         <table class="table">
             <thead>
                 <tr>
                     <th>Id</th>
-                    <th>Heure de Départ</th>
-                    <th>Lieu de Départ</th>
-                    <th>Lieu d'Arrivée</th>
-                    <th>Prix</th>
-                    <th>Nombre de Places Disponibles</th>
+                    <th>Departure Time</th>
+                    <th>Departure Location</th>
+                    <th>Arrival Location</th>
+                    <th>Price</th>
+                    <th>Available Seats</th>
                     <th>Image</th>
-                    <th>Nom d'Utilisateur</th>
+                    <th>Username</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -31,7 +29,13 @@
                         <td>{{ covoiturage.lieuarrivee }}</td>
                         <td>{{ covoiturage.prix }}</td>
                         <td>{{ covoiturage.nombreplacesdisponible }}</td>
-                        <td>{{ covoiturage.image }}</td>
+                        <td>
+                            {% if covoiturage.image %}
+                                <img src="{{ asset('uploads/covoiturages/' ~ covoiturage.image) }}" alt="Carpooling Image" style="max-width: 100px;">
+                            {% else %}
+                                No image
+                            {% endif %}
+                        </td>
                         <td>{{ covoiturage.username }}</td>
                         <td>
                             <a href="{{ path('app_covoiturage_show', {'id': covoiturage.id}) }}">Show</a>
@@ -43,8 +47,8 @@
             </tbody>
         </table>
     {% else %}
-        <p>No covoiturages found.</p>
+        <p>No carpools found.</p>
     {% endif %}
 
-    <a href="{{ path('app_covoiturage_new') }}">Create new covoiturage</a>
+    <a href="{{ path('app_covoiturage_new') }}">Create new carpool</a>
 {% endblock %}

@@ -1,31 +1,55 @@
+{# covoiturage/showbyid.html.twig #}
 
-{% block title %}Covoiturage Details{% endblock %}
+{% extends 'base.html.twig' %}
 
 {% block body %}
     <h1>Covoiturage Details</h1>
 
-    <dl class="row">
-        <dt class="col-sm-3">Heure de Départ:</dt>
-        <dd class="col-sm-9">{{ covoiturage.heuredepart }}</dd>
+    <table>
+        <tr>
+            <th>ID</th>
+            <td>{{ covoiturage.id }}</td>
+        </tr>
+        <tr>
+            <th>Departure Time</th>
+            <td>{{ covoiturage.heuredepart }}</td>
+        </tr>
+        <tr>
+            <th>Departure Location</th>
+            <td>{{ covoiturage.lieudepart }}</td>
+        </tr>
+        <tr>
+            <th>Arrival Location</th>
+            <td>{{ covoiturage.lieuarrivee }}</td>
+        </tr>
+        <tr>
+            <th>Price</th>
+            <td>{{ covoiturage.prix }}</td>
+        </tr>
+        <tr>
+            <th>Available Seats</th>
+            <td>{{ covoiturage.nombreplacesdisponible }}</td>
+        </tr>
+        <tr>
+            <th>Username</th>
+            <td>{{ covoiturage.username }}</td>
+        </tr>
+        <!-- Add other fields as needed -->
+        <tr>
+            <th>Image</th>
+            <td>
+                {% if covoiturage.image %}
+                    <img src="{{ asset('uploads/covoiturages/' ~ covoiturage.image) }}" alt="Covoiturage Image">
+                {% else %}
+                    <p>No image available</p>
+                {% endif %}
+            </td>
+        </tr>
+    </table>
 
-        <dt class="col-sm-3">Lieu de Départ:</dt>
-        <dd class="col-sm-9">{{ covoiturage.lieudepart }}</dd>
+    {# Add other covoiturage details as needed #}
 
-        <dt class="col-sm-3">Lieu d'Arrivée:</dt>
-        <dd class="col-sm-9">{{ covoiturage.lieuarrivee }}</dd>
+    <a href="{{ path('app_covoiturage_index') }}">Back to list</a>
+        <a href="{{ path('app_covoiturage_index') }}">Confirm</a>
 
-        <dt class="col-sm-3">Prix:</dt>
-        <dd class="col-sm-9">{{ covoiturage.prix }}</dd>
-
-        <dt class="col-sm-3">Nombre de Places Disponibles:</dt>
-        <dd class="col-sm-9">{{ covoiturage.nombreplacesdisponible }}</dd>
-
-        <dt class="col-sm-3">Image:</dt>
-        <dd class="col-sm-9">{{ covoiturage.image }}</dd>
-
-        <dt class="col-sm-3">Nom d'Utilisateur:</dt>
-        <dd class="col-sm-9">{{ covoiturage.username }}</dd>
-    </dl>
-
-    <a href="{{ path('app_covoiturage_index') }}">Back to List</a>
 {% endblock %}

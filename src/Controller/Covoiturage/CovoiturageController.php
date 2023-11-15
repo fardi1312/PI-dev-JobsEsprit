@@ -22,19 +22,50 @@ class CovoiturageController extends AbstractController
             'covoiturage' => $covoiturage,
         ]);
     }
+    #[Route('/post', name: 'app_covoiturage_post', methods: ['GET'])]
+    public function post(CovoiturageRepository $covoiturageRepository): Response
+    {
+        $covoiturage = $covoiturageRepository->findAll();
+
+        return $this->render('covoiturage/showpost.html.twig', [
+            'covoiturage' => $covoiturage,
+        ]);
+    }
+
 
     #[Route('/new', name: 'app_covoiturage_new', methods: ['GET', 'POST'])]
+
     public function new(Request $request, CovoiturageRepository $covoiturageRepository): Response
     {
         $covoiturage = new Covoiturage();
         $form = $this->createForm(CovoiturageType::class, $covoiturage);
         $form->handleRequest($request);
-
+    
         if ($form->isSubmitted() && $form->isValid()) {
+            /** @var UploadedFile $imageFile */
+            $imageFile = $form['image']->getData();
+    
+            if ($imageFile) {
+                $newFilename = uniqid().'.'.$imageFile->guessExtension();
+    
+                try {
+                    $imageFile->move(
+                        $this->getParameter('images_directory'), // Replace with your actual parameter name
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                    // Handle file upload error, if needed
+                }
+    
+                // Update the 'image' property to store the filename instead of the file itself
+                $covoiturage->setImage($newFilename);
+            }
+    
             $covoiturageRepository->save($covoiturage, true);
             $this->addFlash('success', 'Covoiturage created successfully.');
             return $this->redirectToRoute('app_covoiturage_index');
         }
+    
         return $this->renderForm('covoiturage/new.html.twig', [
             'covoiturage' => $covoiturage,
             'form' => $form,
@@ -48,17 +79,34 @@ class CovoiturageController extends AbstractController
             'covoiturage' => $covoiturage,
         ]);
     }
-
     #[Route('/{id}/edit', name: 'app_covoiturage_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Covoiturage $covoiturage, CovoiturageRepository $covoiturageRepository): Response
     {
         $form = $this->createForm(CovoiturageType::class, $covoiturage);
         $form->handleRequest($request);
+    
         if ($form->isSubmitted() && $form->isValid()) {
+            /** @var UploadedFile|null $imageFile */
+            $imageFile = $form['image']->getData();
+    
+            if ($imageFile) {
+                $newFilename = uniqid().'.'.$imageFile->guessExtension();
+    
+                try {
+                    $imageFile->move(
+                        $this->getParameter('images_directory'), // Replace with your actual parameter name
+                        $newFilename
+                    );
+                    $covoiturage->setImage($newFilename);
+                } catch (FileException $e) {
+                    // Handle file upload error, if needed
+                }
+            } 
             $covoiturageRepository->save($covoiturage, true);
             $this->addFlash('success', 'Covoiturage updated successfully.');
             return $this->redirectToRoute('app_covoiturage_index');
         }
+    
         return $this->renderForm('covoiturage/edit.html.twig', [
             'covoiturage' => $covoiturage,
             'form' => $form,
