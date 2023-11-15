@@ -16,6 +16,11 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class CovoiturageRepository extends ServiceEntityRepository
 {
+
+
+    private $covoiturageRepository;
+
+
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Covoiturage::class);

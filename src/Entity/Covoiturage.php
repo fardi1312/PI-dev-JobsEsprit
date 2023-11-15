@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\CovoiturageRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\HttpFoundation\File\File;
 
 #[ORM\Entity(repositoryClass: CovoiturageRepository::class)]
 class Covoiturage
@@ -93,6 +94,20 @@ class Covoiturage
     public function setnombreplacesdisponible(?int $nombreplacesdisponible): void
     {
         $this->nombreplacesdisponible = $nombreplacesdisponible;
+    }
+
+    public function getImageFile(): ?File
+    {
+        return $this->imageFile;
+    }
+
+    public function setImageFile(?File $imageFile): void
+    {
+        $this->imageFile = $imageFile;
+
+        if ($imageFile) {
+            $this->updatedAt = new \DateTimeImmutable();
+        }
     }
 
     public function getImage(): ?string

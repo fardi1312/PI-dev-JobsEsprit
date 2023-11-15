@@ -1,77 +1,86 @@
-<div class="container">
-    {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+{# templates/covoiturage/form.html.twig #}
 
-    <div class="form-group">
-        {{ form_label(form.heuredepart, "Heure de Départ") }}
-        {{ form_widget(form.heuredepart, { 'attr': {'class': 'form-control'} }) }}
-        {% if form_errors(form.heuredepart) is not empty %}
-            <div class="alert alert-danger">
-                {{ form_errors(form.heuredepart) }}
-            </div>
-        {% endif %}
+{% block body %}
+    <div class="container">
+        {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+
+        <div class="form-group">
+            {{ form_label(form.heureDepart, "Date et Heure de Départ") }}
+            {{ form_widget(form.heureDepart, { 'attr': {'class': 'datetime-picker'} }) }}
+            {% if form_errors(form.heureDepart) is not empty %}
+                <div class="alert alert-danger">
+                    {{ form_errors(form.heureDepart) }}
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            {{ form_label(form.lieudepart, "Lieu de Départ") }}
+            {{ form_widget(form.lieudepart, { 'attr': {'class': 'form-control'} }) }}
+            {% if form_errors(form.lieudepart) is not empty %}
+                <div class="alert alert-danger">
+                    {{ form_errors(form.lieudepart) }}
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            {{ form_label(form.lieuarrivee, "Lieu d'Arrivée") }}
+            {{ form_widget(form.lieuarrivee, { 'attr': {'class': 'form-control'} }) }}
+            {% if form_errors(form.lieuarrivee) is not empty %}
+                <div class="alert alert-danger">
+                    {{ form_errors(form.lieuarrivee) }}
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            {{ form_label(form.prix, "Prix") }}
+            {{ form_widget(form.prix, { 'attr': {'class': 'form-control'} }) }}
+            {% if form_errors(form.prix) is not empty %}
+                <div class="alert alert-danger">
+                    {{ form_errors(form.prix) }}
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            {{ form_label(form.nombreplacesdisponible, "Nombre de Places Disponibles") }}
+            {{ form_widget(form.nombreplacesdisponible, { 'attr': {'class': 'form-control'} }) }}
+            {% if form_errors(form.nombreplacesdisponible) is not empty %}
+                <div class="alert alert-danger">
+                    {{ form_errors(form.nombreplacesdisponible) }}
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            {{ form_label(form.image, "Image") }}
+            {{ form_row(form.image, { 'attr': {'class': 'form-control', 'type': 'file'} }) }}
+            {% if form_errors(form.image) is not empty %}
+                <div class="alert alert-danger">
+                    {{ form_errors(form.image) }}
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            {{ form_label(form.username, "Nom d'Utilisateur") }}
+            {{ form_widget(form.username, { 'attr': {'class': 'form-control'} }) }}
+            {% if form_errors(form.username) is not empty %}
+                <div class="alert alert-danger">
+                    {{ form_errors(form.username) }}
+                </div>
+            {% endif %}
+        </div>
+
+        <button class="btn">{{ button_label|default('Save') }}</button>
+
+        {{ form_end(form) }}
     </div>
 
-    <div class="form-group">
-        {{ form_label(form.lieudepart, "Lieu de Départ") }}
-        {{ form_widget(form.lieudepart, { 'attr': {'class': 'form-control'} }) }}
-        {% if form_errors(form.lieudepart) is not empty %}
-            <div class="alert alert-danger">
-                {{ form_errors(form.lieudepart) }}
-            </div>
-        {% endif %}
-    </div>
 
-    <div class="form-group">
-        {{ form_label(form.lieuarrivee, "Lieu d'Arrivée") }}
-        {{ form_widget(form.lieuarrivee, { 'attr': {'class': 'form-control'} }) }}
-        {% if form_errors(form.lieuarrivee) is not empty %}
-            <div class="alert alert-danger">
-                {{ form_errors(form.lieuarrivee) }}
-            </div>
-        {% endif %}
-    </div>
 
-    <div class="form-group">
-        {{ form_label(form.prix, "Prix") }}
-        {{ form_widget(form.prix, { 'attr': {'class': 'form-control'} }) }}
-        {% if form_errors(form.prix) is not empty %}
-            <div class="alert alert-danger">
-                {{ form_errors(form.prix) }}
-            </div>
-        {% endif %}
-    </div>
 
-    <div class="form-group">
-        {{ form_label(form.nombreplacesdisponible, "Nombre de Places Disponibles") }}
-        {{ form_widget(form.nombreplacesdisponible, { 'attr': {'class': 'form-control'} }) }}
-        {% if form_errors(form.nombreplacesdisponible) is not empty %}
-            <div class="alert alert-danger">
-                {{ form_errors(form.nombreplacesdisponible) }}
-            </div>
-        {% endif %}
-    </div>
 
-    <div class="form-group">
-        {{ form_label(form.image, "Image") }}
-        {{ form_widget(form.image, { 'attr': {'class': 'form-control'} }) }}
-        {% if form_errors(form.image) is not empty %}
-            <div class="alert alert-danger">
-                {{ form_errors(form.image) }}
-            </div>
-        {% endif %}
-    </div>
-
-    <div class="form-group">
-        {{ form_label(form.username, "Nom d'Utilisateur") }}
-        {{ form_widget(form.username, { 'attr': {'class': 'form-control'} }) }}
-        {% if form_errors(form.username) is not empty %}
-            <div class="alert alert-danger">
-                {{ form_errors(form.username) }}
-            </div>
-        {% endif %}
-    </div>
-
-    <button class="btn">{{ button_label|default('Save') }}</button>
-
-    {{ form_end(form) }}
-</div>
+{% endblock %}
