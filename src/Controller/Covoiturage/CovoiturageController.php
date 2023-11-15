@@ -3,6 +3,8 @@
 namespace App\Controller\Covoiturage;
 
 use App\Entity\Covoiturage;
+use App\Entity\UserEtudiant;
+
 use App\Form\CovoiturageType;
 use App\Repository\CovoiturageRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -41,6 +43,13 @@ class CovoiturageController extends AbstractController
         $form = $this->createForm(CovoiturageType::class, $covoiturage);
         $form->handleRequest($request);
     
+
+    // Fetch the currently authenticated user
+    $userEtudiant = $this->getUser();
+
+    // Assuming you have a property like $covoiturages in UserEtudiant entity
+    $covoiturage->setIdUserEtudiant($userEtudiant);
+
         if ($form->isSubmitted() && $form->isValid()) {
             /** @var UploadedFile $imageFile */
             $imageFile = $form['image']->getData();
@@ -54,10 +63,8 @@ class CovoiturageController extends AbstractController
                         $newFilename
                     );
                 } catch (FileException $e) {
-                    // Handle file upload error, if needed
                 }
     
-                // Update the 'image' property to store the filename instead of the file itself
                 $covoiturage->setImage($newFilename);
             }
     
