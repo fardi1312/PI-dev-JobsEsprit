@@ -1,0 +1,32 @@
+{% extends 'candidature/index.html.twig' %}
+{% block div %}
+    <h3>Ajouter candidature</h3>
+{% endblock %}
+{% block body %}
+<section class="section-padding section-bg">
+    <div class="container">
+        <form method="post" action="{{ path('app_Candidature') }}" enctype="multipart/form-data">
+            {{ form_start(form) }}
+    <div class="col-lg-12 col-12 mb-3 form-floating">
+        {{ form_widget(form.username, {
+            'attr': {'class': 'form-control', 'placeholder': 'username', 'required': 'required'},
+            
+        }) }}
+        <label for="{{ form.username.vars.id }}">Username</label>
+        {{ form_errors(form.username) }}
+    </div>
+              
+
+                <div class="col-lg-12 col-12 mb-3 form-floating">
+                    {{ form_widget(form.cv, {'attr': {'class': 'form-control', 'placeholder': 'cv', 'required': 'required'}}) }}
+                    <label for="{{ form.cv.vars.id }}">Cv</label>
+                    {{ form_errors(form.cv) }}
+                </div>
+
+
+    <button type="submit">Submit</button>
+    {{ form_end(form) }}
+            </form>
+    </div>
+</section>
+{% endblock %}

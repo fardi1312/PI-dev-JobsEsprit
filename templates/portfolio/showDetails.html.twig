@@ -1,0 +1,24 @@
+{% extends 'portfolio/index.html.twig' %}
+
+{% block div %}
+    <h3>Voir Details</h3>
+{% endblock %}
+
+{% block body %}
+    <div class="col-lg-8 col-12 mt-3 mx-auto">
+        <div class="custom-block bg-white shadow-lg">
+            <a href="topics-detail.html">
+                <div class="d-flex">
+                    <div>
+                        <h5 class="mb-2">{{ portfolio.titre }}</h5>
+                        <p class="mb-0">{{ portfolio.description }}</p>
+                        {# Display the user-uploaded image using the asset() function #}
+                        <img src="{{ asset('/' ~ portfolio.image) }}" " style="max-width: 100%; height: auto;">
+                        <p class="mb-0">{{ portfolio.secteur }}</p>
+                    </div>
+                    <span class="badge bg-finance rounded-pill ms-auto">{{ portfolio.date|date }}</span>
+                </div>
+            </a>
+        </div>
+    </div>
+{% endblock %}

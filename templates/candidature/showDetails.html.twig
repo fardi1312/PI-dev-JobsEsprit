@@ -1,0 +1,21 @@
+{% extends 'candidature/index.html.twig' %}
+
+{% block div %}
+    <h3>Voir Details</h3>
+{% endblock %}
+
+{% block body %}
+    <div class="col-lg-8 col-12 mt-3 mx-auto">
+        <div class="custom-block bg-white shadow-lg">
+            <a href="topics-detail.html">
+                <div class="d-flex">
+                    <div>
+                        <h5 class="mb-2">{{ candidature.username }}</h5>
+
+                        {# Display the user-uploaded image using the asset() function #}
+                        <img src="{{ asset('/' ~ candidature.cv) }}" " style="max-width: 100%; height: auto;">
+
+            </a>
+        </div>
+    </div>
+{% endblock %}

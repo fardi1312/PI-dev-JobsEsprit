@@ -1,0 +1,56 @@
+{% extends 'portfolio/index.html.twig' %}
+{% block div %}
+    <h3>La liste des portfolios </h3>
+{% endblock %}
+{% block body %}
+{% block first_content %}
+
+    <div align="center" style="margin-top: 20px;">
+        <style>
+            table {
+                border-collapse: collapse;
+                width: 80%;
+            }
+
+            th, td {
+                border: 1px solid #ddd;
+                padding: 8px;
+                text-align: left;
+            }
+        </style>
+        <table align="center">
+            <thead>
+                <tr>
+                    <th>Titre</th>
+                    <th>Description</th>
+                    <th>Secteur</th>
+                    <th>Images</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for portfolio in portfolios %}
+                    <tr>
+                        <td>{{ portfolio.titre }}</td>
+                        <td>{{ portfolio.description }}</td>
+                        <td>{{ portfolio.secteur }}</td>
+                        <td>{{ portfolio.image }}</td>
+                        <td>{{ portfolio.date ? portfolio.date|date('Y-m-d') : '' }}</td>
+                        <td>
+                            <a href="{{ path('edit_portfolio', { id: portfolio.id }) }}">edit</a>
+                            <a href="{{ path('portfolio_delete', { id: portfolio.id }) }}">Delete</a>
+                            <a href="{{ path('portfolio_details', { id: portfolio.id }) }}">Show</a>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="7">Aucun portfolio trouvée.</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
+
+
+    {% endblock %}
