@@ -6,9 +6,10 @@ use App\Repository\UserEtudiantRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: UserEtudiantRepository::class)]
-class UserEtudiant
+class UserEtudiant implements UserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -52,8 +53,6 @@ class UserEtudiant
     {
         $this->covoiturages = new ArrayCollection();
     }
-
-
 
     public function getId(): ?int
     {
@@ -217,5 +216,29 @@ class UserEtudiant
         return $this;
     }
 
+    public function getRoles(): array
+    {
+        return [$this->role];
+    }
 
+    public function getPassword(): ?string
+    {
+        return $this->motDePasse;
+    }
+
+    public function getSalt(): ?string
+    {
+        return null;
+    }
+
+    public function eraseCredentials(): void
+    {
+        // If you store any temporary, sensitive data on the user, clear it here
+        // $this->plainPassword = null;
+    }
+
+    public function getUserIdentifier(): string
+    {
+        return $this->email;
+    }
 }

@@ -11,19 +11,32 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 #[Route('/covoiturage')]
 class CovoiturageController extends AbstractController
 {
     #[Route('/list', name: 'app_covoiturage_index', methods: ['GET'])]
-    public function index(CovoiturageRepository $covoiturageRepository): Response
+    public function index(CovoiturageRepository $covoiturageRepository, SessionInterface $session): Response
     {
-        $covoiturage = $covoiturageRepository->findAll();
-
+        // Récupérer l'utilisateur depuis la session
+        $user = $session->get('user');
+        if (!$user) {
+            // Rediriger vers la page de connexion si l'utilisateur n'est pas connecté
+            return $this->redirectToRoute('app_login');
+        }
+        // Récupérer la liste des covoiturages
+        $covoiturages = $covoiturageRepository->findAll();
+        // Filtrer les covoiturages pour ceux dont le nom d'utilisateur correspond à l'utilisateur actuel
+        $filteredCovoiturages = array_filter($covoiturages, function ($covoiturage) use ($user) {
+            return $covoiturage->getUsername() === $user->getUsername();
+        });
         return $this->render('covoiturage/show.html.twig', [
-            'covoiturage' => $covoiturage,
+            'covoiturage' => $filteredCovoiturages,
         ]);
     }
+
+    
     #[Route('/post', name: 'app_covoiturage_post', methods: ['GET'])]
     public function post(CovoiturageRepository $covoiturageRepository): Response
     {
@@ -35,21 +48,23 @@ class CovoiturageController extends AbstractController
     }
 
 
-    #[Route('/new', name: 'app_covoiturage_new', methods: ['GET', 'POST'])]
 
-    public function new(Request $request, CovoiturageRepository $covoiturageRepository): Response
+    #[Route('/new', name: 'app_covoiturage_new', methods: ['GET', 'POST'])]
+    public function new(Request $request, CovoiturageRepository $covoiturageRepository, SessionInterface $session): Response
     {
         $covoiturage = new Covoiturage();
+    
+        // Fetch the currently authenticated user from the session
+        $user = $session->get('user');
+    
+        // Set the username directly in the entity
+        $covoiturage->setUsername($user->getUsername());
+    
+        // Create the form
         $form = $this->createForm(CovoiturageType::class, $covoiturage);
+    
         $form->handleRequest($request);
     
-
-    // Fetch the currently authenticated user
-    $userEtudiant = $this->getUser();
-
-    // Assuming you have a property like $covoiturages in UserEtudiant entity
-    $covoiturage->setIdUserEtudiant($userEtudiant);
-
         if ($form->isSubmitted() && $form->isValid()) {
             /** @var UploadedFile $imageFile */
             $imageFile = $form['image']->getData();
@@ -63,12 +78,15 @@ class CovoiturageController extends AbstractController
                         $newFilename
                     );
                 } catch (FileException $e) {
+                    // Handle file upload error if needed
                 }
     
                 $covoiturage->setImage($newFilename);
             }
     
+            // Assuming $covoiturageRepository->save() persists the entity
             $covoiturageRepository->save($covoiturage, true);
+    
             $this->addFlash('success', 'Covoiturage created successfully.');
             return $this->redirectToRoute('app_covoiturage_index');
         }
@@ -78,6 +96,7 @@ class CovoiturageController extends AbstractController
             'form' => $form,
         ]);
     }
+    
 
     #[Route('/{id}', name: 'app_covoiturage_show', methods: ['GET'])]
     public function show(Covoiturage $covoiturage): Response

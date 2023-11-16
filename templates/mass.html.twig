@@ -1,0 +1,11 @@
+{# mass.html.twig #}
+
+{% block body %}
+    {% if user is not null %}
+        <h1>Bienvenue sur la page d'accueil, {{ user.username }} !</h1>
+        <p>Votre adresse email : {{ user.email }}</p>
+        {# Ajoutez d'autres détails de l'utilisateur selon vos besoins #}
+    {% else %}
+        <p>Utilisateur non défini.</p>
+    {% endif %}
+{% endblock %}

@@ -1,6 +1,8 @@
 <?php
 
 // src/Form/CovoiturageType.php
+// src/Form/CovoiturageType.php
+// src/Form/CovoiturageType.php
 
 namespace App\Form;
 
@@ -14,8 +16,8 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use App\Form\DataTransformer\FileToStringTransformer;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
-use Symfony\Component\Form\FormEvent;
-use Symfony\Component\Form\FormEvents;
+use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\Range;
 
 class CovoiturageType extends AbstractType
 {
@@ -44,21 +46,41 @@ class CovoiturageType extends AbstractType
             ])
             ->add('nombreplacesdisponible', IntegerType::class, [
                 'label' => 'Nombre de places disponibles',
+                'constraints' => [
+                    new NotBlank(['message' => 'Ce champ ne peut pas être vide.']),
+                    new Range([
+                        'min' => 1,
+                        'max' => 4,
+                        'minMessage' => 'Le nombre de places doit être au moins {{ limit }}.',
+                        'maxMessage' => 'Le nombre de places ne peut pas dépasser {{ limit }}.',
+                    ]),
+                ],
             ])
             ->add('image', FileType::class, [
                 'required' => false,
                 'label' => 'Image',
             ])
+
+            
             ->add('username', TextType::class, [
                 'label' => 'Nom d\'utilisateur',
-            ])
-            ->get('image')
-            ->addModelTransformer($this->fileToStringTransformer);
+                'mapped' => false,
+                'data' => $options['username'] ?? null,
+                'attr' => [
+                    'readonly' => true,
+                    'style' => 'display:none;', // Hide the field
+                ],
+                'empty_data' => '', // Set empty data to avoid validation errors
+            ]);
+
+        $builder->get('image')->addModelTransformer($this->fileToStringTransformer);
     }
+
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
             'data_class' => Covoiturage::class,
+            'username' => null, // Set the default value for the username field
         ]);
     }
 }
