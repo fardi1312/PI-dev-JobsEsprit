@@ -51,8 +51,8 @@ class ConfirmCovoiturage
     #[ORM\Column(length: 255)]
     private ?string $lieuArrivee = null;
 
-    #[ORM\Column(type: 'decimal', precision: 10, scale: 2)]
-    private ?string $prixTotalePlacesReserve = null;
+    #[ORM\Column(type:'integer')]
+    private ?int $prixTotalePlacesReserve = null;
 
     #[ORM\Column(type: 'integer')]
     private ?int $nombrePlacesReserve = null;
@@ -132,7 +132,7 @@ class ConfirmCovoiturage
         return $this->lieuArrivee;
     }
 
-    public function getPrixTotalePlacesReserve(): ?string
+    public function getPrixTotalePlacesReserve(): ?int
     {
         return $this->prixTotalePlacesReserve;
     }
@@ -209,7 +209,7 @@ class ConfirmCovoiturage
         $this->lieuArrivee = $lieuArrivee;
     }
 
-    public function setPrixTotalePlacesReserve(?string $prixTotalePlacesReserve): void
+    public function setPrixTotalePlacesReserve(?int $prixTotalePlacesReserve): void
     {
         $this->prixTotalePlacesReserve = $prixTotalePlacesReserve;
     }

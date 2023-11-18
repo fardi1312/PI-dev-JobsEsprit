@@ -50,14 +50,8 @@ class ConfirmCovoiturageController extends AbstractController
         $confirmCovoiturage->setLieuDepart($covoiturage->getLieudepart()); // Set lieuDepart
         $confirmCovoiturage->setLieuArrivee($covoiturage->getLieuarrivee()); // Set lieuArrivee
         $confirmCovoiturage->setnombrePlacesReserve($covoiturage->getnombreplacesdisponible());
-
         $prix = $covoiturage->getPrix();
         $nbrDespo = $covoiturage->getnombreplacesdisponible();
-
-
-
-
-
 
         $userEtudiant = $covoiturage->getIdUserEtudiant();
         if ($userEtudiant) {
@@ -67,24 +61,15 @@ class ConfirmCovoiturageController extends AbstractController
             $confirmCovoiturage->setEmailConducteur($userEtudiant->getEmail()); // Set emailConducteur
         }
 //////////////////////////chmps de etudiant////////////////////////////
+        if ($userEtud) {
         $confirmCovoiturage->setUsernameEtud($userEtud->getUsername()); // set  usernameEtud
         $confirmCovoiturage->setFirstNameEtud($userEtud->getNom()); // Set firstNameEtud
         $confirmCovoiturage->setLastNameEtud($userEtud->getPrenom()); // Set lastNameEtud
         $confirmCovoiturage->setPhoneEtud($userEtud->getPhone()); // Set phoneEtud
         $confirmCovoiturage->setEmailEtud($userEtud->getEmail());
+        }
 ///////////////////////////////////////////////////////////////////
  
-
-
-        // Assuming you have a method to get the associated UserEtudiant entity in your Covoiturage entity
-        $userEtudiant = $covoiturage->getIdUserEtudiant();
-    
-        if ($userEtudiant) {
-            $confirmCovoiturage->setFirstNameConducteur($userEtudiant->getNom()); // Set firstNameConducteur
-            $confirmCovoiturage->setLastNameConducteur($userEtudiant->getPrenom()); // Set lastNameConducteur
-            $confirmCovoiturage->setPhoneConducteur($userEtudiant->getPhone()); // Set phoneConducteur
-            $confirmCovoiturage->setEmailConducteur($userEtudiant->getEmail()); // Set emailConducteur
-        }
     
         $form = $this->createForm(ConfirmCovoiturageType::class, $confirmCovoiturage, [
             'nbrDespo' => $nbrDespo,
@@ -103,7 +88,8 @@ class ConfirmCovoiturageController extends AbstractController
         return $this->render('confirm_covoiturage/new.html.twig', [
             'confirm_covoiturage' => $confirmCovoiturage,
             'form' => $form,
-            
+            'prix' =>  $prix,
+            'nbrDespo' => $nbrDespo,
         ]);
     }
     

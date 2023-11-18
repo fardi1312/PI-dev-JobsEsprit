@@ -1,11 +1,53 @@
-{% extends 'base.html.twig' %}
 
-{% block title %}New ConfirmCovoiturage{% endblock %}
+{# templates/form.html.twig #}
+
 
 {% block body %}
-    <h1>Create new ConfirmCovoiturage</h1>
+    <h1>Confirm Carpooling Details</h1>
 
-    {{ include('confirm_covoiturage/_form.html.twig') }}
+    {{ form_start(form) }}
+    
+    {{ form_row(form.usernameEtud) }}
+    {{ form_row(form.usernameConducteur) }}
+    {{ form_row(form.firstNameEtud) }}
+    {{ form_row(form.lastNameEtud) }}
+    {{ form_row(form.firstNameConducteur) }}
+    {{ form_row(form.lastNameConducteur) }}
+    {{ form_row(form.phoneEtud) }}
+    {{ form_row(form.phoneConducteur) }}
+    {{ form_row(form.emailEtud) }}
+    {{ form_row(form.emailConducteur) }}
+    {{ form_row(form.heureDepart) }}
+    {{ form_row(form.lieuDepart) }}
+    {{ form_row(form.lieuArrivee) }}
 
-    <a href="{{ path('app_confirm_covoiturage_index') }}">back to list</a>
+    {{ form_row(form.nombrePlacesReserve, {
+        'attr': {
+            'class': 'reserved-seats-input',
+            'min': 1,
+        },
+    }) }}
+
+    {{ form_row(form.prixTotalePlacesReserve) }}
+
+    {{ form_row(form.id_Covoiturage) }}
+
+    <button type="submit">Confirm</button>
+
+    {{ form_end(form) }}
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var reservedSeatsInput = document.querySelector('.reserved-seats-input');
+            var prixTotalePlacesReserveInput = document.getElementById('{{ form.prixTotalePlacesReserve.vars.id }}');
+            var prix = {{ prix|default(0) }}; // Assuming prix is defined in your controller
+            reservedSeatsInput.addEventListener('input', function() {
+                var reservedSeats = parseInt(reservedSeatsInput.value, 10);
+                var totalPrice = reservedSeats * prix;
+                console.log('Total Price:', totalPrice); // Debugging statement
+                prixTotalePlacesReserveInput.value = totalPrice;
+                console.log('Set Value:', prixTotalePlacesReserveInput.value); // Debugging statement
+            });
+        });
+    </script>
 {% endblock %}
