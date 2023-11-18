@@ -138,9 +138,8 @@ class Covoiturage
         return $this->id_userEtudiant;
     }
 
-    public function setIdUserEtudiant(?int $id_userEtudiant): static
+    public function setIdUserEtudiant(?UserEtudiant $id_userEtudiant): void
     {
         $this->id_userEtudiant = $id_userEtudiant;
-        return $this;
     }
 }

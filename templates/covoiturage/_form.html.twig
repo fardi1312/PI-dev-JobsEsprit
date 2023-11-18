@@ -5,7 +5,7 @@
         {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
 
         <div class="form-group">
-            {{ form_label(form.heureDepart, "Date et Heure de Départ") }}
+            {{ form_label(form.heureDepart, "Date and Time of Departure") }}
             {{ form_widget(form.heureDepart, { 'attr': {'class': 'datetime-picker'} }) }}
             {% if form_errors(form.heureDepart) is not empty %}
                 <div class="alert alert-danger">
@@ -15,7 +15,7 @@
         </div>
 
         <div class="form-group">
-            {{ form_label(form.lieudepart, "Lieu de Départ") }}
+            {{ form_label(form.lieudepart, "Departure Location") }}
             {{ form_widget(form.lieudepart, { 'attr': {'class': 'form-control'} }) }}
             {% if form_errors(form.lieudepart) is not empty %}
                 <div class="alert alert-danger">
@@ -25,7 +25,7 @@
         </div>
 
         <div class="form-group">
-            {{ form_label(form.lieuarrivee, "Lieu d'Arrivée") }}
+            {{ form_label(form.lieuarrivee, "Arrival Location") }}
             {{ form_widget(form.lieuarrivee, { 'attr': {'class': 'form-control'} }) }}
             {% if form_errors(form.lieuarrivee) is not empty %}
                 <div class="alert alert-danger">
@@ -35,7 +35,7 @@
         </div>
 
         <div class="form-group">
-            {{ form_label(form.prix, "Prix") }}
+            {{ form_label(form.prix, "Price") }}
             {{ form_widget(form.prix, { 'attr': {'class': 'form-control'} }) }}
             {% if form_errors(form.prix) is not empty %}
                 <div class="alert alert-danger">
@@ -45,7 +45,7 @@
         </div>
 
         <div class="form-group">
-            {{ form_label(form.nombreplacesdisponible, "Nombre de Places Disponibles") }}
+            {{ form_label(form.nombreplacesdisponible, "Number of Available Seats") }}
             {{ form_widget(form.nombreplacesdisponible, { 'attr': {'class': 'form-control'} }) }}
             {% if form_errors(form.nombreplacesdisponible) is not empty %}
                 <div class="alert alert-danger">
@@ -61,6 +61,8 @@
                 </div>
             {% endif %}
         </div>
+
+        
         <div class="form-group">
             {{ form_widget(form.username, { 'attr': {'class': 'form-control'} }) }}
             {% if form_errors(form.username) is not empty %}
@@ -73,9 +75,4 @@
 
         {{ form_end(form) }}
     </div>
-
-
-
-
-
 {% endblock %}

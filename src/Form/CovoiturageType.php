@@ -1,12 +1,11 @@
 <?php
 
 // src/Form/CovoiturageType.php
-// src/Form/CovoiturageType.php
-// src/Form/CovoiturageType.php
 
 namespace App\Form;
 
 use App\Entity\Covoiturage;
+use App\Entity\UserEtudiant;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
@@ -18,6 +17,7 @@ use App\Form\DataTransformer\FileToStringTransformer;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\Range;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 class CovoiturageType extends AbstractType
 {
@@ -32,27 +32,39 @@ class CovoiturageType extends AbstractType
     {
         $builder
             ->add('heureDepart', TextType::class, [
-                'label' => 'Date et Heure de Départ',
+                'label' => 'Date and Time of Departure',
                 'attr' => ['class' => 'datetime-picker'],
+                'constraints' => [
+                    new NotBlank(['message' => 'This field cannot be empty.']),
+                ],
             ])
             ->add('lieudepart', TextType::class, [
-                'label' => 'Lieu de départ',
+                'label' => 'Departure Location',
+                'constraints' => [
+                    new NotBlank(['message' => 'This field cannot be empty.']),
+                ],
             ])
             ->add('lieuarrivee', TextType::class, [
-                'label' => 'Lieu d\'arrivée',
+                'label' => 'Arrival Location',
+                'constraints' => [
+                    new NotBlank(['message' => 'This field cannot be empty.']),
+                ],
             ])
             ->add('prix', MoneyType::class, [
-                'label' => 'Prix',
+                'label' => 'Price',
+                'constraints' => [
+                    new NotBlank(['message' => 'This field cannot be empty.']),
+                ],
             ])
             ->add('nombreplacesdisponible', IntegerType::class, [
-                'label' => 'Nombre de places disponibles',
+                'label' => 'Number of Available Seats',
                 'constraints' => [
-                    new NotBlank(['message' => 'Ce champ ne peut pas être vide.']),
+                    new NotBlank(['message' => 'This field cannot be empty.']),
                     new Range([
                         'min' => 1,
                         'max' => 4,
-                        'minMessage' => 'Le nombre de places doit être au moins {{ limit }}.',
-                        'maxMessage' => 'Le nombre de places ne peut pas dépasser {{ limit }}.',
+                        'minMessage' => 'The number of seats must be at least {{ limit }}.',
+                        'maxMessage' => 'The number of seats cannot exceed {{ limit }}.',
                     ]),
                 ],
             ])
@@ -61,18 +73,25 @@ class CovoiturageType extends AbstractType
                 'label' => 'Image',
             ])
 
-            
             ->add('username', TextType::class, [
-                'label' => 'Nom d\'utilisateur',
+                'label' => 'Username',
                 'mapped' => false,
                 'data' => $options['username'] ?? null,
                 'attr' => [
                     'readonly' => true,
-                    'style' => 'display:none;', // Hide the field
                 ],
-                'empty_data' => '', // Set empty data to avoid validation errors
+                'empty_data' => '',
+            ])
+            ->add('id_userEtudiant', EntityType::class, [
+                'class' => UserEtudiant::class,
+                'choice_label' => 'username', 
+                'label' => '  ',
+                'attr' => [
+                    'readonly' => true,
+                    'style' => 'display:none;',
+                ],
+                'data' => $options['username'],
             ]);
-
         $builder->get('image')->addModelTransformer($this->fileToStringTransformer);
     }
 
