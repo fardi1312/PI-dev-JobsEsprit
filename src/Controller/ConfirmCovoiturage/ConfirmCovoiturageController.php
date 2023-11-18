@@ -2,7 +2,7 @@
 
 namespace App\Controller\ConfirmCovoiturage;
 use App\Entity\Covoiturage;
-
+use App\Repository\ConfirmCovoiturageRepository;
 use App\Entity\ConfirmCovoiturage;
 use App\Form\ConfirmCovoiturageType;
 use Doctrine\ORM\EntityManagerInterface;
@@ -16,16 +16,54 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
 class ConfirmCovoiturageController extends AbstractController
 {
     #[Route('/list', name: 'app_confirm_covoiturage_index', methods: ['GET'])]
-    public function index(EntityManagerInterface $entityManager): Response
+    public function index(ConfirmCovoiturageRepository $confirmCovoiturageRepository, SessionInterface $session): Response
     {
-        $confirmCovoiturages = $entityManager
-            ->getRepository(ConfirmCovoiturage::class)
-            ->findAll();
-
+        // Récupérer l'utilisateur depuis la session
+        $user = $session->get('user');
+        if (!$user) {
+            // Rediriger vers la page de connexion si l'utilisateur n'est pas connecté
+            return $this->redirectToRoute('app_login');
+        }
+        // Récupérer la liste des confirmations de covoiturage
+        $confirmCovoiturages = $confirmCovoiturageRepository->findAll(); 
+        // Filtrer les confirmations de covoiturage pour ceux dont le nom d'utilisateur correspond à l'utilisateur actuel
+        $filteredConfirmCovoiturages = array_filter($confirmCovoiturages, function ($confirmCovoiturage) use ($user) {
+            return $confirmCovoiturage->getUsernameEtud() === $user->getUsername();
+        });
         return $this->render('confirm_covoiturage/index.html.twig', [
-            'confirm_covoiturages' => $confirmCovoiturages,
+            'confirm_covoiturages' => $filteredConfirmCovoiturages,
         ]);
     }
+
+
+
+    #[Route('/listCond', name: 'app_confirm_covoiturage_index', methods: ['GET'])]
+    public function indexConfirm(ConfirmCovoiturageRepository $confirmCovoiturageRepository, SessionInterface $session): Response
+    {
+        // Récupérer l'utilisateur depuis la session
+        $user = $session->get('user');
+        if (!$user) {
+            // Rediriger vers la page de connexion si l'utilisateur n'est pas connecté
+            return $this->redirectToRoute('app_login');
+        }
+        // Récupérer la liste des confirmations de covoiturage
+        $confirmCovoiturages = $confirmCovoiturageRepository->findAll();
+        // Filtrer les confirmations de covoiturage pour ceux dont le nom d'utilisateur correspond à l'utilisateur actuel
+        $filteredConfirmCovoiturages = array_filter($confirmCovoiturages, function ($confirmCovoiturage) use ($user) {
+            return $confirmCovoiturage->getUsernameConducteur() === $user->getUsername();
+        });
+        return $this->render('confirm_covoiturage/index.html.twig', [
+            'confirm_covoiturages' => $filteredConfirmCovoiturages,
+        ]);
+    }
+
+
+
+
+
+
+
+
 
 
 
