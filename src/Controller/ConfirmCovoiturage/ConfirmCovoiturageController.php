@@ -49,6 +49,15 @@ class ConfirmCovoiturageController extends AbstractController
         $confirmCovoiturage->setHeureDepart($covoiturage->getHeuredepart()); // Set heureDepart
         $confirmCovoiturage->setLieuDepart($covoiturage->getLieudepart()); // Set lieuDepart
         $confirmCovoiturage->setLieuArrivee($covoiturage->getLieuarrivee()); // Set lieuArrivee
+        $confirmCovoiturage->setnombrePlacesReserve($covoiturage->getnombreplacesdisponible());
+
+        $prix = $covoiturage->getPrix();
+        $nbrDespo = $covoiturage->getnombreplacesdisponible();
+
+
+
+
+
 
         $userEtudiant = $covoiturage->getIdUserEtudiant();
         if ($userEtudiant) {
@@ -77,8 +86,12 @@ class ConfirmCovoiturageController extends AbstractController
             $confirmCovoiturage->setEmailConducteur($userEtudiant->getEmail()); // Set emailConducteur
         }
     
-        $form = $this->createForm(ConfirmCovoiturageType::class, $confirmCovoiturage);
-        $form->handleRequest($request);
+        $form = $this->createForm(ConfirmCovoiturageType::class, $confirmCovoiturage, [
+            'nbrDespo' => $nbrDespo,
+            'prix' =>  $prix,
+        ]);  
+
+         $form->handleRequest($request);
     
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($confirmCovoiturage);
@@ -90,6 +103,7 @@ class ConfirmCovoiturageController extends AbstractController
         return $this->render('confirm_covoiturage/new.html.twig', [
             'confirm_covoiturage' => $confirmCovoiturage,
             'form' => $form,
+            
         ]);
     }
     
