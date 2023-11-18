@@ -53,8 +53,9 @@ class ConfirmCovoiturageType extends AbstractType
             ->add('lieuArrivee', TextType::class, [
                 'attr' => ['readonly' => true],
             ])
-            ->add('prixTotalePlacesReserve')
             ->add('nombrePlacesReserve')
+            ->add('prixTotalePlacesReserve')
+
             ->add('id_Covoiturage');
         ;
     }
