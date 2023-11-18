@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
 #[Route('/confirmcovoiturage')]
 class ConfirmCovoiturageController extends AbstractController
 {
-    #[Route('/', name: 'app_confirm_covoiturage_index', methods: ['GET'])]
+    #[Route('/list', name: 'app_confirm_covoiturage_index', methods: ['GET'])]
     public function index(EntityManagerInterface $entityManager): Response
     {
         $confirmCovoiturages = $entityManager
@@ -49,6 +49,7 @@ class ConfirmCovoiturageController extends AbstractController
         $confirmCovoiturage->setHeureDepart($covoiturage->getHeuredepart()); // Set heureDepart
         $confirmCovoiturage->setLieuDepart($covoiturage->getLieudepart()); // Set lieuDepart
         $confirmCovoiturage->setLieuArrivee($covoiturage->getLieuarrivee()); // Set lieuArrivee
+
         $userEtudiant = $covoiturage->getIdUserEtudiant();
         if ($userEtudiant) {
             $confirmCovoiturage->setFirstNameConducteur($userEtudiant->getNom()); // Set firstNameConducteur

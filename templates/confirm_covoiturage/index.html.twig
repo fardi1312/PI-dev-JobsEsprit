@@ -47,7 +47,6 @@
                 <td>{{ confirm_covoiturage.prixTotalePlacesReserve }}</td>
                 <td>{{ confirm_covoiturage.nombrePlacesReserve }}</td>
                 <td>
-                    <a href="{{ path('app_confirm_covoiturage_show', {'id': confirm_covoiturage.id}) }}">show</a>
                     <a href="{{ path('app_confirm_covoiturage_edit', {'id': confirm_covoiturage.id}) }}">edit</a>
                 </td>
             </tr>
@@ -58,6 +57,4 @@
         {% endfor %}
         </tbody>
     </table>
-
-    <a href="{{ path('app_confirm_covoiturage_new') }}">Create new</a>
 {% endblock %}
