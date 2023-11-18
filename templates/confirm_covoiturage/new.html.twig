@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New ConfirmCovoiturage{% endblock %}
+
+{% block body %}
+    <h1>Create new ConfirmCovoiturage</h1>
+
+    {{ include('confirm_covoiturage/_form.html.twig') }}
+
+    <a href="{{ path('app_confirm_covoiturage_index') }}">back to list</a>
+{% endblock %}

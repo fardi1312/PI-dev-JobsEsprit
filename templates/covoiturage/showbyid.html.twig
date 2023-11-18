@@ -48,8 +48,7 @@
     </table>
 
     {# Add other covoiturage details as needed #}
-
     <a href="{{ path('app_covoiturage_index') }}">Back to list</a>
-        <a href="{{ path('app_covoiturage_index') }}">Confirm</a>
+    <a href="{{ path('app_confirm_covoiturage_new', {'id': covoiturage.id}) }}">Confirm</a>
 
 {% endblock %}

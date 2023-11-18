@@ -1,0 +1,63 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}ConfirmCovoiturage index{% endblock %}
+
+{% block body %}
+    <h1>ConfirmCovoiturage index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>UsernameEtud</th>
+                <th>UsernameConducteur</th>
+                <th>FirstNameEtud</th>
+                <th>LastNameEtud</th>
+                <th>FirstNameConducteur</th>
+                <th>LastNameConducteur</th>
+                <th>PhoneEtud</th>
+                <th>PhoneConducteur</th>
+                <th>EmailEtud</th>
+                <th>EmailConducteur</th>
+                <th>HeureDepart</th>
+                <th>LieuDepart</th>
+                <th>LieuArrivee</th>
+                <th>PrixTotalePlacesReserve</th>
+                <th>NombrePlacesReserve</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for confirm_covoiturage in confirm_covoiturages %}
+            <tr>
+                <td>{{ confirm_covoiturage.id }}</td>
+                <td>{{ confirm_covoiturage.usernameEtud }}</td>
+                <td>{{ confirm_covoiturage.usernameConducteur }}</td>
+                <td>{{ confirm_covoiturage.firstNameEtud }}</td>
+                <td>{{ confirm_covoiturage.lastNameEtud }}</td>
+                <td>{{ confirm_covoiturage.firstNameConducteur }}</td>
+                <td>{{ confirm_covoiturage.lastNameConducteur }}</td>
+                <td>{{ confirm_covoiturage.phoneEtud }}</td>
+                <td>{{ confirm_covoiturage.phoneConducteur }}</td>
+                <td>{{ confirm_covoiturage.emailEtud }}</td>
+                <td>{{ confirm_covoiturage.emailConducteur }}</td>
+                <td>{{ confirm_covoiturage.heureDepart }}</td>
+                <td>{{ confirm_covoiturage.lieuDepart }}</td>
+                <td>{{ confirm_covoiturage.lieuArrivee }}</td>
+                <td>{{ confirm_covoiturage.prixTotalePlacesReserve }}</td>
+                <td>{{ confirm_covoiturage.nombrePlacesReserve }}</td>
+                <td>
+                    <a href="{{ path('app_confirm_covoiturage_show', {'id': confirm_covoiturage.id}) }}">show</a>
+                    <a href="{{ path('app_confirm_covoiturage_edit', {'id': confirm_covoiturage.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="17">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_confirm_covoiturage_new') }}">Create new</a>
+{% endblock %}

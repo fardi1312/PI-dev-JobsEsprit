@@ -39,6 +39,14 @@ class Covoiturage
     #[ORM\ManyToOne(inversedBy: 'covoiturages')]
     private ?UserEtudiant $id_userEtudiant = null;
 
+    public function __toString()
+    {
+        return $this->getId(); // You can return any string representation of the entity
+    }
+
+
+
+
     public function getId(): ?int
     {
         return $this->id;

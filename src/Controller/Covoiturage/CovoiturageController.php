@@ -105,6 +105,10 @@ class CovoiturageController extends AbstractController
             'covoiturage' => $covoiturage,
         ]);
     }
+
+
+
+    
     #[Route('/{id}/edit', name: 'app_covoiturage_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Covoiturage $covoiturage, CovoiturageRepository $covoiturageRepository): Response
     {
