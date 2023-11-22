@@ -57,7 +57,8 @@ class ConfirmCovoiturage
     #[ORM\Column(type: 'integer')]
     private ?int $nombrePlacesReserve = null;
 
-    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    #[ORM\ManyToOne(targetEntity: Covoiturage::class)]
+    #[ORM\JoinColumn(name: 'covoiturage_id', referencedColumnName: 'id')]
     private ?Covoiturage $id_Covoiturage = null;
 
     // Getters
@@ -231,4 +232,3 @@ class ConfirmCovoiturage
         return $this;
     }
 }
-

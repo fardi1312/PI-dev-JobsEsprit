@@ -11,11 +11,23 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\Mailer\MailerInterface; 
+use Symfony\Component\Mime\Email; 
 
 #[Route('/confirmcovoiturage')]
 class ConfirmCovoiturageController extends AbstractController
+
 {
-    #[Route('/list', name: 'app_confirm_covoiturage_index', methods: ['GET'])]
+
+
+    private $mailer;
+
+    public function __construct(MailerInterface $mailer)
+    {
+        $this->mailer = $mailer;
+    }
+
+    #[Route('/listResv', name: 'app_confirm_covoiturage_index', methods: ['GET'])]
     public function index(ConfirmCovoiturageRepository $confirmCovoiturageRepository, SessionInterface $session): Response
     {
         // Récupérer l'utilisateur depuis la session
@@ -30,14 +42,15 @@ class ConfirmCovoiturageController extends AbstractController
         $filteredConfirmCovoiturages = array_filter($confirmCovoiturages, function ($confirmCovoiturage) use ($user) {
             return $confirmCovoiturage->getUsernameEtud() === $user->getUsername();
         });
-        return $this->render('confirm_covoiturage/index.html.twig', [
+        return $this->render('confirm_covoiturage/indexEtud.html.twig', [
             'confirm_covoiturages' => $filteredConfirmCovoiturages,
         ]);
     }
 
 
+    
 
-    #[Route('/listCond', name: 'app_confirm_covoiturage_index', methods: ['GET'])]
+    #[Route('/listCond', name: 'app_confirm_covoiturage_indexCond', methods: ['GET'])]
     public function indexConfirm(ConfirmCovoiturageRepository $confirmCovoiturageRepository, SessionInterface $session): Response
     {
         // Récupérer l'utilisateur depuis la session
@@ -56,16 +69,6 @@ class ConfirmCovoiturageController extends AbstractController
             'confirm_covoiturages' => $filteredConfirmCovoiturages,
         ]);
     }
-
-
-
-
-
-
-
-
-
-
 
     #[Route('/new/{id}', name: 'app_confirm_covoiturage_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager, SessionInterface $session, $id): Response
@@ -120,7 +123,7 @@ class ConfirmCovoiturageController extends AbstractController
             $entityManager->persist($confirmCovoiturage);
             $entityManager->flush();
     
-            return $this->redirectToRoute('app_confirm_covoiturage_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_confirm_covoiturage_indexCond', [], Response::HTTP_SEE_OTHER);
         }
     
         return $this->render('confirm_covoiturage/new.html.twig', [
@@ -161,6 +164,67 @@ class ConfirmCovoiturageController extends AbstractController
 
         return $this->redirectToRoute('app_confirm_covoiturage_index', [], Response::HTTP_SEE_OTHER);
     }
+
+
+    #[Route('/showCond/{id}', name: 'app_confirm_covoiturage_show', methods: ['GET'])]
+    public function show(ConfirmCovoiturage $confirmCovoiturage): Response
+    {
+        return $this->render('confirm_covoiturage/showbyid.html.twig', [
+            'confirm_covoiturage' => $confirmCovoiturage,
+        ]);
+    }
+
+    #[Route('/showEtud/{id}', name: 'app_confirm_covoiturage_show1', methods: ['GET'])]
+    public function show1(ConfirmCovoiturage $confirmCovoiturage): Response
+    {
+        return $this->render('confirm_covoiturage/show.html.twig', [
+            'confirm_covoiturage' => $confirmCovoiturage,
+        ]);
+    }
+
+
+
+
+
+ 
+
+    #[Route('/confirm_reservation/{id}', name: 'confirm_reservation', methods: ['GET', 'POST'])]
+    public function confirmReservation($id, Request $request, EntityManagerInterface $entityManager): Response
+    {   
+        // Fetch the ConfirmCovoiturage entity
+        $confirmCovoiturage = $entityManager->getRepository(ConfirmCovoiturage::class)->find($id);  
+        
+        if (!$confirmCovoiturage) {
+            return new Response(['error' => 'Confirmation not found'], Response::HTTP_NOT_FOUND);
+        }
+        
+        // Your logic to update covoiturage data
+        $covoiturage = $confirmCovoiturage->getIdCovoiturage();
+        $newAvailableSeats = $covoiturage->getNombrePlacesDisponible() - $confirmCovoiturage->getNombrePlacesReserve();
+        $covoiturage->setNombrePlacesDisponible($newAvailableSeats);
+        
+        // Persist changes to the database
+        $entityManager->persist($covoiturage);
+        $entityManager->flush();
+        
+        // Send confirmation email
+        $this->sendConfirmationEmail($confirmCovoiturage);
+        
+        // Redirect to another route after successful confirmation
+        return $this->redirectToRoute('app_confirm_covoiturage_indexCond');
+    }
+
+    private function sendConfirmationEmail(ConfirmCovoiturage $confirmation)
+    {
+        $email = (new Email())
+            ->from('test.pidev123@gmail.com')
+            ->to($confirmation->getEmailEtud())
+            ->subject('Covoiturage Confirmation')
+            ->html($this->renderView('confirm_covoiturage/confirmation.html.twig', ['confirmation' => $confirmation]));
+
+        $this->mailer->send($email);
+    }
+
 }
 
 
