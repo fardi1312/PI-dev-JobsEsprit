@@ -1,0 +1,46 @@
+{# templates/emails/confirmation.html.twig #}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Covoiturage Confirmation</title>
+</head>
+<body>
+    <h1>Covoiturage Confirmation</h1>
+
+    <p>
+        Dear {{ confirmation.firstNameEtud }} {{ confirmation.lastNameEtud }},
+    </p>
+
+    <p>
+        Thank you for confirming your covoiturage. Here are the details:
+    </p>
+
+    <dl>
+        <dt>Username Etudiant:</dt>
+        <dd>{{ confirmation.usernameEtud }}</dd>
+
+        <dt>First Name Etudiant:</dt>
+        <dd>{{ confirmation.firstNameEtud }}</dd>
+
+        <dt>Last Name Etudiant:</dt>
+        <dd>{{ confirmation.lastNameEtud }}</dd>
+
+        <dt>Phone Etudiant:</dt>
+        <dd>{{ confirmation.phoneEtud }}</dd>
+
+        <dt>Email Etudiant:</dt>
+        <dd>{{ confirmation.emailEtud }}</dd>
+
+        <dt>Number of Places Reserved:</dt>
+        <dd>{{ confirmation.nombrePlacesReserve }}</dd>
+
+        <dt>Total Price for Reserved Places:</dt>
+        <dd>{{ confirmation.prixTotalePlacesReserve }}</dd>
+    </dl>
+
+    <p>
+        Thank you for using our covoiturage service!
+    </p>
+</body>
+</html>
