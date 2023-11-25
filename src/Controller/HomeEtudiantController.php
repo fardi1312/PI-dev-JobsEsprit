@@ -16,6 +16,7 @@ class HomeEtudiantController extends AbstractController
         $user = $session->get('user');
         return $this->render('baseEtudiant.html.twig', [
             'user' => $user,
+            'user' => $user,
         ]);
     }
 

@@ -61,6 +61,9 @@ class ConfirmCovoiturage
     #[ORM\JoinColumn(name: 'covoiturage_id', referencedColumnName: 'id')]
     private ?Covoiturage $id_Covoiturage = null;
 
+    #[ORM\Column]
+    private ?bool $Confirmed = null;
+
     // Getters
 
     public function getId(): ?int
@@ -228,6 +231,18 @@ class ConfirmCovoiturage
     public function setIdCovoiturage(?Covoiturage $id_Covoiturage): static
     {
         $this->id_Covoiturage = $id_Covoiturage;
+
+        return $this;
+    }
+
+    public function isConfirmed(): ?bool
+    {
+        return $this->Confirmed;
+    }
+
+    public function setConfirmed(bool $Confirmed): static
+    {
+        $this->Confirmed = $Confirmed;
 
         return $this;
     }

@@ -1,9 +1,9 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}ConfirmCovoiturage{% endblock %}
+{% block title %}Carpool Confirmation{% endblock %}
 
 {% block body %}
-    <h1>ConfirmCovoiturage</h1>
+    <h1>Carpool Confirmation</h1>
 
     <table class="table">
         <tbody>
@@ -12,71 +12,71 @@
                 <td>{{ confirm_covoiturage.id }}</td>
             </tr>
             <tr>
-                <th>UsernameEtud</th>
+                <th>Student Username</th>
                 <td>{{ confirm_covoiturage.usernameEtud }}</td>
             </tr>
             <tr>
-                <th>UsernameConducteur</th>
+                <th>Driver Username</th>
                 <td>{{ confirm_covoiturage.usernameConducteur }}</td>
             </tr>
             <tr>
-                <th>FirstNameEtud</th>
+                <th>Student First Name</th>
                 <td>{{ confirm_covoiturage.firstNameEtud }}</td>
             </tr>
             <tr>
-                <th>LastNameEtud</th>
+                <th>Student Last Name</th>
                 <td>{{ confirm_covoiturage.lastNameEtud }}</td>
             </tr>
             <tr>
-                <th>FirstNameConducteur</th>
+                <th>Driver First Name</th>
                 <td>{{ confirm_covoiturage.firstNameConducteur }}</td>
             </tr>
             <tr>
-                <th>LastNameConducteur</th>
+                <th>Driver Last Name</th>
                 <td>{{ confirm_covoiturage.lastNameConducteur }}</td>
             </tr>
             <tr>
-                <th>PhoneEtud</th>
+                <th>Student Phone</th>
                 <td>{{ confirm_covoiturage.phoneEtud }}</td>
             </tr>
             <tr>
-                <th>PhoneConducteur</th>
+                <th>Driver Phone</th>
                 <td>{{ confirm_covoiturage.phoneConducteur }}</td>
             </tr>
             <tr>
-                <th>EmailEtud</th>
+                <th>Student Email</th>
                 <td>{{ confirm_covoiturage.emailEtud }}</td>
             </tr>
             <tr>
-                <th>EmailConducteur</th>
+                <th>Driver Email</th>
                 <td>{{ confirm_covoiturage.emailConducteur }}</td>
             </tr>
             <tr>
-                <th>HeureDepart</th>
+                <th>Departure Time</th>
                 <td>{{ confirm_covoiturage.heureDepart }}</td>
             </tr>
             <tr>
-                <th>LieuDepart</th>
+                <th>Departure Location</th>
                 <td>{{ confirm_covoiturage.lieuDepart }}</td>
             </tr>
             <tr>
-                <th>LieuArrivee</th>
+                <th>Arrival Location</th>
                 <td>{{ confirm_covoiturage.lieuArrivee }}</td>
             </tr>
             <tr>
-                <th>PrixTotalePlacesReserve</th>
+                <th>Total Price for Reserved Seats</th>
                 <td>{{ confirm_covoiturage.prixTotalePlacesReserve }}</td>
             </tr>
             <tr>
-                <th>NombrePlacesReserve</th>
+                <th>Number of Seats Reserved</th>
                 <td>{{ confirm_covoiturage.nombrePlacesReserve }}</td>
             </tr>
         </tbody>
     </table>
 
-    <a href="{{ path('app_confirm_covoiturage_index') }}">back to list</a>
+    <a href="{{ path('app_confirm_covoiturage_index') }}">Back to List</a>
 
-    <a href="{{ path('app_confirm_covoiturage_edit', {'id': confirm_covoiturage.id}) }}">edit</a>
+    <a href="{{ path('app_confirm_covoiturage_edit', {'id': confirm_covoiturage.id}) }}">Edit</a>
 
     {{ include('confirm_covoiturage/_delete_form.html.twig') }}
 {% endblock %}

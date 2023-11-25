@@ -9,21 +9,20 @@
         <table class="table">
             <thead>
                 <tr>
-                    <th>Id</th>
+                    <th>Username</th>
                     <th>Departure Time</th>
                     <th>Departure Location</th>
                     <th>Arrival Location</th>
                     <th>Price</th>
                     <th>Available Seats</th>
                     <th>Image</th>
-                    <th>Username</th>
                     <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
                 {% for covoiturage in covoiturage %}
                     <tr>
-                        <td>{{ covoiturage.id }}</td>
+                         <td>{{ covoiturage.username }}</td>
                         <td>{{ covoiturage.heuredepart }}</td>
                         <td>{{ covoiturage.lieudepart }}</td>
                         <td>{{ covoiturage.lieuarrivee }}</td>
@@ -36,7 +35,6 @@
                                 No image
                             {% endif %}
                         </td>
-                        <td>{{ covoiturage.username }}</td>
                         <td>
                             <a href="{{ path('app_covoiturage_show', {'id': covoiturage.id}) }}">Show</a>
                             <a href="{{ path('app_covoiturage_edit', {'id': covoiturage.id}) }}">Edit</a>

@@ -13,32 +13,37 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Mailer\MailerInterface; 
 use Symfony\Component\Mime\Email; 
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Knp\Snappy\Pdf;
+
 
 #[Route('/confirmcovoiturage')]
 class ConfirmCovoiturageController extends AbstractController
 
 {
-
-
     private $mailer;
+    private $pdf;
+    private $pdfOutputPath;  // Define the output path for PDF
 
-    public function __construct(MailerInterface $mailer)
+
+    
+
+    public function __construct(MailerInterface $mailer, Pdf $pdf)
     {
         $this->mailer = $mailer;
+        $this->pdf = $pdf;
+        $this->pdfOutputPath = 'C:\Users\MAS3OUD\Desktop\PIpdf';
     }
+    
 
     #[Route('/listResv', name: 'app_confirm_covoiturage_index', methods: ['GET'])]
     public function index(ConfirmCovoiturageRepository $confirmCovoiturageRepository, SessionInterface $session): Response
     {
-        // Récupérer l'utilisateur depuis la session
         $user = $session->get('user');
         if (!$user) {
-            // Rediriger vers la page de connexion si l'utilisateur n'est pas connecté
             return $this->redirectToRoute('app_login');
         }
-        // Récupérer la liste des confirmations de covoiturage
         $confirmCovoiturages = $confirmCovoiturageRepository->findAll(); 
-        // Filtrer les confirmations de covoiturage pour ceux dont le nom d'utilisateur correspond à l'utilisateur actuel
         $filteredConfirmCovoiturages = array_filter($confirmCovoiturages, function ($confirmCovoiturage) use ($user) {
             return $confirmCovoiturage->getUsernameEtud() === $user->getUsername();
         });
@@ -53,15 +58,11 @@ class ConfirmCovoiturageController extends AbstractController
     #[Route('/listCond', name: 'app_confirm_covoiturage_indexCond', methods: ['GET'])]
     public function indexConfirm(ConfirmCovoiturageRepository $confirmCovoiturageRepository, SessionInterface $session): Response
     {
-        // Récupérer l'utilisateur depuis la session
         $user = $session->get('user');
         if (!$user) {
-            // Rediriger vers la page de connexion si l'utilisateur n'est pas connecté
             return $this->redirectToRoute('app_login');
         }
-        // Récupérer la liste des confirmations de covoiturage
         $confirmCovoiturages = $confirmCovoiturageRepository->findAll();
-        // Filtrer les confirmations de covoiturage pour ceux dont le nom d'utilisateur correspond à l'utilisateur actuel
         $filteredConfirmCovoiturages = array_filter($confirmCovoiturages, function ($confirmCovoiturage) use ($user) {
             return $confirmCovoiturage->getUsernameConducteur() === $user->getUsername();
         });
@@ -73,7 +74,6 @@ class ConfirmCovoiturageController extends AbstractController
     #[Route('/new/{id}', name: 'app_confirm_covoiturage_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager, SessionInterface $session, $id): Response
     {
-        // Assuming you have a repository for your Covoiturage entity
         $covoiturage = $entityManager->getRepository(Covoiturage::class)->find($id);
     
         if (!$covoiturage) {
@@ -184,47 +184,53 @@ class ConfirmCovoiturageController extends AbstractController
 
 
 
-
-
- 
-
     #[Route('/confirm_reservation/{id}', name: 'confirm_reservation', methods: ['GET', 'POST'])]
     public function confirmReservation($id, Request $request, EntityManagerInterface $entityManager): Response
-    {   
-        // Fetch the ConfirmCovoiturage entity
-        $confirmCovoiturage = $entityManager->getRepository(ConfirmCovoiturage::class)->find($id);  
-        
+    {
+        $confirmCovoiturage = $entityManager->getRepository(ConfirmCovoiturage::class)->find($id);
         if (!$confirmCovoiturage) {
-            return new Response(['error' => 'Confirmation not found'], Response::HTTP_NOT_FOUND);
+            $this->addFlash('error', 'Confirmation already completed');
+            return $this->redirectToRoute('app_confirm_covoiturage_indexCond');
         }
-        
-        // Your logic to update covoiturage data
+
+        // Check if already confirmed
+        if ($confirmCovoiturage->isConfirmed()) {
+            $this->addFlash('error', 'Confirmation already completed');
+            return $this->redirectToRoute('app_confirm_covoiturage_indexCond');
+        }
+
         $covoiturage = $confirmCovoiturage->getIdCovoiturage();
         $newAvailableSeats = $covoiturage->getNombrePlacesDisponible() - $confirmCovoiturage->getNombrePlacesReserve();
         $covoiturage->setNombrePlacesDisponible($newAvailableSeats);
-        
-        // Persist changes to the database
+        // Set the confirmation status to true
+        $confirmCovoiturage->setConfirmed(true);
         $entityManager->persist($covoiturage);
+        $entityManager->persist($confirmCovoiturage);
         $entityManager->flush();
-        
-        // Send confirmation email
-        $this->sendConfirmationEmail($confirmCovoiturage);
-        
-        // Redirect to another route after successful confirmation
+
+        // Generate PDF
+        $html = $this->renderView('confirm_covoiturage/confirmation.html.twig', ['confirmation' => $confirmCovoiturage]);
+        $outputPath = $this->pdfOutputPath . '/confirmation_' . $id . '.pdf'; // Adjust the filename as needed
+        $this->pdf->generateFromHtml($html, $outputPath);
+
+        // Send confirmation email with PDF attachment
+        $this->sendConfirmationEmail($confirmCovoiturage, $outputPath);
+
+        // Redirect to the appropriate route after confirmation
         return $this->redirectToRoute('app_confirm_covoiturage_indexCond');
     }
 
-    private function sendConfirmationEmail(ConfirmCovoiturage $confirmation)
+    private function sendConfirmationEmail(ConfirmCovoiturage $confirmation, string $pdfPath)
     {
         $email = (new Email())
             ->from('test.pidev123@gmail.com')
             ->to($confirmation->getEmailEtud())
             ->subject('Covoiturage Confirmation')
-            ->html($this->renderView('confirm_covoiturage/confirmation.html.twig', ['confirmation' => $confirmation]));
-
+            ->html($this->renderView('confirm_covoiturage/confirmation.html.twig', ['confirmation' => $confirmation]))
+            ->attachFromPath($pdfPath); // Attach the generated PDF
+    
         $this->mailer->send($email);
     }
-
 }
 
 

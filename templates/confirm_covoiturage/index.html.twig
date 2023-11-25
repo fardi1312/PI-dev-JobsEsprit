@@ -1,46 +1,32 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}ConfirmCovoiturage index{% endblock %}
+{% block title %}Carpool Confirmation index{% endblock %}
 
 {% block body %}
-    <h1>ConfirmCovoiturage index</h1>
+    <h1>Carpool Confirmation Driver</h1>
 
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
-                <th>UsernameEtud</th>
-                <th>UsernameConducteur</th>
-                <th>FirstNameEtud</th>
-                <th>LastNameEtud</th>
-                <th>FirstNameConducteur</th>
-                <th>LastNameConducteur</th>
-                <th>PhoneEtud</th>
-                <th>PhoneConducteur</th>
-                <th>EmailEtud</th>
-                <th>EmailConducteur</th>
-                <th>HeureDepart</th>
-                <th>LieuDepart</th>
-                <th>LieuArrivee</th>
-                <th>PrixTotalePlacesReserve</th>
-                <th>NombrePlacesReserve</th>
-                <th>actions</th>
+                <th>Student First Name</th>
+                <th>Student Last Name</th>
+                <th>Driver First Name</th>
+                <th>Driver Last Name</th>
+                <th>Departure Time</th>
+                <th>Departure Location</th>
+                <th>Arrival Location</th>
+                <th>Total Reserved Seats Price</th>
+                <th>Reserved Seats Count</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
         {% for confirm_covoiturage in confirm_covoiturages %}
             <tr>
-                <td>{{ confirm_covoiturage.id }}</td>
-                <td>{{ confirm_covoiturage.usernameEtud }}</td>
-                <td>{{ confirm_covoiturage.usernameConducteur }}</td>
                 <td>{{ confirm_covoiturage.firstNameEtud }}</td>
                 <td>{{ confirm_covoiturage.lastNameEtud }}</td>
                 <td>{{ confirm_covoiturage.firstNameConducteur }}</td>
                 <td>{{ confirm_covoiturage.lastNameConducteur }}</td>
-                <td>{{ confirm_covoiturage.phoneEtud }}</td>
-                <td>{{ confirm_covoiturage.phoneConducteur }}</td>
-                <td>{{ confirm_covoiturage.emailEtud }}</td>
-                <td>{{ confirm_covoiturage.emailConducteur }}</td>
                 <td>{{ confirm_covoiturage.heureDepart }}</td>
                 <td>{{ confirm_covoiturage.lieuDepart }}</td>
                 <td>{{ confirm_covoiturage.lieuArrivee }}</td>

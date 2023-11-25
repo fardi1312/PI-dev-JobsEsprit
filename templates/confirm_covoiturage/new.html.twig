@@ -1,5 +1,6 @@
 
 {# templates/form.html.twig #}
+{% extends 'base.html.twig' %}
 
 
 {% block body %}
@@ -7,20 +8,10 @@
 
     {{ form_start(form) }}
     
-    {{ form_row(form.usernameEtud) }}
     {{ form_row(form.usernameConducteur) }}
-    {{ form_row(form.firstNameEtud) }}
-    {{ form_row(form.lastNameEtud) }}
-    {{ form_row(form.firstNameConducteur) }}
-    {{ form_row(form.lastNameConducteur) }}
-    {{ form_row(form.phoneEtud) }}
-    {{ form_row(form.phoneConducteur) }}
-    {{ form_row(form.emailEtud) }}
-    {{ form_row(form.emailConducteur) }}
     {{ form_row(form.heureDepart) }}
     {{ form_row(form.lieuDepart) }}
     {{ form_row(form.lieuArrivee) }}
-
     {{ form_row(form.nombrePlacesReserve, {
         'attr': {
             'class': 'reserved-seats-input',
@@ -51,3 +42,5 @@
         });
     </script>
 {% endblock %}
+
+
