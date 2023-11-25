@@ -20,47 +20,38 @@ class ConfirmCovoiturageType extends AbstractType
     {
         $builder           
         
-        ->add('usernameEtud', TextType::class, [
-            'attr' => ['readonly' => true],
-        ])
+
+
         ->add('usernameConducteur', TextType::class, [
+
             'attr' => ['readonly' => true],
         ])
         ->add('firstNameEtud', TextType::class, [
-            'attr' => ['readonly' => true],
+            'label' => '  ',
+
+            'attr' => [
+                'readonly' => true,
+                'style' => 'display:none;',
+            ],
         ])
-        ->add('lastNameEtud', TextType::class, [
-            'attr' => ['readonly' => true],
-        ])
-        ->add('firstNameConducteur', TextType::class, [
-            'attr' => ['readonly' => true],
-        ])
-        ->add('lastNameConducteur', TextType::class, [
-            'attr' => ['readonly' => true],
-        ])
-        ->add('phoneEtud', TextType::class, [
-            'attr' => ['readonly' => true],
-        ])
-        ->add('phoneConducteur', TextType::class, [
-            'attr' => ['readonly' => true],
-        ])
-        ->add('emailEtud', TextType::class, [
-            'attr' => ['readonly' => true],
-        ])
-        ->add('emailConducteur', TextType::class, [
-            'attr' => ['readonly' => true],
-        ])
+
         ->add('heureDepart', TextType::class, [
+            'label' => 'departure Time  ',
+
             'attr' => ['readonly' => true],
         ])
         ->add('lieuDepart', TextType::class, [
+            'label' => 'departure Location  ',
+
             'attr' => ['readonly' => true],
         ])
         ->add('lieuArrivee', TextType::class, [
+            'label' => 'arrival Location   ',
+
             'attr' => ['readonly' => true],
         ])
         ->add('nombrePlacesReserve', IntegerType::class, [
-            'label' => 'Number of Available Seats',
+            'label' => 'Number of Available Seats  ',
             'attr' => [
                 'min' => 1,
                 'max' => $options['nbrDespo'],
@@ -75,7 +66,87 @@ class ConfirmCovoiturageType extends AbstractType
             ],
         ])
 
-        ->add('id_Covoiturage');
+
+        ->add('usernameEtud', TextType::class, [
+            'label' => '  ',
+  
+                    'attr' => [
+            'readonly' => true,
+            'style' => 'display:none;',
+        ],
+        ])
+
+
+
+        ->add('lastNameEtud', TextType::class, [
+            'label' => '  ',
+
+            'attr' => [
+                'readonly' => true,
+                'style' => 'display:none;',
+            ],
+        ])
+        ->add('firstNameConducteur', TextType::class, [
+            'label' => '  ',
+            'attr' => [
+                'readonly' => true,
+                'style' => 'display:none;',
+            ],
+        ])
+        ->add('lastNameConducteur', TextType::class, [
+            'label' => '  ',
+
+            'attr' => [
+                'readonly' => true,
+                'style' => 'display:none;',
+            ],
+        ])
+        ->add('phoneEtud', TextType::class, [
+            'label' => '  ',
+
+            'attr' => [
+                'readonly' => true,
+                'style' => 'display:none;',
+            ],
+        ])
+        ->add('phoneConducteur', TextType::class, [
+            'label' => '  ',
+            'attr' => [
+                'readonly' => true,
+                'style' => 'display:none;',
+            ],
+        ])
+        ->add('emailEtud', TextType::class, [
+            'label' => '  ',
+
+            'attr' => [
+                'readonly' => true,
+                'style' => 'display:none;',
+            ],
+        ])
+        ->add('emailConducteur', TextType::class, [
+            'label' => '  ',
+            'attr' => [
+                'readonly' => true,
+                'style' => 'display:none;',
+            ],
+        ])
+
+
+        ->add('id_Covoiturage', null, [
+            'label' => '  ',
+
+            'attr' => [
+                'style' => 'display:none;', // Hides the field
+            ],
+        ])
+        ->add('Confirmed', null, [
+            'label' => '  ',
+
+            'attr' => [
+                'style' => 'display:none;', // Hides the field
+            ],
+        ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
