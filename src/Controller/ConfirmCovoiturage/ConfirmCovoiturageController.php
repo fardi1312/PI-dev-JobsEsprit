@@ -15,6 +15,10 @@ use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email; 
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Knp\Snappy\Pdf;
+use Endroid\QrCode\Color\Color;
+use Endroid\QrCode\Label\Margin\LabelMargin;
+use Endroid\QrCode\Encoding\Encoding;
+use Endroid\QrCode\Builder\BuilderInterface;
 
 
 #[Route('/confirmcovoiturage')]
@@ -23,15 +27,14 @@ class ConfirmCovoiturageController extends AbstractController
 {
     private $mailer;
     private $pdf;
-    private $pdfOutputPath;  // Define the output path for PDF
+    private $qrCodeBuilder;
+    private $pdfOutputPath;
 
-
-    
-
-    public function __construct(MailerInterface $mailer, Pdf $pdf)
+    public function __construct(MailerInterface $mailer, Pdf $pdf, BuilderInterface $qrCodeBuilder)
     {
         $this->mailer = $mailer;
         $this->pdf = $pdf;
+        $this->qrCodeBuilder = $qrCodeBuilder;
         $this->pdfOutputPath = 'C:\Users\MAS3OUD\Desktop\PIpdf';
     }
     
@@ -182,54 +185,111 @@ class ConfirmCovoiturageController extends AbstractController
         ]);
     }
 
-
-
     #[Route('/confirm_reservation/{id}', name: 'confirm_reservation', methods: ['GET', 'POST'])]
-    public function confirmReservation($id, Request $request, EntityManagerInterface $entityManager): Response
+    public function confirmReservation($id, Request $request, EntityManagerInterface $entityManager, Pdf $pdf, BuilderInterface $qrCodeBuilder): Response
     {
         $confirmCovoiturage = $entityManager->getRepository(ConfirmCovoiturage::class)->find($id);
+    
         if (!$confirmCovoiturage) {
             $this->addFlash('error', 'Confirmation already completed');
             return $this->redirectToRoute('app_confirm_covoiturage_indexCond');
         }
-
-        // Check if already confirmed
+    
+        // Vérifier si la confirmation a déjà été effectuée
         if ($confirmCovoiturage->isConfirmed()) {
             $this->addFlash('error', 'Confirmation already completed');
             return $this->redirectToRoute('app_confirm_covoiturage_indexCond');
         }
-
+    
+        // Générer le QR code
+        $qrCodeDataUri = $this->generateQrCodeForConfirmCovoiturage($qrCodeBuilder, $confirmCovoiturage);
+    
+        // Générer le PDF
+        $html = $this->renderView('confirm_covoiturage/confirmation.html.twig', [
+            'confirmation' => $confirmCovoiturage,
+            'qrCodeDataUri' => $qrCodeDataUri,
+        ]);
+        $outputPath = $this->pdfOutputPath . '/confirmation_' . $id . '.pdf'; // Ajustez le nom de fichier au besoin
+        $pdf->generateFromHtml($html, $outputPath);
+    
+        // Mettre à jour le statut de confirmation et les données du covoiturage dans la base de données
+        $this->updateConfirmationStatusAndCovoiturageData($confirmCovoiturage, $entityManager);
+    
+        // Envoyer un e-mail de confirmation avec la pièce jointe PDF et le QR code
+        $this->sendConfirmationEmail($confirmCovoiturage, $outputPath, $qrCodeDataUri);
+    
+        // Rediriger vers la route appropriée après la confirmation
+        return $this->redirectToRoute('app_confirm_covoiturage_indexCond');
+    }
+    
+    private function generateQrCodeForConfirmCovoiturage(BuilderInterface $qrCodeBuilder, ConfirmCovoiturage $confirmCovoiturage): string
+    {
+        // Construction du lien direct vers Google Maps en utilisant les noms de lieu
+        $googleMapsLink = $this->generateGoogleMapsLink(
+            $confirmCovoiturage->getLieuDepart(),
+            $confirmCovoiturage->getLieuArrivee()
+        );
+    
+        // Construction du QR code
+        $qrCode = $qrCodeBuilder
+            ->data($googleMapsLink)
+            ->encoding(new Encoding('UTF-8'))
+            ->size(200)
+            ->margin(10)
+            ->build();
+    
+        // Récupérer les données au format Data URI
+        $qrCodeDataUri = $qrCode->getDataUri();
+    
+        return $qrCodeDataUri;
+    }
+    
+    private function generateGoogleMapsLink($lieuDepart, $lieuArrivee)
+    {
+        // Formater le lien Google Maps avec les noms des lieux
+        $url = "https://www.google.com/maps/dir/{$lieuDepart}/{$lieuArrivee}";
+    
+        return $url;
+    }
+    
+    private function updateConfirmationStatusAndCovoiturageData(ConfirmCovoiturage $confirmCovoiturage, EntityManagerInterface $entityManager): void
+    {
+        // Mise à jour du statut de confirmation et des données du covoiturage dans la base de données
         $covoiturage = $confirmCovoiturage->getIdCovoiturage();
         $newAvailableSeats = $covoiturage->getNombrePlacesDisponible() - $confirmCovoiturage->getNombrePlacesReserve();
         $covoiturage->setNombrePlacesDisponible($newAvailableSeats);
-        // Set the confirmation status to true
         $confirmCovoiturage->setConfirmed(true);
         $entityManager->persist($covoiturage);
         $entityManager->persist($confirmCovoiturage);
         $entityManager->flush();
-
-        // Generate PDF
-        $html = $this->renderView('confirm_covoiturage/confirmation.html.twig', ['confirmation' => $confirmCovoiturage]);
-        $outputPath = $this->pdfOutputPath . '/confirmation_' . $id . '.pdf'; // Adjust the filename as needed
-        $this->pdf->generateFromHtml($html, $outputPath);
-
-        // Send confirmation email with PDF attachment
-        $this->sendConfirmationEmail($confirmCovoiturage, $outputPath);
-
-        // Redirect to the appropriate route after confirmation
-        return $this->redirectToRoute('app_confirm_covoiturage_indexCond');
     }
 
-    private function sendConfirmationEmail(ConfirmCovoiturage $confirmation, string $pdfPath) : void
+    private function sendConfirmationEmail(ConfirmCovoiturage $confirmation, string $pdfPath, string $qrCodeDataUri): void
     {
+        // Construction du lien direct vers Google Maps en utilisant les noms de lieu
+        $googleMapsLink = $this->generateGoogleMapsLink(
+            $confirmation->getLieuDepart(),
+            $confirmation->getLieuArrivee()
+        );
+    
+        // Création des données à passer au template Twig
+        $emailData = [
+            'confirmation' => $confirmation,
+            'qrCodeDataUri' => $qrCodeDataUri,
+            'googleMapsLink' => $googleMapsLink,
+        ];
+        // Création du corps HTML de l'e-mail
+        $emailBody = $this->renderView('confirm_covoiturage/confirmation.html.twig', $emailData);
+        // Création de l'e-mail avec le corps HTML
         $email = (new Email())
             ->from('test.pidev123@gmail.com')
             ->to('masoud.ozel.5@gmail.com')
             ->subject('Covoiturage Confirmation')
-            ->html($this->renderView('confirm_covoiturage/confirmation.html.twig', ['confirmation' => $confirmation]))
-            ->attachFromPath($pdfPath);     
+            ->html($emailBody)
+            ->attachFromPath($pdfPath); // Attache le fichier PDF au message
+    
+        // Envoi de l'e-mail
         $this->mailer->send($email);
     }
+    
 }
-
-
