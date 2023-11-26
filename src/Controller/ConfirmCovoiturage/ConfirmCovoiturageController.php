@@ -220,15 +220,14 @@ class ConfirmCovoiturageController extends AbstractController
         return $this->redirectToRoute('app_confirm_covoiturage_indexCond');
     }
 
-    private function sendConfirmationEmail(ConfirmCovoiturage $confirmation, string $pdfPath)
+    private function sendConfirmationEmail(ConfirmCovoiturage $confirmation, string $pdfPath) : void
     {
         $email = (new Email())
             ->from('test.pidev123@gmail.com')
-            ->to($confirmation->getEmailEtud())
+            ->to('masoud.ozel.5@gmail.com')
             ->subject('Covoiturage Confirmation')
             ->html($this->renderView('confirm_covoiturage/confirmation.html.twig', ['confirmation' => $confirmation]))
-            ->attachFromPath($pdfPath); // Attach the generated PDF
-    
+            ->attachFromPath($pdfPath);     
         $this->mailer->send($email);
     }
 }

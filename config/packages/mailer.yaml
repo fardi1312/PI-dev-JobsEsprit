@@ -1,3 +1,4 @@
 framework:
     mailer:
-        dsn: 'smtp://smtp.googlemail.com:587?encryption=tls&auth_mode=login&username=test.pidev123@gmail.com&password=kgyrvraboypuawdz'
+        dsn: '%env(MAILER_DSN)%'
+        message_bus: false
