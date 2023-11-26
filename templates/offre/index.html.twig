@@ -65,9 +65,18 @@ https://templatemo.com/tm-590-topic-listing
 </li>
 
               
-<li class="nav-item">
-                    <a class="nav-link click-scroll" href="#section_4">Entretien</a>
-                </li>
+                   <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarLightDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">Entretien</a>
+</a>
+
+    <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="navbarLightDropdownMenuLink">
+        <li><a class="dropdown-item"  href="{{ path('add_interiew') }}">Ajouter Un Entretien</a></li>
+      
+      <li><a class="dropdown-item" href="{{ path('list_interview') }}">Voir mes Entretiens</a></li>
+          <li><a class="dropdown-item" href="{{ path('show_interiew') }}">Voir Calendrier</a></li>
+
+    </ul>
+</li>
 
                 <li class="nav-item">
                     <a class="nav-link click-scroll" href="#section_5">Candidature</a>

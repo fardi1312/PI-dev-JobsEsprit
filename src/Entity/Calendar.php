@@ -21,9 +21,20 @@ class Calendar
     private ?\DateTimeInterface $date = null;
 
 
+/* 
+    #[ORM\ManyToOne(inversedBy: 'calendars')]
+    private ?Useretudiant $etudiant = null; */
 
     #[ORM\ManyToOne(inversedBy: 'calendars')]
-    private ?Useretudiant $etudiant = null;
+    private ?Userentreprise $entreprise = null;
+
+    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    #[ORM\JoinColumn(name:"candidature_id", referencedColumnName:"id", onDelete:"SET NULL")]
+
+    private ?Candidature $Condidature = null;
+
+
+    
 
     public function getId(): ?int
     {
@@ -54,14 +65,26 @@ class Calendar
         return $this;
     }
 
-    public function getEtudiant(): ?Useretudiant
+public function getEntreprise(): ?Userentreprise
     {
-        return $this->etudiant;
+        return $this->entreprise;
     }
 
-    public function setEtudiant(?Useretudiant $etudiant): static
+    public function setEntreprise(?Userentreprise $entreprise): static
     {
-        $this->etudiant = $etudiant;
+        $this->entreprise = $entreprise;
+
+        return $this;
+    }
+
+    public function getCondidature(): ?Candidature
+    {
+        return $this->Condidature;
+    }
+
+    public function setCondidature(?Candidature $Condidature): static
+    {
+        $this->Condidature = $Condidature;
 
         return $this;
     }

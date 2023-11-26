@@ -17,7 +17,7 @@
                         <th scope="col">Heure</th>
                         <th scope="col">Date</th>
                     <th scope="col">etudiant</th>
-
+<th scope="col">entreprise</th>
                         <th scope="col">Action</th>
                     </tr>
                 </thead>
@@ -30,6 +30,7 @@
                           
                             <td>{{ calendaractivity.date ? calendaractivity.date|date('Y-m-d') : '' }}</td>
      <td>{{ calendaractivity.etudiant.username ? calendaractivity.etudiant.username}}</td>
+                               <td>{{calendaractivity.entreprise.nomEntreprise | default('N/A')  }}</td>
 
                             <td>
                                 <a href="{{ path('admin_deleteeevnt', { id: calendaractivity.id }) }}">Delete</a>

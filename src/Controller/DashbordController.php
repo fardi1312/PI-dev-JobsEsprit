@@ -49,7 +49,7 @@ class DashbordController extends AbstractController
         return $this->redirectToRoute('list_offreadmin');
     }
     #[Route('/event/delete/{id}', name: 'admin_deleteeevnt')]
-    public function deleteEvent(Request $request, $id, ManagerRegistry $manager, CalendaractivityRepository $offreRepository): Response
+    public function deleteEvent(Request $request, $id, ManagerRegistry $manager, CalendarRepository $offreRepository): Response
     {
         $em = $manager->getManager();
         $book = $offreRepository->find($id);
@@ -58,5 +58,37 @@ class DashbordController extends AbstractController
         $em->flush();
     
         return $this->redirectToRoute('events_admin');
+    }
+    #[Route('/statistics', name: 'app_statistics')]
+    public function statistics(OffreRepository $offreRepository): Response
+    {
+        // Fetch all offers from the repository
+        $offers = $offreRepository->findAll();
+    
+        // Perform calculations to get statistics data
+        $statisticsData = $this->calculateStatistics($offers);
+    
+        return $this->render('dashboard/offres.html.twig', [
+            'statisticsData' => $statisticsData,
+        ]);
+        
+    }
+    
+    private function calculateStatistics(array $offers): array
+    {
+        $statisticsData = [];
+    
+        foreach ($offers as $offer) {
+            $companyName = $offer->getEntrepriseId()->getNomEntreprise();
+            $monthYear = $offer->getDateInscription()->format('Y-m');
+    
+            if (!isset($statisticsData[$companyName][$monthYear])) {
+                $statisticsData[$companyName][$monthYear] = 1;
+            } else {
+                $statisticsData[$companyName][$monthYear]++;
+            }
+        }
+    
+        return $statisticsData;
     }
 }

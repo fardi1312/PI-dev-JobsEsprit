@@ -1,0 +1,52 @@
+{% block div %}
+    <h3>La liste des candidatures </h3>
+{% endblock %}
+{% block body %}
+{% block first_content %}
+
+    <div align="center" style="margin-top: 20px;">
+        <style>
+            table {
+                border-collapse: collapse;
+                width: 80%;
+            }
+
+            th, td {
+                border: 1px solid #ddd;
+                padding: 8px;
+                text-align: left;
+            }
+        </style>
+        <table align="center">
+            <thead>
+                <tr>
+                    <th>etudiant Nom</th>
+                    <th>Id offre</th>
+                    <th>Cv</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for candidature in candidatures %}
+                    {% if not candidature.isTreated %}
+                        <tr>
+                            <td>{{ candidature.etudiant.username }}</td>
+                            <td>{{ candidature.offre.id }}</td>
+                            <td>{{ candidature.cv }}</td>
+                            <td>
+                                <a href="{{ path('add_interie', { candidature: candidature.id }) }}">Ajouter un interview</a>
+                            </td>
+                        </tr>
+                    {% endif %}
+                {% else %}
+                    <tr>
+                        <td colspan="4">Aucune candidature trouvée.</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+{% endblock %}
+
+{% endblock %}

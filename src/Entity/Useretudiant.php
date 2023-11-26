@@ -42,13 +42,25 @@ class Useretudiant
     #[ORM\Column]
     private ?int $age = null;
 
-    #[ORM\OneToMany(mappedBy: 'etudiant_id', targetEntity: Calendaractivity::class)]
-    private Collection $calendaractivities;
+  
+
+    #[ORM\ManyToMany(targetEntity: Offre::class, mappedBy: 'likes')]
+    private Collection $offres;
+
+    #[ORM\OneToMany(mappedBy: 'etudiant', targetEntity: Candidature::class)]
+    private Collection $candidatures;
 
     public function __construct()
     {
-        $this->calendaractivities = new ArrayCollection();
+        $this->offres = new ArrayCollection();
+        $this->candidatures = new ArrayCollection();
     }
+
+   
+
+
+  
+
 
    
 
@@ -168,35 +180,72 @@ class Useretudiant
         return $this;
     }
 
+   
+
+
+    
+
     /**
-     * @return Collection<int, Calendaractivity>
+     * @return Collection<int, Offre>
      */
-    public function getCalendaractivities(): Collection
+    public function getOffres(): Collection
     {
-        return $this->calendaractivities;
+        return $this->offres;
     }
 
-    public function addCalendaractivity(Calendaractivity $calendaractivity): static
+    public function addOffre(Offre $offre): static
     {
-        if (!$this->calendaractivities->contains($calendaractivity)) {
-            $this->calendaractivities->add($calendaractivity);
-            $calendaractivity->setEtudiantId($this);
+        if (!$this->offres->contains($offre)) {
+            $this->offres->add($offre);
+            $offre->addLike($this);
         }
 
         return $this;
     }
 
-    public function removeCalendaractivity(Calendaractivity $calendaractivity): static
+    public function removeOffre(Offre $offre): static
     {
-        if ($this->calendaractivities->removeElement($calendaractivity)) {
+        if ($this->offres->removeElement($offre)) {
+            $offre->removeLike($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Candidature>
+     */
+    public function getCandidatures(): Collection
+    {
+        return $this->candidatures;
+    }
+
+    public function addCandidature(Candidature $candidature): static
+    {
+        if (!$this->candidatures->contains($candidature)) {
+            $this->candidatures->add($candidature);
+            $candidature->setEtudiant($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCandidature(Candidature $candidature): static
+    {
+        if ($this->candidatures->removeElement($candidature)) {
             // set the owning side to null (unless already changed)
-            if ($calendaractivity->getEtudiantId() === $this) {
-                $calendaractivity->setEtudiantId(null);
+            if ($candidature->getEtudiant() === $this) {
+                $candidature->setEtudiant(null);
             }
         }
 
         return $this;
     }
+
+    
+
+
+   
 
    
 

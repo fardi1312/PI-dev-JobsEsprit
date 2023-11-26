@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\OffreRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -38,6 +40,18 @@ class Offre
 
         #[ORM\Column(length: 255)]
         private ?string $image = null;
+
+        #[ORM\ManyToMany(targetEntity: Useretudiant::class, inversedBy: 'offres')]
+        private Collection $likes;
+
+        #[ORM\OneToMany(mappedBy: 'offre', targetEntity: Candidature::class)]
+        private Collection $candidatures;
+
+        public function __construct()
+        {
+            $this->likes = new ArrayCollection();
+            $this->candidatures = new ArrayCollection();
+        }
 
  
    
@@ -141,6 +155,60 @@ class Offre
     public function setImage(string $image): static
     {
         $this->image = $image;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Useretudiant>
+     */
+    public function getLikes(): Collection
+    {
+        return $this->likes;
+    }
+
+    public function addLike(Useretudiant $like): static
+    {
+        if (!$this->likes->contains($like)) {
+            $this->likes->add($like);
+        }
+
+        return $this;
+    }
+
+    public function removeLike(Useretudiant $like): static
+    {
+        $this->likes->removeElement($like);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Candidature>
+     */
+    public function getCandidatures(): Collection
+    {
+        return $this->candidatures;
+    }
+
+    public function addCandidature(Candidature $candidature): static
+    {
+        if (!$this->candidatures->contains($candidature)) {
+            $this->candidatures->add($candidature);
+            $candidature->setOffre($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCandidature(Candidature $candidature): static
+    {
+        if ($this->candidatures->removeElement($candidature)) {
+            // set the owning side to null (unless already changed)
+            if ($candidature->getOffre() === $this) {
+                $candidature->setOffre(null);
+            }
+        }
 
         return $this;
     }

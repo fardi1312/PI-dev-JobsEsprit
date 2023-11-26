@@ -11,9 +11,9 @@
                 <div class="modal-body">
                         {{ form_start(form) }}
                         <div class="form-group">
-                            {{ form_label(form.etudiant_id, 'Nom du Candidat :') }}
-                            {{ form_widget(form.etudiant_id, {'attr': {'class': 'form-control', 'id': 'eventNom'}}) }}
-                            {{ form_errors(form.etudiant_id) }}
+                            {{ form_label(form.etudiant, 'Nom du Candidat :') }}
+                            {{ form_widget(form.etudiant, {'attr': {'class': 'form-control', 'id': 'eventNom'}}) }}
+                            {{ form_errors(form.etudiant) }}
                         </div>
 
                         <div class="form-group">

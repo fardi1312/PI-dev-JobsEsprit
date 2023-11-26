@@ -22,6 +22,10 @@
                     <tr>
                         <th>Heure</th>
                         <th>Date</th>
+                         <th>etudiant UserName</th>
+
+                                    <th>etudiant Email</th>
+
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -31,6 +35,9 @@
 
                             <td>{{ i.heure }}</td>
                             <td>{{ i.Date ? i.Date|date('Y-m-d') : '' }}</td>
+                             
+                             <td>{{ i.Condidature.etudiant.username}}</td>
+                    <td>{{ i.Condidature.etudiant.email}}</td>
                             <td>
                                 <a href="{{ path('edit_interview', { id: i.id }) }}">Edit</a>
                                 <a href="{{ path('interview_delete', { id: i.id }) }}">Delete</a>

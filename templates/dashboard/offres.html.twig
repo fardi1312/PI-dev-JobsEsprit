@@ -38,11 +38,13 @@
                             <td>
                                 <img src="{{ asset(offre.image) }}" class="custom-block-image img-fluid" alt="">
                             </td>
-                            <td>{{ offre.entrepriseid  }}</td>
+                               <td>{{offre.entrepriseid.nomEntreprise | default('N/A')  }}</td>
+
                             <td>
                                                         <a href="{{ path('admin_deleteoffre', { id: offre.id }) }}">Delete</a>
 
                                 <a href="{{ path('admin_deleteoffre', { id: offre.id }) }}">Show</a>
+
                             </td>
                         </tr>
                     {% else %}
@@ -55,4 +57,41 @@
         </div>
     </div>
 </div>
+
+
+   <h1>Statistics</h1>
+
+    <canvas id="pie-chart" width="560" height="560" style="display: block; box-sizing: border-box; height: 560px; width: 560px;"></canvas>
+
+    <script>
+        // Sample data for the pie chart
+        var data = {
+            labels: [
+                {% for companyName, _ in statisticsData %}'{{ companyName }}',
+                {% endfor %}
+            ],
+            datasets: [{
+                data: [
+                    {% for _, companyData in statisticsData %}
+                        {% for _, count in companyData %}
+                            {{ count }},
+                        {% endfor %}
+                    {% endfor %}
+                ],
+                backgroundColor: [
+                    '#FF6384', '#36A2EB', '#FFCE56', '#33cc33', '#9966ff', '#ffcc00', '#cc66ff', '#00cc99', '#ff6666', '#ffb366'
+                ],
+            }],
+        };
+
+        // Get the canvas element
+        var ctx = document.getElementById('pie-chart').getContext('2d');
+
+        // Create the pie chart
+        var myPieChart = new Chart(ctx, {
+            type: 'pie',
+            data: data,
+        });
+    </script>
 {% endblock %}
+

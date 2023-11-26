@@ -1,0 +1,73 @@
+{% extends 'offre/indexetudiant.html.twig' %}
+{% block div %}
+    <h3>les Offres</h3>
+{% endblock %}
+
+{% block body %}
+    <div class="row">
+        {% for offre in offres %}
+            <div class="col-lg-8 col-12 mt-3 mx-auto">
+                <div class="custom-block custom-block-topics-listing bg-white shadow-lg ">
+                    <div class="d-flex">
+                        <div>
+                            <h5 class="mb-2">{{ offre.titre }}</h5>
+                            <p class="mb-0">{{ offre.descreption }}</p>
+                            <p class="mb-0">{{ offre.entrepriseid.nomEntreprise | default('N/A') }}</p>
+                            <p class="mb-0">{{ offre.typeStage }}</p>
+                            <p class="mb-0">{{ offre.secteurs }}</p>
+                            <p class="mb-0">{{ offre.fonction }}</p>
+                        </div>
+                       
+                       
+                   <span class="badge bg-finance ms-auto">{{ offre.dateInscription ? offre.dateInscription|date('Y-m-d') : '' }}</span>
+                    
+                    </div>
+                    
+                    <img src="{{ asset(offre.image) }}" class="custom-block-image img-fluid" alt="">
+
+                </div>
+                    <a href="{{ path('like', { id: offre.id }) }}" class="btn custom-btn mt-3 mt-lg-4" onclick="toggleLike(this)" data-liked="false">Liker</a>
+                    <a href="{{ path('generate_pdf', { id: offre.id }) }}" class="btn custom-btn mt-3 mt-lg-4">Télécharger PDF</a>
+                
+            </div>
+        {% endfor %}
+    </div>
+
+
+    
+<script>
+function toggleLike(button) {
+  // Get the current like status from the data-liked attribute
+  const liked = button.getAttribute('data-liked') === 'true';
+
+  // Send a request to the server to add or remove the like
+  const offerId = button.getAttribute('data-offer-id');
+  const action = liked ? 'remove' : 'add';
+  const url = `/like/${action}/${offerId}`;
+
+  // Assuming you are using Fetch API for making requests
+  fetch(url, {
+    method: 'POST', // or 'DELETE' for removing the like
+    headers: {
+      'Content-Type': 'application/json',
+      // Add any other headers if needed
+    },
+    // You can send additional data in the request body if necessary
+    body: JSON.stringify({}),
+  })
+  .then(response => response.json())
+  .then(data => {
+    // Update the button text and like status based on the server response
+    if (data.success) {
+      button.setAttribute('data-liked', !liked);
+      button.textContent = liked ? 'Liker' : 'Unlike';
+    } else {
+      console.error('Failed to update like status');
+    }
+  })
+  .catch(error => {
+    console.error('Error:', error);
+  });
+}
+</script>
+{% endblock %}

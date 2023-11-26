@@ -5,15 +5,13 @@
 {% block body %}
 <section class="section-padding section-bg">
     <div class="container">
-        <form method="post" action="{{ path('add_interiew') }}" enctype="multipart/form-data">
-            {{ form_start(form) }}
-            <div class="row">
-                <div class="col-lg-6 col-md-6 col-12 mb-3 form-floating">
-                        {{ form_label(form.etudiant_id, 'Nom du Candidat :') }}
-                      
-                  {{ form_widget(form.etudiant_id, {'attr': {'class': 'form-control', 'id': 'eventNom'}}) }}
-                      {{ form_errors(form.etudiant_id) }}
-                    </div>
+    
+<form method="POST" action="{{ path('add_interie', { 'candidature': candidature.id }) }}" enctype="multipart/form-data">
+
+    {{ form_start(form) }}
+  
+    
+              
               
 
     <div class="col-lg-6 col-md-6 col-12 mb-3 form-floating">

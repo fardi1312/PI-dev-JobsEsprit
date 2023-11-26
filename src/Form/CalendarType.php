@@ -11,6 +11,7 @@ use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
 
@@ -31,7 +32,7 @@ class CalendarType extends AbstractType
         ])
         
        
-        ->add('etudiant', EntityType::class, [
+     /*    ->add('etudiant', EntityType::class, [
             'class' => Useretudiant::class,
             'choice_label' => function (Useretudiant $useretudiant) {
                 // Display both username and email in the dropdown
@@ -39,7 +40,7 @@ class CalendarType extends AbstractType
             },
             'placeholder' => 'Select an Etudiant', // Optional, adds an empty option at the top
             'required' => true, // Set to true if the etudiant selection is mandatory
-        ])
+        ]) */
 
         ->add('date', DateType::class, [
                 'widget' => 'single_text',
@@ -52,7 +53,10 @@ class CalendarType extends AbstractType
                         'message' => 'La date doit être aujourd\'hui ou ultérieure.',
                     ]),
                 ],
+
             ])
+      
+
         ;
     }
 
