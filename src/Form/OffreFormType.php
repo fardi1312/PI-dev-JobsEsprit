@@ -19,7 +19,7 @@ use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use App\EventListener\BadWordsListener;
-
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 class OffreFormType extends AbstractType
 {
@@ -28,27 +28,25 @@ class OffreFormType extends AbstractType
         $builder
         ->add('titre', TextType::class, [
             'constraints' => [
-                new Assert\NotBlank([
-                    'message' => 'Le champ ne doit pas être vide',
-                ]),
+                new NotBlank(['message' => 'This field cannot be empty.']),
+
                 new Assert\Length([
                     'min' => 3,
                     'max' => 20,
-                    'minMessage' => 'Le champ doit contenir au moins {{ limit }} caractères',
-                    'maxMessage' => 'Le champ doit contenir au maximum {{ limit }} caractères',
+                    'minMessage' => 'This value should have at least {{ limit }} characters.',
+                    'maxMessage' => 'This value should have at most {{ limit }} characters.',
                 ]),
             ],
         ])
         ->add('descreption', TextType::class, [
             'constraints' => [
-                new Assert\NotBlank([
-                    'message' => 'Le champ ne doit pas être vide',
-                ]),
+                new NotBlank(['message' => 'This field cannot be empty.']),
+
                 new Assert\Length([
                     'min' => 3,
                     'max' => 20,
-                    'minMessage' => 'Le champ doit contenir au moins {{ limit }} caractères',
-                    'maxMessage' => 'Le champ doit contenir au maximum {{ limit }} caractères',
+                    'minMessage' => 'This value should have at least {{ limit }} characters',
+                    'maxMessage' => 'This value should have at least {{ limit }} characters',
                 ]),
             ],
         ])
@@ -60,11 +58,11 @@ class OffreFormType extends AbstractType
             ],
             'constraints' => [
                 new Assert\NotBlank([
-                    'message' => 'Veuillez choisir un type de stage',
+                    'message' => 'Please choose a stage type.',
                     'groups' => ['Default'],
                 ]),
             ],
-            'placeholder' => 'Choisissez un type de stage', // Optional placeholder text
+            'placeholder' => 'Choose a stage type', // Optional placeholder text
             'attr' => [
                 'class' => 'formbold-form-input',
             ],
@@ -82,7 +80,7 @@ class OffreFormType extends AbstractType
             ],
             'constraints' => [
                 new Assert\NotBlank([
-                    'message' => 'Veuillez choisir un secteur.',
+                    'message' => 'Please choose a sector.',
                     'groups' => ['Default'],
                 ]),
             ],
@@ -95,13 +93,14 @@ class OffreFormType extends AbstractType
         ->add('fonction', TextType::class, [
             'constraints' => [
                 new Assert\NotBlank([
-                    'message' => 'Le champ ne doit pas être vide.',
+                    'message' => 'This value should not be blank',
                 ]),
             ],
             'attr' => [
                 'class' => 'formbold-form-input', // Add any additional classes if needed
             ],
         ])
+        
            
           
             
@@ -109,11 +108,11 @@ class OffreFormType extends AbstractType
                 'widget' => 'single_text',
                 'constraints' => [
                     new Assert\NotBlank([
-                        'message' => 'Le champ ne doit pas être vide',
+                        'message' => 'This value should not be blank',
                     ]),
                     new Assert\GreaterThanOrEqual([
                         'value' => 'today', // La date d'aujourd'hui
-                        'message' => 'La date doit être aujourd\'hui ou ultérieure.',
+                        'message' => 'The date must be today or later',
                     ]),
                 ],
             ])

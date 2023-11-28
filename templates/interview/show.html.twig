@@ -35,9 +35,9 @@
 
                             <td>{{ i.heure }}</td>
                             <td>{{ i.Date ? i.Date|date('Y-m-d') : '' }}</td>
-                             
-                             <td>{{ i.Condidature.etudiant.username}}</td>
-                    <td>{{ i.Condidature.etudiant.email}}</td>
+
+                        <td>{{ i.Condidature.etudiant.username }}</td>
+                          <td>{{ i.Condidature.etudiant.email}}</td>
                             <td>
                                 <a href="{{ path('edit_interview', { id: i.id }) }}">Edit</a>
                                 <a href="{{ path('interview_delete', { id: i.id }) }}">Delete</a>
@@ -52,4 +52,35 @@
             </table>
         </div>
     {% endblock %}
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        if (!('Notification' in window)) {
+            console.log('This browser does not support desktop notifications.');
+            return;
+        }
+
+        if (Notification.permission === 'granted') {
+            showNotification();
+        } else if (Notification.permission !== 'denied') {
+            Notification.requestPermission().then(function(permission) {
+                if (permission === 'granted') {
+                    showNotification();
+                }
+            });
+        }
+    });
+
+    function showNotification() {
+        var urlParams = new URLSearchParams(window.location.search);
+        var message = urlParams.get('message');
+
+        if (message) {
+            var notification = new Notification(message);
+
+            notification.addEventListener('click', function() {
+                window.location.href = '{{ path("list_interview") }}';
+            });
+        }
+    }
+</script>
 {% endblock %}

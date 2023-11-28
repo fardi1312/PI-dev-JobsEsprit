@@ -37,7 +37,7 @@ class BadWordsListener implements EventSubscriberInterface
 
     private function replaceBadWords($text)
     {
-        $badWords = ['fuck', 'sex', 'he'];
+        $badWords = ['fuck', 'sex', 'cook','ass-pirate','assbag','assbandit','assbanger','assbite','assclown','asscock','asscracker','asses','assface','assfuck','assfucker','assfukka','assgoblin','asshat','asshead','asshole','assholes','asshopper','assjacker','asslick','asslicker','assmonkey','assmunch','assmuncher','assnigger','asspirate','assshit','assshole','asssucker','asswad','asswhole','asswipe','auto erotic','autoerotic','axwound','b!tch','b00bs','b17ch','b1tch','ball gravy','ball kicking','ball licking','ball sack','ball sucking','ballbag','bitches','bitchin'];
         $text = str_ireplace($badWords, '****', $text);
 
         return $text;

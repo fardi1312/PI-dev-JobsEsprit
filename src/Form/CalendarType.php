@@ -67,4 +67,3 @@ class CalendarType extends AbstractType
         ]);
     }
 }
-

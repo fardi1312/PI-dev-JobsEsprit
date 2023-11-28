@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Controller;
+
+use App\Entity\Calendar;
 use App\Entity\Offre;
 use App\Entity\Userentreprise;
 use App\Entity\Useretudiant;
@@ -14,14 +16,16 @@ use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-
+use Knp\Component\Pager\Pagination\PaginationInterface;
+use Knp\Component\Pager\PaginatorInterface;
+use Pagerfanta\Pagerfanta;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Dompdf\Dompdf;
 use Dompdf\Options;
 
-
 class OffreController extends AbstractController
 {
+  
    
    
 
@@ -81,8 +85,8 @@ public function showForm(Request $request, EntityManagerInterface $entityManager
 
         $entityManager->persist($offre);
         $entityManager->flush();
+        return $this->redirectToRoute('list_offre', ['message' => 'Offer Added successfully'], Response::HTTP_SEE_OTHER);
 
-        return $this->redirectToRoute('list_offre');
     }
 
     return $this->render('offre/form.html.twig', [
@@ -132,15 +136,18 @@ public function show(OffreRepository $offreRepository, $id): Response
 }
 
 #[Route('/offres', name: 'offres')]
-public function showoffres(OffreRepository $offreRepository,): Response
+public function showOffres(OffreRepository $offreRepository, PaginatorInterface $pagination, Request $request): Response
 {
     // Utilize the repository method to retrieve all offers
     $offres = $offreRepository->findAll();
+    $offres = $pagination->paginate($offres, $request->query->getInt('page', 1), 3);
 
     return $this->render('offre/offre.html.twig', [
-        'offres' => $offres,
+        'offres' => $offres, 
     ]);
 }
+
+
 
 
 #[Route('/offre/like/{id}', name: 'like', methods: [ 'POST','GET'])]
@@ -213,8 +220,6 @@ public function generatePdf($id, OffreRepository $offreRepository, QrcodeService
 
     return $response;
 }
-
-
 
 
 

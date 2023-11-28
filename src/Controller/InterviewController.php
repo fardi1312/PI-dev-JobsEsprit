@@ -18,13 +18,23 @@ use App\Form\CalendarType;
 use Psr\Log\LoggerInterface;
 
 use App\Repository\CandidatureRepository;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Email;
 use Symfony\Component\Notifier\Event\NotificationEvents;
 use Symfony\Component\Notifier\Notification\PushNotificationInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 class InterviewController extends AbstractController
 {
-   
+    private $mailer;
+    
+    
+
+    public function __construct(MailerInterface $mailer)
+    {
+        $this->mailer = $mailer;
+       
+    }
 #[Route('/showcalender', name: 'show_interiew')]
     public function index(CalendarRepository $calendarRepository): Response
     {
@@ -71,8 +81,9 @@ class InterviewController extends AbstractController
     if ($form->isSubmitted() && $form->isValid()) {
         $em->persist($calendar);
         $em->flush();
+        $this->sendEmail($calendar);
 
-        return $this->redirectToRoute('list_interview');
+        return $this->redirectToRoute('list_interview', ['message' => 'Interview updated successfully'], Response::HTTP_SEE_OTHER);
     }
 
     return $this->render('interview/edit.html.twig', [
@@ -120,7 +131,7 @@ class InterviewController extends AbstractController
             $entityManager->persist($calendar);
             $entityManager->flush();
     
-            return $this->redirectToRoute('list_interview'); // Replace with the actual route name
+            return $this->redirectToRoute('list_interview', ['message' => 'Interview Added successfully'], Response::HTTP_SEE_OTHER);
         }
     
         return $this->render('interview/addinterview.html.twig', [
@@ -143,6 +154,7 @@ public function new1(Request $request, EntityManagerInterface $entityManager, Ca
         // Handle form submission
         $entityManager->persist($calendar);
         $entityManager->flush();
+        $this->sendEmail($calendar);
 
         // Mark the candidature as treated
         $candidature->setIsTreated(true);
@@ -151,7 +163,7 @@ public function new1(Request $request, EntityManagerInterface $entityManager, Ca
         $entityManager->persist($candidature);
         $entityManager->flush();
 
-        return $this->redirectToRoute('list_interview'); // Replace with the actual route name
+        return $this->redirectToRoute('list_interview', ['message' => 'Interview Added successfully'], Response::HTTP_SEE_OTHER);
     }
 
     return $this->render('interview/addinterview.html.twig', [
@@ -177,21 +189,39 @@ public function deleteBook(Request $request, $id, ManagerRegistry $manager, Cale
     $em->remove($book);
     $em->flush();
 
-    return $this->redirectToRoute('list_interview');
+    return $this->redirectToRoute('list_interview', ['message' => 'Interview Deleted successfully'], Response::HTTP_SEE_OTHER);
+}
+
+
+private function sendEmail(Calendar $calendar): void
+{
+    // Accédez aux entités liées pour obtenir l'adresse e-mail
+    $etudiantEmail = $calendar->getCondidature()->getEtudiant()->getEmail();
+
+    // Vérifiez si l'adresse e-mail est définie
+    if ($etudiantEmail) {
+        // Créez les données à passer au template Twig
+        $emailData = [
+            'calendar' => $calendar,
+            // Ajoutez d'autres données que vous souhaitez passer au modèle ici
+        ];
+
+        // Créez le corps HTML de l'e-mail
+        $emailBody = $this->renderView('interview/mail.html.twig', $emailData);
+
+        // Créez l'e-mail avec le corps HTML
+        $email = (new Email())
+            ->from('test.pidev123@gmail.com')
+            ->to($etudiantEmail)
+            ->subject('Confirmation d\'entretien')
+            ->html($emailBody);
+
+        $this->mailer->send($email);
+    }
 }
 
 
 
 
 
-
 }
-
-
-
-
-
-
-
-
-

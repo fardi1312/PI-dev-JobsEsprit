@@ -1,0 +1,32 @@
+{# interview/mail.html.twig #}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Interview Confirmation</title>
+</head>
+<body>
+    <h1>Interview Confirmation</h1>
+
+    {# Accessing properties of the Calendar object passed to the template #}
+    <p>
+        Dear {{ calendar.condidature.etudiant.firstName }} {{ calendar.condidature.etudiant.lastName }},
+    </p>
+
+    <p>You are invited for an interview at our company. Here are the details of the interview:</p>
+
+    <dl>
+        <dt>Interview date:</dt>
+        <dd>{{ calendar.date|date('Y-m-d') }}</dd>
+
+        <dt>Interview heure:</dt>
+        <dd>{{ calendar.heure }}</dd>
+    </dl>
+
+    <p>         
+
+        We are waiting for you!
+    </p>
+</body>
+</html>
+

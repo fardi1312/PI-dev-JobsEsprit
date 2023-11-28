@@ -13,14 +13,14 @@
                     <tr class="text-dark">
                         <th scope="col"><input class="form-check-input" type="checkbox"></th>
                         <th scope="col">ID</th>
-                        <th scope="col">Titre</th>
-                        <th scope="col">Descreption</th>
-                        <th scope="col">Type Stage</th>
-                        <th scope="col">Secteurs</th>
-                        <th scope="col">Fonction</th>
-                        <th scope="col">Date Inscription</th>
+                        <th scope="col">Title</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">Internship Type</th>
+                        <th scope="col">Sectors</th>
+                        <th scope="col">Function</th>
+                        <th scope="col">Registration Date</th>
                         <th scope="col">Image</th>
-                        <th scope="col">Entreprise</th>
+                        <th scope="col">Company</th>
                         <th scope="col">Action</th>
                     </tr>
                 </thead>
@@ -49,7 +49,7 @@
                         </tr>
                     {% else %}
                         <tr>
-                            <td colspan="11">Aucune offre trouvée.</td>
+                            <td colspan="11">No offers found.</td>
                         </tr>
                     {% endfor %}
                 </tbody>
@@ -59,39 +59,5 @@
 </div>
 
 
-   <h1>Statistics</h1>
-
-    <canvas id="pie-chart" width="560" height="560" style="display: block; box-sizing: border-box; height: 560px; width: 560px;"></canvas>
-
-    <script>
-        // Sample data for the pie chart
-        var data = {
-            labels: [
-                {% for companyName, _ in statisticsData %}'{{ companyName }}',
-                {% endfor %}
-            ],
-            datasets: [{
-                data: [
-                    {% for _, companyData in statisticsData %}
-                        {% for _, count in companyData %}
-                            {{ count }},
-                        {% endfor %}
-                    {% endfor %}
-                ],
-                backgroundColor: [
-                    '#FF6384', '#36A2EB', '#FFCE56', '#33cc33', '#9966ff', '#ffcc00', '#cc66ff', '#00cc99', '#ff6666', '#ffb366'
-                ],
-            }],
-        };
-
-        // Get the canvas element
-        var ctx = document.getElementById('pie-chart').getContext('2d');
-
-        // Create the pie chart
-        var myPieChart = new Chart(ctx, {
-            type: 'pie',
-            data: data,
-        });
-    </script>
 {% endblock %}
 
