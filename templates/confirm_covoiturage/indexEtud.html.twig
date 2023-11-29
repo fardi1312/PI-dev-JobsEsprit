@@ -1,11 +1,31 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Carpool Confirmation index{% endblock %}
-
+{% block div %}
+<h3>
+Carpool Confirmation Student
+</h3>
+{% endblock %}
 {% block body %}
-    <h1>Carpool Confirmation Student </h1>
+{% block first_content %}
 
-    <table class="table">
+    <div align="center" style="margin-top: 20px;">
+        <style>
+            table {
+                border-collapse: collapse;
+                width: 80%;
+            }
+
+            th, td {
+                border: 1px solid #ddd;
+                padding: 8px;
+                text-align: left;
+            }
+        </style>
+            {% if confirm_covoiturages is not empty %}
+
+        <table align="center">
+
+
         <thead>
             <tr>
                 <th>Student First Name</th>
@@ -35,14 +55,18 @@
                 <td>
                     <a href="{{ path('app_confirm_covoiturage_edit', {'id': confirm_covoiturage.id}) }}">edit</a>
                     <a href="{{ path('app_confirm_covoiturage_show1', {'id': confirm_covoiturage.id}) }}">Show</a>
+                     {{ include('confirm_covoiturage/_delete_form.html.twig', {'id': confirm_covoiturage.id}) }}
 
                 </td>
             </tr>
-        {% else %}
-            <tr>
-                <td colspan="17">no records found</td>
-            </tr>
+
         {% endfor %}
         </tbody>
     </table>
+    {% else %}
+        <p>No carpools found.</p>
+    {% endif %}
+
 {% endblock %}
+{% endblock %}
+

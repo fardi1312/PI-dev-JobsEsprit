@@ -75,4 +75,17 @@ class CovoiturageRepository extends ServiceEntityRepository
 //    }
 
 
+
+public function findNewestThree(): array
+{
+    return $this->createQueryBuilder('o')
+        ->where('o.heuredepart >= :currentDate')
+        ->setParameter('currentDate', new \DateTime())
+        ->orderBy('o.heuredepart', 'ASC') // Ordre ascendant pour obtenir les plus proches en premier
+        ->setMaxResults(3)
+        ->getQuery()
+        ->getResult();
+}
+
+
 }

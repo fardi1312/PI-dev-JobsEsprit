@@ -21,6 +21,41 @@ class ConfirmCovoiturageRepository extends ServiceEntityRepository
         parent::__construct($registry, ConfirmCovoiturage::class);
     }
 
+
+
+    public function findCitySuggestionsArrivalCount()
+    {
+        $qb = $this->createQueryBuilder('c')
+            ->select('c.lieuArrivee, COUNT(c.id) as suggestionCount')
+            ->groupBy('c.lieuArrivee');
+
+        $results = $qb->getQuery()->getResult();
+
+        $citySuggestions = [];
+        foreach ($results as $result) {
+            $citySuggestions[$result['lieuArrivee']] = $result['suggestionCount'];
+        }
+
+        return $citySuggestions;
+    }
+
+    public function findCitySuggestionsDepartureCount()
+    {
+        $qb = $this->createQueryBuilder('c')
+            ->select('c.lieuDepart, COUNT(c.id) as suggestionCount')
+            ->groupBy('c.lieuDepart');
+
+        $results = $qb->getQuery()->getResult();
+
+        $citySuggestions = [];
+        foreach ($results as $result) {
+            $citySuggestions[$result['lieuDepart']] = $result['suggestionCount'];
+        }
+
+        return $citySuggestions;
+    }
+
+
 //    /**
 //     * @return ConfirmCovoiturage[] Returns an array of ConfirmCovoiturage objects
 //     */

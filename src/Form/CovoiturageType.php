@@ -74,11 +74,12 @@ class CovoiturageType extends AbstractType
             ])
 
             ->add('username', TextType::class, [
-                'label' => 'Username',
+                'label' => '   ',
                 'mapped' => false,
                 'data' => $options['username'] ?? null,
                 'attr' => [
                     'readonly' => true,
+                    'style' => 'display:none;',
                 ],
                 'empty_data' => '',
             ])

@@ -1,12 +1,30 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Carpooling{% endblock %}
+{% block div %}
+<h3>Carpooling</h3>
+{% endblock %}
 
 {% block body %}
-    <h1>Carpooling</h1>
+{% block first_content %}
 
-    {% if covoiturage is not empty %}
-        <table class="table">
+    <div align="center" style="margin-top: 20px;">
+        <style>
+            table {
+                border-collapse: collapse;
+                width: 80%;
+            }
+
+            th, td {
+                border: 1px solid #ddd;
+                padding: 8px;
+                text-align: left;
+            }
+        </style>
+            {% if covoiturage is not empty %}
+
+        <table align="center">
+
+        
             <thead>
                 <tr>
                     <th>Username</th>
@@ -48,5 +66,5 @@
         <p>No carpools found.</p>
     {% endif %}
 
-    <a href="{{ path('app_covoiturage_new') }}">Create new carpool</a>
+{% endblock %}
 {% endblock %}

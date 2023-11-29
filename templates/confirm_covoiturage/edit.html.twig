@@ -1,13 +1,12 @@
 {% extends 'base.html.twig' %}
-
-{% block title %}Edit ConfirmCovoiturage{% endblock %}
-
-{% block body %}
-    <h1>Edit ConfirmCovoiturage</h1>
-
-    {{ include('confirm_covoiturage/_form.html.twig', {'button_label': 'Update'}) }}
-
-    <a href="{{ path('app_confirm_covoiturage_index') }}">back to list</a>
-
-    {{ include('confirm_covoiturage/_delete_form.html.twig') }}
+{% block div %}
+<h3>
+Edit ConfirmCovoiturage
+</h3>
 {% endblock %}
+{% block body %}
+    {{ include('confirm_covoiturage/_form.html.twig') }}
+
+
+{% endblock %}
+

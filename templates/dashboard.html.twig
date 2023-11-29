@@ -1,3 +1,5 @@
+<!-- dashboard.html.twig-->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,6 +8,44 @@
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="" name="keywords">
     <meta content="" name="description">
+
+
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+
+
+ 
+    <script>
+        // Actualise le nombre de notifications toutes les 5 secondes
+        function updateNotificationCount() {
+            console.log('Updating notification count...');
+            $.ajax({
+                url: '/dashbord/notification',
+                method: 'GET',
+                success: function (data) {
+                    console.log('Success! New count:', data.count);
+                    $('.notification-count').text(data.count);
+                },
+                error: function (error) {
+                    console.error('Error updating notification count:', error);
+                }
+            });
+        }
+
+        // Met à jour le nombre de notifications toutes les 5 secondes
+        setInterval(updateNotificationCount, 5000);
+
+
+    setInterval(function () {
+        console.log('Refreshing page...');
+        location.reload();
+    }, 60000);
+
+    </script>
+
+
+
+
+
 
     <!-- Favicon -->
     <link href="{{ asset('back/img/favicon.ico') }}" rel="icon">
@@ -49,14 +89,14 @@
             </div>
         </div>
         <div class="navbar-nav w-100">
-            <a href="{{ path('app_home_entreprise') }}" class="nav-item nav-link"><i class="fa fa-chart-bar me-2"></i>Dashboard</a>
-                 <a href="{{ path('list_offreadmin') }}" class="nav-item nav-link"><i class="fa fa-laptop me-2"></i>Offers</a>
+            <a href="{{ path('app_covoiturage_post') }}" class="nav-item nav-link"><i class="fa fa-chart-bar me-2"></i>Dashboard</a>
+                 <a href="{{ path('app_covoiturage_post') }}" class="nav-item nav-link"><i class="fa fa-laptop me-2"></i>Offers</a>
 
-            <a href="{{ path('app_home_entreprise') }}" class="nav-item nav-link"><i class="fa fa-th me-2"></i>Portfolio</a>
-            <a href="{{ path('app_home_entreprise') }}" class="nav-item nav-link"><i class="fa fa-keyboard me-2"></i>Candidacy</a>
-            <a href="{{ path('app_home_entreprise') }}" class="nav-item nav-link "><i class="fa fa-table me-2"></i>Events</a>
-            <a href="{{ path('app_home_entreprise') }}" class="nav-item nav-link"><i class="fa fa-tachometer-alt me-2"></i>Carpooling</a>
-            <a href="{{ path('app_home_entreprise') }}" class="nav-item nav-link"><i class="fa fa-th me-2"></i>Reservations</a>
+            <a href="{{ path('app_covoiturage_post') }}" class="nav-item nav-link"><i class="fa fa-th me-2"></i>Portfolio</a>
+            <a href="{{ path('app_covoiturage_post') }}" class="nav-item nav-link"><i class="fa fa-keyboard me-2"></i>Candidacy</a>
+            <a href="{{ path('app_covoiturage_post') }}" class="nav-item nav-link "><i class="fa fa-table me-2"></i>Events</a>
+            <a href="{{ path('app_confirm_covoiturage_indexAdmin') }}" class="nav-item nav-link"><i class="fa fa-tachometer-alt me-2"></i>Carpooling</a>
+            <a href="{{ path('app_covoiturage_post') }}" class="nav-item nav-link"><i class="fa fa-th me-2"></i>Reservations</a>
 
         </div>
     </nav>
@@ -81,13 +121,27 @@
                 </a>
                 <!-- The rest of your dropdown menu... -->
             </div>
-            <div class="nav-item dropdown">
-                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                    <i class="fa fa-bell me-lg-2"></i>
-                    <span class="d-none d-lg-inline-flex">Notification</span>
-                </a>
-                <!-- The rest of your dropdown menu... -->
-            </div>
+
+
+
+
+
+     <div class="nav-item dropdown">
+        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="modal" data-bs-target="#notificationsModal">
+            <i class="fa fa-bell me-lg-2"></i>
+            <span class="d-none d-lg-inline-flex">Notification</span>
+            <span class="badge bg-danger notification-count">0</span>
+        </a>
+        <!-- Le reste de votre menu déroulant... -->
+    </div>
+
+
+
+
+
+
+
+
             <div class="nav-item dropdown">
                 <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
                     <img class="rounded-circle me-lg-2" src="{{ asset('back/img/user.jpg') }}" alt="" style="width: 40px; height: 40px;">
@@ -104,6 +158,8 @@
 
 
           {% block div %}
+
+
 {% endblock %}
 
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
@@ -118,6 +174,31 @@
 
     <!-- Template Javascript -->
     <script src="back/js/main.js"></script>
+<!-- Your existing HTML and JavaScript code... -->
+
+<!-- Modal -->
+<div class="modal fade" id="notificationsModal" tabindex="-1" aria-labelledby="notificationsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="notificationsModalLabel">Notifications</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+                <div class="modal-body" id="notificationsContent">
+                    <!-- Rendered notifications content from the server -->
+                    {% include 'dashbord/index.html.twig' with {'notifications': notifications} %}
+                </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Your remaining HTML and JavaScript code... -->
+
+
+
+
+
 
 </body>
 </html>

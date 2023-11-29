@@ -43,12 +43,15 @@ https://templatemo.com/tm-590-topic-listing
                 <li class="nav-item">
                     <a class="nav-link click-scroll" href="#section_1">Home</a>
                 </li>
+
+                
              <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarLightDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">Offre de Stage</a>
 </a>
+
     <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="navbarLightDropdownMenuLink">
-        <li><a class="dropdown-item" href="{{ path('app_covoiturage_new') }}">Ajouter Offre de Stage</a></li>
-       <li><a class="dropdown-item"href="{{ path('app_covoiturage_new') }}">Voir mon Offre de Stage</a></li>
+         <li><a class="dropdown-item" href="{{ path('app_covoiturage_post') }}">Ajouter Offre de Stage</a></li>
+        <li><a class="dropdown-item"href="{{ path('app_covoiturage_post') }}">Voir mon Offre de Stage</a></li>
     </ul>
 </li>
       <li class="nav-item dropdown">
@@ -62,25 +65,41 @@ https://templatemo.com/tm-590-topic-listing
 </li>
 
               
-<li class="nav-item">
-                    <a class="nav-link click-scroll" href="#section_4">Entretien</a>
-                </li>
+                   <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarLightDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">Entretien</a>
+</a>
+
+    <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="navbarLightDropdownMenuLink">
+        <li><a class="dropdown-item"  href="{{ path('app_covoiturage_post') }}">Ajouter Un Entretien</a></li>
+      
+      <li><a class="dropdown-item" href="{{ path('app_covoiturage_post') }}">Voir mes Entretiens</a></li>
+          <li><a class="dropdown-item" href="{{ path('app_covoiturage_post') }}">Voir Calendrier</a></li>
+
+    </ul>
+</li>
 
                 <li class="nav-item">
                     <a class="nav-link click-scroll" href="#section_5">Candidature</a>
                 </li>
 
-</li>
-                <li class="nav-item dropdown">
-<a class="nav-link dropdown-toggle" href="#" id="navbarLightDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">Carpooling</a>
+               
 
-<ul class="dropdown-menu dropdown-menu-light" aria-labelledby="navbarLightDropdownMenuLink">
-    <li><a class="dropdown-item" href="{{ path('app_covoiturage_post') }}">Carpooling List</a></li>
-    <li><a class="dropdown-item" href="{{ path('app_covoiturage_index') }}">My Carpools</a></li>
-    <li><a class="dropdown-item" href="{{ path('app_covoiturage_new') }}">Add Carpooling</a></li>
-    <li><a class="dropdown-item" href="{{ path('app_confirm_covoiturage_indexCond') }}">Reservations</a></li>
-</ul>
-</li>
+
+
+
+                        <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarLightDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">Carpooling</a>
+
+        <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="navbarLightDropdownMenuLink">
+            <li><a class="dropdown-item" href="{{ path('app_covoiturage_post') }}">Carpooling List</a></li>
+            <li><a class="dropdown-item" href="{{ path('app_covoiturage_index') }}">My Carpools</a></li>
+            <li><a class="dropdown-item" href="{{ path('app_covoiturage_new') }}">Add Carpooling</a></li>
+            <li><a class="dropdown-item" href="{{ path('app_confirm_covoiturage_indexCond') }}">Reservations</a></li>
+        </ul>
+        </li>
+
+
+
             </ul>
 
             <div class="d-none d-lg-block">
@@ -90,24 +109,30 @@ https://templatemo.com/tm-590-topic-listing
     </div>
 </nav>
 <header class="site-header d-flex flex-column justify-content-center align-items-center">
+    <div class="container">
+        <div class="row align-items-center">
 
+            <div class="col-lg-5 col-12">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+<li class="breadcrumb-item"><a href="{{ path('app_covoiturage_post') }}">Homepage</a></li>
+                        <li class="breadcrumb-item active" aria-current="page"></li>
+                    </ol>
+                </nav>
+
+                <h2 class="text-white"></h2>
+            </div>
+{% block div %}
+    {% endblock %}
+    
+        </div>
+    </div>
 </header>
+ {% block body %}
+
+
+{% endblock %}      
   
-
- {% block body %}{% endblock %}      
-
-
-
-
-
-
-
-
-
-
-
-
-
     
 </main>
 <footer class="site-footer section-padding">
@@ -189,6 +214,8 @@ https://templatemo.com/tm-590-topic-listing
 
 
 
+
+
 <script src="{{ asset('https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js') }}"></script>
 <script src="{{ asset('https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js') }}"></script>
 <link rel="stylesheet" type="text/css" href="{{ asset('https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css') }}" />
@@ -207,10 +234,9 @@ https://templatemo.com/tm-590-topic-listing
 
 
 
+
+
+
+
 </body>
 </html>
-
-
-
-
-

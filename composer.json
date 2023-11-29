@@ -7,6 +7,7 @@
         "php": ">=8.1",
         "ext-ctype": "*",
         "ext-iconv": "*",
+        "api-platform/core": "^3.2",
         "doctrine/annotations": "^2.0",
         "doctrine/doctrine-bundle": "^2.10",
         "doctrine/doctrine-migrations-bundle": "^3.2",
@@ -14,7 +15,9 @@
         "dompdf/dompdf": "^2.0",
         "endroid/qr-code": "^5.0",
         "endroid/qr-code-bundle": "^5.0",
+        "knplabs/knp-paginator-bundle": "*",
         "knplabs/knp-snappy-bundle": "^1.9",
+        "nelmio/cors-bundle": "^2.3",
         "phpdocumentor/reflection-docblock": "^5.3",
         "phpstan/phpdoc-parser": "^1.24",
         "symfony/asset": "6.3.*",
@@ -60,7 +63,8 @@
     },
     "autoload": {
         "psr-4": {
-            "App\\": "src/"
+            "App\\": "src/",
+            "Knp\\Component\\": "vendor/knplabs/knp-paginator-bundle/src/"
         }
     },
     "autoload-dev": {
@@ -96,6 +100,7 @@
         "symfony": {
             "allow-contrib": false,
             "require": "6.3.*"
+            
         }
     },
     "require-dev": {
