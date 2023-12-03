@@ -1,0 +1,119 @@
+{% extends 'offre/indexetudiant.html.twig' %}
+{% block div %}
+<h3>The Offer</h3>
+
+
+<style>
+    .pagination {
+        font-size: 18px; /* Adjust the font size as needed */
+    }
+
+    .pagination a {
+        padding: 10px; /* Adjust the padding as needed */
+        border: 1px solid #ccc; /* Add a border to create a square */
+        margin: 0 5px; /* Add some spacing between the page numbers */
+        text-align: center; /* Center the text inside the square */
+        display: inline-block; /* Make sure the squares are displayed in a line */
+        text-decoration: none; /* Remove the default underline */
+        background-color: #fff; /* Set background color to white */
+    }
+
+    .pagination .current {
+        background-color: #007bff; /* Set background color for the active page */
+        color: #fff; /* Set text color for the active page */
+        border: 1px solid #007bff; /* Set border color for the active page */
+    }
+</style>
+
+
+
+
+{% endblock %}
+
+{% block body %}
+    <div class="row">
+        {% for offre in offres %}
+            <div class="col-lg-8 col-12 mt-3 mx-auto">
+                <div class="custom-block custom-block-topics-listing bg-white shadow-lg p-3">
+                    <div class="d-flex">
+                        <div>
+                            <h5 class="mb-2">{{ offre.titre }}</h5>
+                            <p class="mb-0">{{ offre.descreption }}</p>
+                            {% if offre.entrepriseid %}
+                                <p class="mb-0">{{ offre.entrepriseid.nomEntreprise }}</p>
+                            {% endif %}
+                            <p class="mb-0">{{ offre.typeStage }}</p>
+                            <p class="mb-0">{{ offre.secteurs }}</p>
+                            <p class="mb-0">{{ offre.fonction }}</p>
+                        </div>
+                       
+                       <span class="badge bg-finance ms-auto">
+                           {% if offre.dateInscription %}
+                               {{ offre.dateInscription|date('Y-m-d') }}
+                           {% else %}
+                               N/A
+                           {% endif %}
+                       </span>
+                    </div>
+                    
+                    <img src="{{ asset(offre.image) }}" class="custom-block-image img-fluid" alt="">
+
+                </div>
+                <div class="mt-3">
+                    <a href="{{ path('like', { id: offre.id }) }}" class="btn custom-btn" onclick="toggleLike(this)" data-liked="false">Like</a>
+                    <a href="{{ path('generate_pdf', { id: offre.id }) }}" class="btn custom-btn ml-2">Download PDF</a>
+                    <p class="mt-2">{{ offre.getLikeCount() }} likes</p>
+                </div>
+
+            </div>
+        {% endfor %}
+<div class="pagination justify-content-center mb-0">
+    {{ knp_pagination_render(offres) }}
+</div>
+
+
+
+    
+<script>
+function toggleLike(button) {
+  // Get the current like status from the data-liked attribute
+  const liked = button.getAttribute('data-liked') === 'true';
+
+  // Send a request to the server to add or remove the like
+  const offerId = button.getAttribute('data-offer-id');
+  const action = liked ? 'remove' : 'add';
+  const url = `/like/${action}/${offerId}`;
+
+  // Assuming you are using Fetch API for making requests
+  fetch(url, {
+    method: 'POST', // or 'DELETE' for removing the like
+    headers: {
+      'Content-Type': 'application/json',
+      // Add any other headers if needed
+    },
+    // You can send additional data in the request body if necessary
+    body: JSON.stringify({}),
+  })
+  .then(response => response.json())
+  .then(data => {
+    // Update the button text and like status based on the server response
+    if (data.success) {
+      const newLiked = !liked;
+      button.setAttribute('data-liked', newLiked);
+      button.textContent = newLiked ? 'Unlike' : 'Liker';
+
+      // Update the button color based on the like status
+      button.style.backgroundColor = newLiked ? 'red' : ''; // Set your desired color
+    } else {
+      console.error('Failed to update like status');
+    }
+  })
+  .catch(error => {
+    console.error('Error:', error);
+  });
+}
+
+</script>
+
+
+{% endblock %}

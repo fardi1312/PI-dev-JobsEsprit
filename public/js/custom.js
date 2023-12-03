@@ -26,6 +26,10 @@
         scrollTop: totalScroll
         }, 300);
       }
+
+  
+
+
     });
 
     $(window).on('scroll', function(){

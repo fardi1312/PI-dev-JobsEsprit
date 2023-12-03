@@ -1,0 +1,54 @@
+
+{% block stylesheets %}
+  <style>
+    /* Add your own styling based on your design */
+    .notification {
+      border: 1px solid #ccc;
+      padding: 10px;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+    }
+
+    .notification img {
+      width: 20px; /* Adjust the width as needed */
+      height: 20px; /* Adjust the height as needed */
+      margin-right: 10px;
+    }
+
+    .timestamp {
+      margin-left: auto; /* Push the timestamp to the right */
+      color: #888;
+      font-size: 12px;
+    }
+
+.numbered-icon {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    background-color: #007bff; 
+    color: #fff;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 20px;
+    margin-right: 10px; 
+}
+  </style>
+{% endblock %}
+
+    <div class="container">
+
+        {% if notifications is empty %}
+            <p>No notifications available.</p>
+        {% else %}
+            <div class="notifications">
+                {% for key, notification in notifications %}
+                    <div class="notification">
+                        <div class="numbered-icon">{{ key + 1 }}</div>
+                        {{ notification.text }}
+                        <span class="timestamp">{{ notification.createdAt|date('F j, Y h:i A') }}</span>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
