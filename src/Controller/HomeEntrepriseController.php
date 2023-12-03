@@ -8,11 +8,15 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class HomeEntrepriseController extends AbstractController
 {
-    #[Route('/test', name: 'app_home_entreprise')]
+ 
+
+    #[Route('/home/entreprise', name: 'app_home_entreprise')]
     public function index(): Response
     {
-        return $this->render('dashboard.html.twig', [
-            'controller_name' => 'HomeEntrepriseController',
+        return $this->render('baseEntreprise.html.twig', [
+            'controller_name' => 'HomeEtudiantController',
         ]);
     }
+
+
 }

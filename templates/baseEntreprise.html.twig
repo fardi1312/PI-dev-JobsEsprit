@@ -7,7 +7,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Topic Listing Bootstrap 5 Template</title>
+    <title>JobsEsprit</title>
 
     <!-- CSS FILES -->
 
@@ -43,33 +43,38 @@
                     <a class="nav-link click-scroll" href="#section_1">Home</a>
                 </li>
 
-             
-                           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarLightDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">Offre de Stage</a>
-</a>
-
+ <li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle" href="#" id="navbarLightDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">Internship Offers</a>
     <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="navbarLightDropdownMenuLink">
-        <li><a class="dropdown-item">Ajouter Offre de Stage</a></li>
-        <li><a class="dropdown-item">Voir mes Offre de Stage</a></li>
+        <li><a class="dropdown-item" href="{{ path('app_form') }}">Add Internship Offer</a></li>
+        <li><a class="dropdown-item" href="{{ path('list_offre') }}">See my Internship Offers</a></li>
     </ul>
 </li>
 
-                                         <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarLightDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">Evenement</a>
+<li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle" href="#" id="navbarLightDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">Event</a>
+    <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="navbarLightDropdownMenuLink">
+        <li><a class="dropdown-item">Add Event</a></li>
+        <li><a class="dropdown-item">See my Events</a></li>
+    </ul>
+</li>
+                     <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarLightDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">Entretien</a>
 </a>
 
     <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="navbarLightDropdownMenuLink">
-        <li><a class="dropdown-item">Ajouter Evenement</a></li>
-        <li><a class="dropdown-item">Voir mes Evenements</a></li>
+      
+   <li><a class="dropdown-item" href="{{ path('list_interview') }}">View My Interviews</a></li>
+<li><a class="dropdown-item" href="{{ path('show_interiew') }}">View Calendar</a></li>
+
+
     </ul>
 </li>
 
-                <li class="nav-item">
-                    <a class="nav-link click-scroll" href="#section_4">Entretien</a>
-                </li>
+               
 
                 <li class="nav-item">
-                    <a class="nav-link click-scroll" href="#section_5">Candidature </a>
+                    <a class="nav-link " href="{{ path('list_candid') }}">Candidature</a>
                 </li>
  <li class="nav-item">
                     <a class="nav-link click-scroll" href="#section_6">Contact</a>
@@ -114,7 +119,7 @@
                                 <h5 class="mb-2">Web Design</h5>
                                 <p class="mb-0">When you search for free CSS templates, you will notice that TemplateMo is one of the best websites.</p>
                             </div>
-                            <span class="badge bg-design rounded-pill ms-auto">14</span>
+                            <span class="badge bg-design  ms-auto">14</span>
                         </div>
                         <img src="{{ asset('images/topics/undraw_Remote_design_team_re_urdx.png') }}" class="custom-block-image img-fluid" alt="">
                     </a>
@@ -130,7 +135,7 @@
                                 <h5 class="text-white mb-2">Finance</h5>
                                 <p class="text-white">Topic Listing Template includes homepage, listing page, detail page, and contact page. You can feel free to edit and adapt for your CMS requirements.</p>
                             </div>
-                            <span class="badge bg-finance rounded-pill ms-auto">25</span>
+                            <span class="badge bg-finance  ms-auto">25</span>
                         </div>
                         <div class="social-share d-flex">
                             <p class="text-white me-4">Share:</p>
@@ -177,7 +182,7 @@
                             <h5 class="mb-2">Web Design</h5>
                             <p class="mb-0">When you search for free CSS templates, you will notice that TemplateMo is one of the best websites.</p>
                         </div>
-                        <span class="badge bg-design rounded-pill ms-auto">14</span>
+                        <span class="badge bg-design  ms-auto">14</span>
                     </div>
                     <img src="{{ asset('images/topics/undraw_Remote_design_team_re_urdx.png') }}" class="custom-block-image img-fluid" alt="">
                 </div>
@@ -238,18 +243,18 @@
                 </p>
             </div>
 
-            <div class="col-lg-3 col-md-4 col-12 mt-4 mt-lg-0 ms-auto">
-                <div class="dropdown">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        English
-                    </button>
+       <div class="col-lg-3 col-md-4 col-12 mt-4 mt-lg-0 ms-auto">
+    <div class="dropdown">
+        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            {{ 'English'|trans }} <!-- Display the current language -->
+        </button>
 
-                    <ul class="dropdown-menu">
-                        <li><button class="dropdown-item" type="button">Thai</button></li>
-                        <li><button class="dropdown-item" type="button">Myanmar</button></li>
-                        <li><button class="dropdown-item" type="button">Arabic</button></li>
-                    </ul>
-                </div>
+        <ul class="dropdown-menu">
+            <li><button class="dropdown-item" type="button" onclick="changeLocale('fr')">Français</button></li>
+            <!-- Add more language options as needed -->
+        </ul>
+    </div>
+</div>
 
                 <p class="copyright-text mt-lg-5 mt-4">
                     Copyright © 2048 JobsEsprit Listing Center. All rights reserved.
@@ -267,7 +272,29 @@
 <script src="{{ asset('js/custom.js') }}"></script>
 
    
-
+<script>
+    function changeLocale(locale) {
+        // Make an AJAX request to update the user's locale
+        fetch('{{ path('app_home_entreprise') }}', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ locale: locale }),
+        })
+        .then(response => {
+            if (response.ok) {
+                // Reload the page to apply the new locale
+                window.location.reload();
+            } else {
+                console.error('Failed to change locale');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    }
+</script>
    
 </body>
 </html>

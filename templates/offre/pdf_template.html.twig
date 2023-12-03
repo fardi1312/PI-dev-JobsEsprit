@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Offre PDF</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #007bff; /* Blue color */
+            position: absolute;
+            top: 20px;
+            left: 20px;
+        }
+
+        h2 {
+            color: #333;
+            text-align: center;
+        }
+
+        .info-box {
+            border: 2px solid #007bff; /* Blue border */
+            padding: 15px;
+            margin-top: 60px;
+            font-weight: bold; /* Bold text */
+        }
+
+        p {
+            margin: 10px 0;
+            color: #666;
+            font-weight: normal; /* Normal text weight */
+        }
+
+        img {
+            max-width: 100%;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Offre PDF </h1>
+    <br>
+    <br>
+
+    <div class="info-box">
+        <h2>{{ offre.titre }}</h2>
+        <p>{{ offre.descreption }}</p>
+        <p>Type of Internship: {{ offre.typeStage }}</p>
+        <p>Sectors: {{ offre.secteurs }}</p>
+        <p>Function: {{ offre.fonction }}</p>
+        <p>Internship date: {{ offre.dateInscription ? offre.dateInscription|date('Y-m-d') : '' }}</p>
+        <img src="{{ absolute_url(asset('uploads/' ~ offre.image)) }}" class="custom-block-image img-fluid" alt="">
+    </div>
+
+    <p>Here you can find the company information</p>
+  
+    <div class="info-box">
+        <p>{{ offre.entrepriseid.nomEntreprise | default('N/A') }}</p>
+        <p>{{ offre.entrepriseid.phone | default('N/A') }}</p>
+        <p>{{ offre.entrepriseid.email | default('N/A') }}</p>
+<p><strong>Here you can scan to view our location:</strong></p>
+
+<div class="col-md-6 mx-auto">
+    {% if qrCode %}
+        <img src="{{ qrCode }}" alt="qr-code">
+    {% endif %}
+</div>
+
+
+    </div>
+
+</body>
+</html>

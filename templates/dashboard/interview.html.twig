@@ -1,0 +1,55 @@
+{% extends 'dashboard/index.html.twig' %}
+
+{% block div %}
+
+<div class="container-fluid pt-4 px-4">
+    <div class="bg-light text-center rounded p-4">
+        <div class="d-flex align-items-center justify-content-between mb-4">
+            <h6 class="mb-0">Recent Calendar Activities</h6>
+            <a href="#">Show All</a>
+        </div>
+        <div class="table-responsive">
+            <table class="table text-start align-middle table-bordered table-hover mb-0">
+                <thead>
+                    <tr class="text-dark">
+                        <th scope="col"><input class="form-check-input" type="checkbox"></th>
+                     <th scope="col">ID</th>
+<th scope="col">Time</th>
+<th scope="col">Date</th>
+<th scope="col">Student Username</th>
+<th scope="col">Student ID</th>
+
+<th scope="col">Company</th>
+                        <th scope="col">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for calendaractivity in calendaractivities %}
+                        <tr>
+                            <td><input class="form-check-input" type="checkbox"></td>
+                            <td>{{ calendaractivity.id }}</td>
+                            <td>{{ calendaractivity.heure }}</td>
+                          
+                            
+                            <td>{{ calendaractivity.date ? calendaractivity.date|date('Y-m-d') : '' }}</td>
+                                 <td>{{ calendaractivity.Condidature.etudiant.username }}</td>
+                                 <td>{{ calendaractivity.Condidature.etudiant.id }}</td>
+
+                               <td>{{calendaractivity.entreprise.nomEntreprise | default('N/A')  }}</td>
+                            <td>
+                                <a href="{{ path('admin_deleteeevnt', { id: calendaractivity.id }) }}">Delete</a>
+                                <a href="{{ path('admin_deleteoffre', { id: calendaractivity.id }) }}">Show</a>
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="5">No calendar activities found.</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

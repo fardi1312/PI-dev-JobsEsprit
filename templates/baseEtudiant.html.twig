@@ -43,24 +43,23 @@
                     <a class="nav-link click-scroll" href="#section_1">Home</a>
                 </li>
 
-                <li class="nav-item">
-                    <a class="nav-link click-scroll" href="#section_2">Offre de Stage</a>
-                </li>
+<li class="nav-item">
+    <a class="nav-link click-scroll" href="#section_2">{% trans %}
+Internship Offers{% endtrans %}</a>
+</li>
 
-                <li class="nav-item">
-                    <a class="nav-link click-scroll" href="#section_3">Evenement</a>
-                </li>
+<li class="nav-item">
+    <a class="nav-link click-scroll" href="#section_3">Events</a>
+</li>
 
-                
-                <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarLightDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">Porfolio</a>
-</a>
-
+<li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle" href="#" id="navbarLightDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">Portfolio</a>
     <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="navbarLightDropdownMenuLink">
-        <li><a class="dropdown-item">Ajouter Porfolio</a></li>
-        <li><a class="dropdown-item">Voir mon Porfolio</a></li>
+        <li><a class="dropdown-item">Add Portfolio</a></li>
+        <li><a class="dropdown-item">View My Portfolio</a></li>
     </ul>
 </li>
+
                 <li class="nav-item dropdown">
 <a class="nav-link dropdown-toggle" href="#" id="navbarLightDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">Carpooling</a>
 
@@ -107,63 +106,12 @@
         </div>
     </div>
 </section>
-<section class="featured-section">
-    <div class="container">
-        <div class="row justify-content-center">
 
-            <div class="col-lg-4 col-12 mb-4 mb-lg-0">
-                <div class="custom-block bg-white shadow-lg">
-                        <div class="d-flex">
-                            <div>
-                                <h5 class="mb-2">Web Design</h5>
-                                <p class="mb-0">When you search for free CSS templates, you will notice that TemplateMo is one of the best websites.</p>
-                            </div>
-                            <span class="badge bg-design rounded-pill ms-auto">14</span>
-                        </div>
-                        <img src="{{ asset('images/topics/undraw_Remote_design_team_re_urdx.png') }}" class="custom-block-image img-fluid" alt="">
-                    </a>
-                </div>
-            </div>
-
-            <div class="col-lg-6 col-12">
-                <div class="custom-block custom-block-overlay">
-                    <div class="d-flex flex-column h-100">
-                        <img src="{{ asset('images/businesswoman-using-tablet-analysis.jpg') }}" class="custom-block-image img-fluid" alt="">
-                        <div class="custom-block-overlay-text d-flex">
-                            <div>
-                                <h5 class="text-white mb-2">Finance</h5>
-                                <p class="text-white">Topic Listing Template includes homepage, listing page, detail page, and contact page. You can feel free to edit and adapt for your CMS requirements.</p>
-                            </div>
-                            <span class="badge bg-finance rounded-pill ms-auto">25</span>
-                        </div>
-                        <div class="social-share d-flex">
-                            <p class="text-white me-4">Share:</p>
-                            <ul class="social-icon">
-                                <li class="social-icon-item">
-                                    <a href="#" class="social-icon-link bi-twitter"></a>
-                                </li>
-                                <li class="social-icon-item">
-                                    <a href="#" class="social-icon-link bi-facebook"></a>
-                                </li>
-                                <li class="social-icon-item">
-                                    <a href="#" class="social-icon-link bi-pinterest"></a>
-                                </li>
-                            </ul>
-                            <a href="#" class="custom-icon bi-bookmark ms-auto"></a>
-                        </div>
-                        <div class="section-overlay"></div>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    </div>
-</section>
 <section class="explore-section section-padding" id="section_2">
     <div class="container">
         <div class="row">
             <div class="col-12 text-center">
-                <h2 class="mb-4">Browse Topics</h2>
+                <h2 class="mb-4">{% trans %}Internship Offers{% endtrans %}</h2>
             </div>
         </div>
     </div>
@@ -173,21 +121,40 @@
     <div class="container">
         <div class="row justify-content-center">
 
-            {% for _ in 1..3 %}
-            <div class="col-lg-4 col-12 mb-4 mb-lg-0">
-                <div class="custom-block bg-white shadow-lg">
-                    <div class="d-flex">
-                        <div>
-                            <h5 class="mb-2">Web Design</h5>
-                            <p class="mb-0">When you search for free CSS templates, you will notice that TemplateMo is one of the best websites.</p>
+            {% for offre in offres %}
+                <div class="col-lg-4 col-12 mb-4 mb-lg-0">
+                    <div class="custom-block bg-white shadow-lg">
+                        <div class="d-flex">
+                            <div>
+                                <h5 class="mb-2">{{ offre.titre }}</h5>
+                                <p class="mb-0">{{ offre.descreption }}</p>
+                            </div>
+                            <span class="badge bg-design  ms-auto">{{ offre.dateInscription|date('d/m/Y') }}</span>
                         </div>
-                        <span class="badge bg-design rounded-pill ms-auto">14</span>
+                        {# Add your image if needed #}
+            <img src="{{ asset(offre.image) }}" class="custom-block-image img-fluid" alt="">
+                        {# Add your link if needed #}
+                        <!-- <a href="#">Link</a> -->
                     </div>
-                    <img src="{{ asset('images/topics/undraw_Remote_design_team_re_urdx.png') }}" class="custom-block-image img-fluid" alt="">
+                </div>
+            {% endfor %}
+            <br> <br> <br> <br>
+        <a href="{{ path('offres') }}">
+    <section class="explore-section section-padding" id="section_2">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center">
+<h2 class="mb-4">{% trans %}See more
+{% endtrans %}</h2>
                 </div>
             </div>
-            {% endfor %}
+        </div>
+    </section>
+</a>
 
+
+    
+</section>
         </div>
     </div>
 </section>
@@ -242,18 +209,21 @@
                 </p>
             </div>
 
-            <div class="col-lg-3 col-md-4 col-12 mt-4 mt-lg-0 ms-auto">
-                <div class="dropdown">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        English
-                    </button>
+    <div class="col-lg-3 col-md-4 col-12 mt-4 mt-lg-0 ms-auto">
+    {% for locale in locales %}
+        {% if locale != app.request.locale %}
+            <p class="nav-item active">
+        <a href="{{ path('change_locale', {'locale': locale}) }}">
+                    <img src="{{ asset('images/' ~ locale ~ '.png') }}" alt="{{ locale }}">
+                </a>
+            </p>
+        {% endif %}
+    {% endfor %}
+</div>
 
-                    <ul class="dropdown-menu">
-                        <li><button class="dropdown-item" type="button">Thai</button></li>
-                        <li><button class="dropdown-item" type="button">Myanmar</button></li>
-                        <li><button class="dropdown-item" type="button">Arabic</button></li>
-                    </ul>
-                </div>
+
+
+
 
                 <p class="copyright-text mt-lg-5 mt-4">
                     Copyright © 2048 JobsEsprit Listing Center. All rights reserved.
@@ -274,4 +244,5 @@
 
    
 </body>
+
 </html>
