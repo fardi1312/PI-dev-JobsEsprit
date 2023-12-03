@@ -2,23 +2,24 @@
 
 namespace App\Entity;
 
-use App\Repository\UseretudiantRepository;
+use App\Repository\UserEtudiantRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\UserInterface;
 
-#[ORM\Entity(repositoryClass: UseretudiantRepository::class)]
-class Useretudiant
+#[ORM\Entity(repositoryClass: UserEtudiantRepository::class)]
+class UserEtudiant implements UserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?int $phone = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 20)]
     private ?string $role = null;
 
     #[ORM\Column(length: 255)]
@@ -28,7 +29,7 @@ class Useretudiant
     private ?string $motDePasse = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $firstName = null;
+    private ?string $nom = null;
 
     #[ORM\Column(length: 255)]
     private ?string $lastName = null;
@@ -39,10 +40,14 @@ class Useretudiant
     #[ORM\Column(length: 255)]
     private ?string $image = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?int $age = null;
 
-  
+    #[ORM\Column(nullable: true)]
+    private ?float $rate = null;
+
+    #[ORM\OneToMany(mappedBy: 'id_userEtudiant', targetEntity: Covoiturage::class)]
+    private Collection $covoiturages;
 
     #[ORM\ManyToMany(targetEntity: Offre::class, mappedBy: 'likes')]
     private Collection $offres;
@@ -54,6 +59,7 @@ class Useretudiant
     {
         $this->offres = new ArrayCollection();
         $this->candidatures = new ArrayCollection();
+        $this->covoiturages = new ArrayCollection();
     }
 
    
