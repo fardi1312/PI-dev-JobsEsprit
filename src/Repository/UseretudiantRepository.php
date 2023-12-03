@@ -22,7 +22,7 @@ class UserEtudiantRepository extends ServiceEntityRepository
     }
 
 //    /**
-//     * @return Useretudiant[] Returns an array of Useretudiant objects
+//     * @return UserEtudiant[] Returns an array of UserEtudiant objects
 //     */
 //    public function findByExampleField($value): array
 //    {

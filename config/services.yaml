@@ -1,8 +1,7 @@
 # services.yaml
 parameters:
-            app.locales: [en,fr]     # Automatically injects dependencies in your services.
-
-    images_directory: '%kernel.project_dir%/public/uploads/covoiturages'
+     app.locales: [en,fr]     # Automatically injects dependencies in your services.
+ #   images_directory: '%kernel.project_dir%/public/uploads/covoiturages'
 
 services:
     _defaults:
