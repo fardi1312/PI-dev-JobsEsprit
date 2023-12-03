@@ -2,23 +2,23 @@
 
 namespace App\Repository;
 
-use App\Entity\Useretudiant;
+use App\Entity\UserEtudiant;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<Useretudiant>
+ * @extends ServiceEntityRepository<UserEtudiant>
  *
- * @method Useretudiant|null find($id, $lockMode = null, $lockVersion = null)
- * @method Useretudiant|null findOneBy(array $criteria, array $orderBy = null)
- * @method Useretudiant[]    findAll()
- * @method Useretudiant[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method UserEtudiant|null find($id, $lockMode = null, $lockVersion = null)
+ * @method UserEtudiant|null findOneBy(array $criteria, array $orderBy = null)
+ * @method UserEtudiant[]    findAll()
+ * @method UserEtudiant[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class UseretudiantRepository extends ServiceEntityRepository
+class UserEtudiantRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Useretudiant::class);
+        parent::__construct($registry, UserEtudiant::class);
     }
 
 //    /**
