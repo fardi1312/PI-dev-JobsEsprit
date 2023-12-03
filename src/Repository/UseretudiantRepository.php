@@ -36,7 +36,7 @@ class UserEtudiantRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-//    public function findOneBySomeField($value): ?Useretudiant
+//    public function findOneBySomeField($value): ?UserEtudiant
 //    {
 //        return $this->createQueryBuilder('u')
 //            ->andWhere('u.exampleField = :val')
