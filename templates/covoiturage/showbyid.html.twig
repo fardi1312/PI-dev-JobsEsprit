@@ -1,0 +1,55 @@
+{# covoiturage/showbyid.html.twig #}
+
+{% extends 'base.html.twig' %}
+{% block div %}
+<h3>>Carpooling Details</h3>
+{% endblock %}
+{% block body %}
+
+    <table>
+        <tr>
+            <th>ID</th>
+            <td>{{ covoiturage.id }}</td>
+        </tr>
+        <tr>
+            <th>Departure Time</th>
+            <td>{{ covoiturage.heuredepart }}</td>
+        </tr>
+        <tr>
+            <th>Departure Location</th>
+            <td>{{ covoiturage.lieudepart }}</td>
+        </tr>
+        <tr>
+            <th>Arrival Location</th>
+            <td>{{ covoiturage.lieuarrivee }}</td>
+        </tr>
+        <tr>
+            <th>Price</th>
+            <td>{{ covoiturage.prix }}</td>
+        </tr>
+        <tr>
+            <th>Available Seats</th>
+            <td>{{ covoiturage.nombreplacesdisponible }}</td>
+        </tr>
+        <tr>
+            <th>Username</th>
+            <td>{{ covoiturage.username }}</td>
+        </tr>
+        <!-- Add other fields as needed -->
+        <tr>
+            <th>Image</th>
+            <td>
+                {% if covoiturage.image %}
+                    <img src="{{ asset('uploads/covoiturages/' ~ covoiturage.image) }}" alt="Covoiturage Image">
+                {% else %}
+                    <p>No image available</p>
+                {% endif %}
+            </td>
+        </tr>
+    </table>
+
+    {# Add other covoiturage details as needed #}
+    <a href="{{ path('app_covoiturage_index') }}">Back to list</a>
+    <a href="{{ path('app_confirm_covoiturage_new', {'id': covoiturage.id}) }}">Confirm</a>
+
+{% endblock %}

@@ -1,0 +1,50 @@
+{% block title %}Carpooling{% endblock %}
+{% block div %}
+<h3>>Carpooling</h3>
+{% endblock %}
+{% block body %}
+
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ covoiturage.id }}</td>
+            </tr>
+            <tr>
+                <th>Departure Time</th>
+                <td>{{ covoiturage.heuredepart }}</td>
+            </tr>
+            <tr>
+                <th>Departure Location</th>
+                <td>{{ covoiturage.lieudepart }}</td>
+            </tr>
+            <tr>
+                <th>Arrival Location</th>
+                <td>{{ covoiturage.lieuarrivee }}</td>
+            </tr>
+            <tr>
+                <th>Price</th>
+                <td>{{ covoiturage.prix }}</td>
+            </tr>
+            <tr>
+                <th>Number of Available Seats</th>
+                <td>{{ covoiturage.heurednombreplacesdisponiblesepart }}</td>
+            </tr>
+            <tr>
+                <th>Image</th>
+                <td>{{ covoiturage.image }}</td>
+            </tr>
+            <tr>
+                <th>Username</th>
+                <td>{{ covoiturage.username }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_covoiturage_index') }}">Back to list</a>
+
+    <a href="{{ path('app_covoiturage_edit', {'id': covoiturage.id}) }}">Edit</a>
+
+    {{ include('covoiturage/_delete_form.html.twig') }}
+{% endblock %}

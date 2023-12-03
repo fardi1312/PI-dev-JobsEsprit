@@ -1,0 +1,72 @@
+{% extends 'base.html.twig' %}
+
+{% block div %}
+<h3>
+Carpool Confirmation Student
+</h3>
+{% endblock %}
+{% block body %}
+{% block first_content %}
+
+    <div align="center" style="margin-top: 20px;">
+        <style>
+            table {
+                border-collapse: collapse;
+                width: 80%;
+            }
+
+            th, td {
+                border: 1px solid #ddd;
+                padding: 8px;
+                text-align: left;
+            }
+        </style>
+            {% if confirm_covoiturages is not empty %}
+
+        <table align="center">
+
+
+        <thead>
+            <tr>
+                <th>Student First Name</th>
+                <th>Student Last Name</th>
+                <th>Driver First Name</th>
+                <th>Driver Last Name</th>
+                <th>Departure Time</th>
+                <th>Departure Location</th>
+                <th>Arrival Location</th>
+                <th>Total Reserved Seats Price</th>
+                <th>Reserved Seats Count</th>
+                <th>Actions</th>
+            </tr>             
+        </thead>
+        <tbody>
+        {% for confirm_covoiturage in confirm_covoiturages %}
+            <tr>
+                <td>{{ confirm_covoiturage.firstNameEtud }}</td>
+                <td>{{ confirm_covoiturage.lastNameEtud }}</td>
+                <td>{{ confirm_covoiturage.firstNameConducteur }}</td>
+                <td>{{ confirm_covoiturage.lastNameConducteur }}</td>
+                <td>{{ confirm_covoiturage.heureDepart }}</td>
+                <td>{{ confirm_covoiturage.lieuDepart }}</td>
+                <td>{{ confirm_covoiturage.lieuArrivee }}</td>
+                <td>{{ confirm_covoiturage.prixTotalePlacesReserve }}</td>
+                <td>{{ confirm_covoiturage.nombrePlacesReserve }}</td>
+                <td>
+                    <a href="{{ path('app_confirm_covoiturage_edit', {'id': confirm_covoiturage.id}) }}">edit</a>
+                    <a href="{{ path('app_confirm_covoiturage_show1', {'id': confirm_covoiturage.id}) }}">Show</a>
+                     {{ include('confirm_covoiturage/_delete_form.html.twig', {'id': confirm_covoiturage.id}) }}
+
+                </td>
+            </tr>
+
+        {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+        <p>No carpools found.</p>
+    {% endif %}
+
+{% endblock %}
+{% endblock %}
+

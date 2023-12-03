@@ -1,0 +1,71 @@
+{# templates/covoiturage/form.html.twig #}
+
+{% block body %}
+<section class="section-padding section-bg">
+    <div class="container">
+            {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+
+    <div class="form-group">
+        {{ form_label(form.heureDepart, "Date and Time of Departure") }}
+        {{ form_widget(form.heureDepart, { 'attr': {'class': 'datetime-picker', 'data-format': 'YYYY-MM-DD HH:mm'} }) }}
+        {% if form_errors(form.heureDepart) is not empty %}
+            <div class="alert alert-danger">
+                {{ form_errors(form.heureDepart) }}
+            </div>
+        {% endif %}
+    </div>
+
+        <div class="form-group">
+            {{ form_label(form.lieudepart, "Departure Location") }}
+            {{ form_widget(form.lieudepart, { 'attr': {'class': 'form-control'} }) }}
+            {% if form_errors(form.lieudepart) is not empty %}
+                <div class="alert alert-danger">
+                    {{ form_errors(form.lieudepart) }}
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            {{ form_label(form.lieuarrivee, "Arrival Location") }}
+            {{ form_widget(form.lieuarrivee, { 'attr': {'class': 'form-control'} }) }}
+            {% if form_errors(form.lieuarrivee) is not empty %}
+                <div class="alert alert-danger">
+                    {{ form_errors(form.lieuarrivee) }}
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            {{ form_label(form.prix, "Price") }}
+            {{ form_widget(form.prix, { 'attr': {'class': 'form-control'} }) }}
+            {% if form_errors(form.prix) is not empty %}
+                <div class="alert alert-danger">
+                    {{ form_errors(form.prix) }}
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            {{ form_label(form.nombreplacesdisponible, "Number of Available Seats") }}
+            {{ form_widget(form.nombreplacesdisponible, { 'attr': {'class': 'form-control'} }) }}
+            {% if form_errors(form.nombreplacesdisponible) is not empty %}
+                <div class="alert alert-danger">
+                    {{ form_errors(form.nombreplacesdisponible) }}
+                </div>
+            {% endif %}
+        </div>
+        <div class="form-group">
+            {{ form_row(form.image, { 'attr': {'class': 'form-control', 'type': 'file'} }) }}
+            {% if form_errors(form.image) is not empty %}
+                <div class="alert alert-danger">
+                    {{ form_errors(form.image) }}
+                </div>
+            {% endif %}
+        </div>
+        
+
+        <button class="btn">{{ button_label|default('Save') }}</button>
+
+        {{ form_end(form) }}
+    </div>
+{% endblock %}

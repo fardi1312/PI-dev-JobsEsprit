@@ -1,0 +1,45 @@
+{# templates/confirm_covoiturage/showbyid.html.twig #}
+
+{% extends 'base.html.twig' %}
+
+
+{% block div %}
+<h3>>Confirmation Details </h3>
+{% endblock %}
+
+
+{% block body %}
+
+    <dl>
+        <dt>Username Etudiant:</dt>
+        <dd>{{ confirm_covoiturage.usernameEtud }}</dd>
+
+        <dt>First Name Etudiant:</dt>
+        <dd>{{ confirm_covoiturage.firstNameEtud }}</dd>
+
+        <dt>Last Name Etudiant:</dt>
+        <dd>{{ confirm_covoiturage.lastNameEtud }}</dd>
+
+        <dt>Phone Etudiant:</dt>
+        <dd>{{ confirm_covoiturage.phoneEtud }}</dd>
+
+        <dt>Email Etudiant:</dt>
+        <dd>{{ confirm_covoiturage.emailEtud }}</dd>
+
+        <dt>Number of Places Reserved:</dt>
+        <dd>{{ confirm_covoiturage.nombrePlacesReserve }}</dd>
+
+        <dt>Total Price for Reserved Places:</dt>
+        <dd>{{ confirm_covoiturage.prixTotalePlacesReserve }}</dd>
+    </dl>
+
+
+
+    {# Add a form with a Confirm button #}
+<form method="post" action="{{ path('confirm_reservation', {'id': confirm_covoiturage.id}) }}">
+    <!-- Your form fields here -->
+    <button type="submit">Confirm</button>
+</form>
+    {{ include('confirm_covoiturage/_delete_form.html.twig') }}
+
+{% endblock %}

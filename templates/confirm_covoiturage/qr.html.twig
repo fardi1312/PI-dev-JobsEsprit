@@ -1,0 +1,11 @@
+<html>
+<body>
+    <h1>Carpooling Confirmation</h1>
+    <p>Details about the confirmation...</p>
+
+    {# Include the QR code image in the PDF using qr.html.twig #}
+    {% include 'confirm_covoiturage/qr.html.twig' with {'qrCodePath': qrCodePath} %}
+
+    <p>Thank you for using our carpooling service!</p>
+</body>
+</html>
