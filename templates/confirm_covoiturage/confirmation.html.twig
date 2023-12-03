@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Carpool Confirmation</title>
+</head>
+<body>
+    <h1>Carpool Confirmation</h1>
+
+    <p>
+        Dear {{ confirmation.firstNameEtud }} {{ confirmation.lastNameEtud }},
+    </p>
+
+    <p>
+        Thank you for confirming your carpool. Here are the details:
+    </p>
+
+    <dl>
+        <dt>Student Username:</dt>
+        <dd>{{ confirmation.usernameEtud }}</dd>
+
+        <dt>First Name Student:</dt>
+        <dd>{{ confirmation.firstNameEtud }}</dd>
+
+        <dt>Last Name Student:</dt>
+        <dd>{{ confirmation.lastNameEtud }}</dd>
+
+        <dt>Student Phone:</dt>
+        <dd>{{ confirmation.phoneEtud }}</dd>
+
+        <dt>Student Email:</dt>
+        <dd>{{ confirmation.emailEtud }}</dd>
+
+        <dt>Number of Seats Reserved:</dt>
+        <dd>{{ confirmation.nombrePlacesReserve }}</dd>
+
+        <dt>Total Price for Reserved Seats:</dt>
+        <dd>{{ confirmation.prixTotalePlacesReserve }}</dd>
+        
+        <dt>QR Code for Contact:</dt>
+        <dd><img src="{{ qrCodeDataUri }}"></dd>
+    </dl>
+
+    <p>
+        Thank you for using our carpool service!
+    </p>
+</body>
+</html>

@@ -1,0 +1,70 @@
+{% extends 'base.html.twig' %}
+
+{% block div %}
+<h3>Carpooling</h3>
+{% endblock %}
+
+{% block body %}
+{% block first_content %}
+
+    <div align="center" style="margin-top: 20px;">
+        <style>
+            table {
+                border-collapse: collapse;
+                width: 80%;
+            }
+
+            th, td {
+                border: 1px solid #ddd;
+                padding: 8px;
+                text-align: left;
+            }
+        </style>
+            {% if covoiturage is not empty %}
+
+        <table align="center">
+
+        
+            <thead>
+                <tr>
+                    <th>Username</th>
+                    <th>Departure Time</th>
+                    <th>Departure Location</th>
+                    <th>Arrival Location</th>
+                    <th>Price</th>
+                    <th>Available Seats</th>
+                    <th>Image</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for covoiturage in covoiturage %}
+                    <tr>
+                         <td>{{ covoiturage.username }}</td>
+                        <td>{{ covoiturage.heuredepart }}</td>
+                        <td>{{ covoiturage.lieudepart }}</td>
+                        <td>{{ covoiturage.lieuarrivee }}</td>
+                        <td>{{ covoiturage.prix }}</td>
+                        <td>{{ covoiturage.nombreplacesdisponible }}</td>
+                        <td>
+                            {% if covoiturage.image %}
+                                <img src="{{ asset('uploads/covoiturages/' ~ covoiturage.image) }}" alt="Carpooling Image" style="max-width: 100px;">
+                            {% else %}
+                                No image
+                            {% endif %}
+                        </td>
+                        <td>
+                            <a href="{{ path('app_covoiturage_show', {'id': covoiturage.id}) }}">Show</a>
+                            <a href="{{ path('app_covoiturage_edit', {'id': covoiturage.id}) }}">Edit</a>
+                            {{ include('covoiturage/_delete_form.html.twig', {'id': covoiturage.id}) }}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No carpools found.</p>
+    {% endif %}
+
+{% endblock %}
+{% endblock %}

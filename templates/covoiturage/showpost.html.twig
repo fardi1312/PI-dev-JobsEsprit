@@ -1,0 +1,88 @@
+{% extends 'base.html.twig' %}
+
+{% block div %}
+    <h3>Carpooling</h3>
+{% endblock %}
+
+{% block stylesheets %}
+    <style>
+        /* Your existing styles */
+        .featured-section {
+            padding: 40px 0;
+            background-color: #f8f9fa;
+        }
+
+        .card {
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .card-img-top {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .card-body {
+            padding: 20px;
+        }
+
+        .card-title {
+            font-size: 1.25rem;
+            margin-bottom: 10px;
+        }
+
+        .card-text {
+            margin-bottom: 8px;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            color: #fff;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <div class="row">
+        {% for covoiturage in pagination %}
+            <div class="col-lg-8 col-12 mt-3 mx-auto">
+                <div class="custom-block custom-block-topics-listing bg-white shadow-lg">
+                    <div class="d-flex">
+                        <div>
+                            <h5 class="mb-2">{{ covoiturage.lieudepart }} to {{ covoiturage.lieuarrivee }}</h5>
+                            <p class="mb-0"><strong>Departure:</strong> {{ covoiturage.lieudepart }}</p>
+                            <p class="mb-0"><strong>Destination:</strong> {{ covoiturage.lieuarrivee }}</p>
+                            <p class="mb-0"><strong>Price:</strong> {{ covoiturage.prix }}</p>
+                            <p class="mb-0"><strong>Available Seats:</strong> {{ covoiturage.nombreplacesdisponible }}</p>
+                            <p class="mb-0"><strong>Posted by:</strong> {{ covoiturage.username }}</p>
+                            <div>
+                                <span class="badge bg-finance ms-auto">{{ covoiturage.heuredepart }}</span>
+                            </div>
+                            {% if covoiturage.image %}
+                                <div class="custom-block-image img-fluid" alt="">
+                                    <img src="{{ asset('uploads/covoiturages/' ~ covoiturage.image) }}">
+                                </div>
+                            {% endif %}
+                            <a href="{{ path('app_covoiturage_show', {'id': covoiturage.id}) }}" class="btn btn-primary">Interested</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    <!-- Pagination links -->
+    <div class="btn btn-primary">
+        {{ knp_pagination_render(pagination) }}
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        // You can add JavaScript functionality here if needed
+        // For example, you might want to add interactive features or handle form submissions
+    </script>
+{% endblock %}
