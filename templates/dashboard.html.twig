@@ -10,6 +10,7 @@
     <meta content="" name="description">
 
 
+
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 
 
@@ -41,6 +42,7 @@
     }, 60000);
 
     </script>
+
 
 
 
@@ -89,6 +91,7 @@
             </div>
         </div>
         <div class="navbar-nav w-100">
+
             <a href="{{ path('app_covoiturage_post') }}" class="nav-item nav-link"><i class="fa fa-chart-bar me-2"></i>Dashboard</a>
                  <a href="{{ path('app_covoiturage_post') }}" class="nav-item nav-link"><i class="fa fa-laptop me-2"></i>Offers</a>
 
@@ -97,6 +100,7 @@
             <a href="{{ path('app_covoiturage_post') }}" class="nav-item nav-link "><i class="fa fa-table me-2"></i>Events</a>
             <a href="{{ path('app_confirm_covoiturage_indexAdmin') }}" class="nav-item nav-link"><i class="fa fa-tachometer-alt me-2"></i>Carpooling</a>
             <a href="{{ path('app_covoiturage_post') }}" class="nav-item nav-link"><i class="fa fa-th me-2"></i>Reservations</a>
+
 
         </div>
     </nav>
@@ -142,6 +146,7 @@
 
 
 
+
             <div class="nav-item dropdown">
                 <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
                     <img class="rounded-circle me-lg-2" src="{{ asset('back/img/user.jpg') }}" alt="" style="width: 40px; height: 40px;">
@@ -157,10 +162,12 @@
     </nav>
 
 
+
           {% block div %}
 
 
 {% endblock %}
+
 
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
