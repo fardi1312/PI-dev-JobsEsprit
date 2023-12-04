@@ -22,6 +22,8 @@ use Pagerfanta\Pagerfanta;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Dompdf\Dompdf;
 use Dompdf\Options;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
+
 
 class OffreController extends AbstractController
 {
@@ -29,14 +31,27 @@ class OffreController extends AbstractController
    
    
 
-    #[Route('/listoffre', name: 'list_offre')]
-    public function listBook(OffreRepository $offrerepository): Response
-    {
 
+
+    #[Route('/listoffre', name: 'list_offre', methods: ['GET'])]
+    public function listBook(OffreRepository $offreRepository, SessionInterface $session): Response
+    {
+        // Récupérer l'utilisateur depuis la session
+        $user = $session->get('user');
+    
+        if (!$user) {
+            // Rediriger vers la page de connexion si l'utilisateur n'est pas connecté
+            return $this->redirectToRoute('app_login');
+        }
+    
+        // Récupérer la liste des offres associées à l'entreprise de l'utilisateur
+        $filteredOffres = $offreRepository->findBy(['entrepriseid' => $user->getId()]);
+    
         return $this->render('offre/show.html.twig', [
-            'offres' => $offrerepository->findAll(),
+            'offres' => $filteredOffres,
         ]);
     }
+    
 
     #[Route('/home/etudiant', name: 'app_home_etudiant')]
 
@@ -51,14 +66,17 @@ class OffreController extends AbstractController
     }
 
     #[Route('/form', name: 'app_form')]
-public function showForm(Request $request, EntityManagerInterface $entityManager): Response
+public function showForm(Request $request, EntityManagerInterface $entityManager    , SessionInterface $session): Response
 {
-    // Assuming Entreprise is associated with Offre, adjust this based on your entity relationships
-    $entreprise = $entityManager->getRepository(Userentreprise::class)->find(1);
 
-    if (!$entreprise) {
-        throw $this->createNotFoundException('Entreprise with ID 1 not found');
+    $user = $session->get('user');
+    if (!$user) {
+        // Rediriger vers la page de connexion si l'utilisateur n'est pas connecté
+        return $this->redirectToRoute('app_login');
     }
+    // Assuming Entreprise is associated with Offre, adjust this based on your entity relationships
+    $entreprise = $entityManager->getRepository(Userentreprise::class)->find($user->getId());
+
 
     $offre = new Offre();
     $offre->setEntrepriseid($entreprise);

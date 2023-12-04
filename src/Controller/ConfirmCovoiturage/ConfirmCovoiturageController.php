@@ -99,16 +99,16 @@ class ConfirmCovoiturageController extends AbstractController
 
         $userEtudiant = $covoiturage->getIdUserEtudiant();
         if ($userEtudiant) {
-            $confirmCovoiturage->setFirstNameConducteur($userEtudiant->getNom()); // Set firstNameConducteur
-            $confirmCovoiturage->setLastNameConducteur($userEtudiant->getPrenom()); // Set lastNameConducteur
+            $confirmCovoiturage->setFirstNameConducteur($userEtudiant->getFirstName()); // Set firstNameConducteur
+            $confirmCovoiturage->setLastNameConducteur($userEtudiant->getLastName()); // Set lastNameConducteur
             $confirmCovoiturage->setPhoneConducteur($userEtudiant->getPhone()); // Set phoneConducteur
             $confirmCovoiturage->setEmailConducteur($userEtudiant->getEmail()); // Set emailConducteur
         }
 //////////////////////////chmps de etudiant////////////////////////////
         if ($userEtud) {
         $confirmCovoiturage->setUsernameEtud($userEtud->getUsername()); // set  usernameEtud
-        $confirmCovoiturage->setFirstNameEtud($userEtud->getNom()); // Set firstNameEtud
-        $confirmCovoiturage->setLastNameEtud($userEtud->getPrenom()); // Set lastNameEtud
+        $confirmCovoiturage->setFirstNameEtud($userEtud->getFirstName()); // Set firstNameEtud
+        $confirmCovoiturage->setLastNameEtud($userEtud->getLastName()); // Set lastNameEtud
         $confirmCovoiturage->setPhoneEtud($userEtud->getPhone()); // Set phoneEtud
         $confirmCovoiturage->setEmailEtud($userEtud->getEmail());
         }

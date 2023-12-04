@@ -1,0 +1,269 @@
+{% extends 'dashboard.html.twig' %}
+
+{% block div %}
+   
+    {% block content %}
+
+    <style type="text/css">
+        .ChartBox {
+            width: 500px; /* Set your desired width */
+            height: 400px;
+        }
+
+        .Chaaa {
+            width: 350px; /* Set your desired width */
+            height: 350px;
+        }
+    </style>
+
+ 
+
+    <div class="ChartBox">
+    <p1> le Pourcentage d'activite des Entreprise :</p1>
+        <canvas id="activityChart"></canvas>
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                function randomColor() {
+                    var r = Math.floor(Math.random() * 256);
+                    var g = Math.floor(Math.random() * 256);
+                    var b = Math.floor(Math.random() * 256);
+                    return r + "," + g + "," + b;
+                }
+
+                var ctx = document.getElementById('activityChart').getContext('2d');
+
+                {% set labels = [] %}
+
+                // Create an array of labels representing all months of the year
+                {% for i in 1..12 %}
+                    {% set labels = labels|merge([i]) %}
+                {% endfor %}
+
+                var data = {
+                    labels: {{ labels | json_encode | raw }},
+                    datasets: [
+                        {% for company, years in percentages %}
+                            {% for year, months in years %}
+                                {
+                                    label: '{{ company }} - {{ year }}',
+                                    data: [
+                                        {% for i in 1..12 %}
+                                            {% set percentage = months[i] ?? 0 %}
+                                            {{ percentage }},
+                                        {% endfor %}
+                                    ],
+                                    backgroundColor: 'rgba(' + randomColor() + ')',
+                                    borderColor: 'rgba(' + randomColor() + ')',
+                                    borderWidth: 1,
+                                },
+                            {% endfor %}
+                        {% endfor %}
+                    ]
+                };
+
+                var options = {
+                    aspectRatio: 2, // Set your desired aspect ratio (width / height)
+                    scales: {
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Month'
+                            }
+                        },
+                        y: {
+                            title: {
+                                display: true,
+                                text: 'Percentage of Activity'
+                            },
+                            min: 0,
+                            max: 100
+                        }
+                    }
+                };
+
+                var activityChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: data,
+                    options: options
+                });
+            });
+        </script>
+    </div>
+   <div class="Chaaa">
+       <p1> le nombre d'offre Postes Par mois :</p1>
+
+        <canvas id="offerChart"></canvas>
+
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                var ctx = document.getElementById('offerChart').getContext('2d');
+
+                // Example data (replace this with your actual data from the controller)
+                var data = {
+                    labels: [
+                        {% for month in 1..12 %}
+                            "{{ month }}",
+                        {% endfor %}
+                    ],
+                    datasets: [
+                        {
+                            label: 'Number of Offers',
+                            data: [
+                                {% for month in 1..12 %}
+                                    {% set found = false %}
+                                    {% for monthlyCount in monthlyCounts1 %}
+                                        {% if monthlyCount.month == month %}
+                                            {{ monthlyCount.offerCount }}
+                                            {% set found = true %}
+                                        {% endif %}
+                                    {% endfor %}
+                                    {% if not found %}0{% endif %}
+                                    {% if not loop.last %}, {% endif %}
+                                {% endfor %}
+                            ],
+                            backgroundColor: [
+                                'rgba(255, 99, 132, 0.2)',
+                                'rgba(54, 162, 235, 0.2)',
+                                'rgba(255, 206, 86, 0.2)',
+                                'rgba(75, 192, 192, 0.2)',
+                                'rgba(153, 102, 255, 0.2)',
+                                'rgba(255, 159, 64, 0.2)',
+                                'rgba(255, 99, 132, 0.2)',
+                                'rgba(54, 162, 235, 0.2)',
+                                'rgba(255, 206, 86, 0.2)',
+                                'rgba(75, 192, 192, 0.2)',
+                                'rgba(153, 102, 255, 0.2)',
+                                'rgba(255, 159, 64, 0.2)'
+                            ],
+                            borderColor: [
+                                'rgba(255, 99, 132, 1)',
+                                'rgba(54, 162, 235, 1)',
+                                'rgba(255, 206, 86, 1)',
+                                'rgba(75, 192, 192, 1)',
+                                'rgba(153, 102, 255, 1)',
+                                'rgba(255, 159, 64, 1)',
+                                'rgba(255, 99, 132, 1)',
+                                'rgba(54, 162, 235, 1)',
+                                'rgba(255, 206, 86, 1)',
+                                'rgba(75, 192, 192, 1)',
+                                'rgba(153, 102, 255, 1)',
+                                'rgba(255, 159, 64, 1)'
+                            ],
+                            borderWidth: 1
+                        }
+                    ]
+                };
+
+                var options = {};
+
+                var offerChart = new Chart(ctx, {
+                    type: 'pie',
+                    data: data,
+                    options: options
+                });
+            });
+        </script>
+    </div>
+    {% endblock %}
+
+
+
+
+
+<div class="container-fluid pt-4 px-4">
+    <div class="row">
+        <div class="col-md-4">
+            <h1>Statistics</h1>
+            <canvas id="pie-chart" width="240" height="240"></canvas>
+            <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+            <script>
+                var confirmedCount = {{ confirmedCount|default(0) }};
+                var unconfirmedCount = {{ unconfirmedCount|default(0) }};
+                var totalCount = confirmedCount + unconfirmedCount;
+
+                var data = {
+                    labels: ['Confirmed', 'Unconfirmed'],
+                    datasets: [{
+                        data: [confirmedCount / totalCount * 100, unconfirmedCount / totalCount * 100],
+                        backgroundColor: ['#33cc33', '#FF6384'],
+                    }],
+                };
+
+                var ctx = document.getElementById('pie-chart').getContext('2d');
+
+                var myPieChart = new Chart(ctx, {
+                    type: 'pie',
+                    data: data,
+                    options: {
+                        tooltips: {
+                            callbacks: {
+                                label: function (tooltipItem, data) {
+                                    var dataset = data.datasets[tooltipItem.datasetIndex];
+                                    var total = dataset.data.reduce(function (previousValue, currentValue, currentIndex, array) {
+                                        return previousValue + currentValue;
+                                    });
+                                    var currentValue = dataset.data[tooltipItem.index];
+                                    var percentage = Math.floor(((currentValue / total) * 100) + 0.5);
+                                    return percentage + "%";
+                                }
+                            }
+                        }
+                    }
+                });
+            </script>
+        </div>
+
+        <div class="col-md-4">
+            <h1>City Arrival</h1>
+            <canvas id="city-suggestions-chart-arrival" width="240" height="240"></canvas>
+            <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+            <script>
+                var citySuggestionsArrival = {{ citySuggestionsArrival|json_encode|raw }};
+
+                var citySuggestionsArrivalData = {
+                    labels: Object.keys(citySuggestionsArrival),
+                    datasets: [{
+                        data: Object.values(citySuggestionsArrival),
+                        backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#33cc33', '#9966ff', '#ffcc00', '#cc66ff', '#00cc99', '#ff6666', '#ffb366'],
+                    }],
+                };
+
+                var citySuggestionsArrivalCtx = document.getElementById('city-suggestions-chart-arrival').getContext('2d');
+                var citySuggestionsArrivalChart = new Chart(citySuggestionsArrivalCtx, {
+                    type: 'pie',
+                    data: citySuggestionsArrivalData,
+                });
+            </script>
+        </div>
+
+        <div class="col-md-4">
+            <h1>City Departure</h1>
+            <canvas id="city-suggestions-chart-departure" width="240" height="240"></canvas>
+            <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+            <script>
+                var citySuggestionsDeparture = {{ citySuggestionsDeparture|json_encode|raw }};
+
+                var citySuggestionsDepartureData = {
+                    labels: Object.keys(citySuggestionsDeparture),
+                    datasets: [{
+                        data: Object.values(citySuggestionsDeparture),
+                        backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#33cc33', '#9966ff', '#ffcc00', '#cc66ff', '#00cc99', '#ff6666', '#ffb366'],
+                    }],
+                };
+
+                var citySuggestionsDepartureCtx = document.getElementById('city-suggestions-chart-departure').getContext('2d');
+                var citySuggestionsDepartureChart = new Chart(citySuggestionsDepartureCtx, {
+                    type: 'pie',
+                    data: citySuggestionsDepartureData,
+                });
+            </script>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+{% endblock %}

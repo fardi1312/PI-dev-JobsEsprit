@@ -1,11 +1,11 @@
-{% extends 'offre/index.html.twig' %}
+{% extends 'baseE.html.twig' %}
 {% block div %}
     <h3>Editer Offres de Stages</h3>
 {% endblock %}
 {% block body %}
 <section class="section-padding section-bg">
     <div class="container">
-        <form method="post" action="{{ path('app_form', {'id': offre.id}) }}">
+<form method="post" action="{{ path('app_form', {'id': offre.id}) }}">
 
             {{ form_start(form) }}
             <div class="row">

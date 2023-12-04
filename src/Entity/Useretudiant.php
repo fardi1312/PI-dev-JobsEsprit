@@ -6,9 +6,10 @@ use App\Repository\UseretudiantRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: UseretudiantRepository::class)]
-class Useretudiant
+class Useretudiant implements UserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -42,28 +43,52 @@ class Useretudiant
     #[ORM\Column]
     private ?int $age = null;
 
-  
-
     #[ORM\ManyToMany(targetEntity: Offre::class, mappedBy: 'likes')]
     private Collection $offres;
 
     #[ORM\OneToMany(mappedBy: 'etudiant', targetEntity: Candidature::class)]
     private Collection $candidatures;
 
+    #[ORM\OneToMany(mappedBy: 'id_userEtudiant', targetEntity: Covoiturage::class)]
+    private Collection $covoiturages;
+
     public function __construct()
     {
         $this->offres = new ArrayCollection();
         $this->candidatures = new ArrayCollection();
+        $this->covoiturages = new ArrayCollection();
     }
 
-   
+    public function getCovoiturages(): Collection
+    {
+        return $this->covoiturages;
+    }
 
+    public function addCovoiturage(Covoiturage $covoiturage): static
+    {
+        if (!$this->covoiturages->contains($covoiturage)) {
+            $this->covoiturages->add($covoiturage);
+            $covoiturage->setIdUserEtudiant($this);
+        }
 
-  
+        return $this;
+    }
 
+    public function removeCovoiturage(Covoiturage $covoiturage): static
+    {
+        if ($this->covoiturages->removeElement($covoiturage)) {
+            if ($covoiturage->getIdUserEtudiant() === $this) {
+                $covoiturage->setIdUserEtudiant(null);
+            }
+        }
 
-   
+        return $this;
+    }
 
+    public function getUserIdentifier(): string
+    {
+        return $this->email;
+    }
 
     public function getId(): ?int
     {
@@ -152,8 +177,6 @@ class Useretudiant
         $this->username = $username;
 
         return $this;
-
-        
     }
 
     public function getImage(): ?string
@@ -180,14 +203,6 @@ class Useretudiant
         return $this;
     }
 
-   
-
-
-    
-
-    /**
-     * @return Collection<int, Offre>
-     */
     public function getOffres(): Collection
     {
         return $this->offres;
@@ -212,9 +227,6 @@ class Useretudiant
         return $this;
     }
 
-    /**
-     * @return Collection<int, Candidature>
-     */
     public function getCandidatures(): Collection
     {
         return $this->candidatures;
@@ -233,7 +245,6 @@ class Useretudiant
     public function removeCandidature(Candidature $candidature): static
     {
         if ($this->candidatures->removeElement($candidature)) {
-            // set the owning side to null (unless already changed)
             if ($candidature->getEtudiant() === $this) {
                 $candidature->setEtudiant(null);
             }
@@ -242,11 +253,17 @@ class Useretudiant
         return $this;
     }
 
-    
+    public function getRoles(): array
+    {
+        // Implement the logic to return an array of roles for the user.
+        // You might want to customize this based on your application's logic.
+        return [$this->role];
+    }
 
-
-   
-
-   
-
+    public function eraseCredentials()
+    {
+        // Implement the logic to erase sensitive data from the user.
+        // This method is called after the user has been authenticated and
+        // is not needed in most cases.
+    }
 }

@@ -16,6 +16,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use App\Form\CalendarType;
 use Psr\Log\LoggerInterface;
+use App\Entity\Userentreprise;
 
 use App\Repository\CandidatureRepository;
 use Symfony\Component\Mailer\MailerInterface;
@@ -23,6 +24,7 @@ use Symfony\Component\Mime\Email;
 use Symfony\Component\Notifier\Event\NotificationEvents;
 use Symfony\Component\Notifier\Notification\PushNotificationInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 class InterviewController extends AbstractController
 {
@@ -36,10 +38,18 @@ class InterviewController extends AbstractController
        
     }
 #[Route('/showcalender', name: 'show_interiew')]
-    public function index(CalendarRepository $calendarRepository): Response
+    public function index(CalendarRepository $calendarRepository, SessionInterface $session): Response
     {
-        $events = $calendarRepository->findAll();
+        $user = $session->get('user');
     
+        if (!$user) {
+            // Rediriger vers la page de connexion si l'utilisateur n'est pas connecté
+            return $this->redirectToRoute('app_login');
+        }
+
+       
+        $events = $calendarRepository->findBy(['entreprise' => $user->getId()]);
+
         $rdvs = [];
     
         foreach ($events as $event) {
@@ -55,14 +65,34 @@ class InterviewController extends AbstractController
 
     }
 
-    #[Route('/c', name: 'list_interview')]
-    public function listBook(CalendarRepository $offrerepository): Response
-    {
+   
 
+    #[Route('/listevent', name: 'list_interview')]
+    public function listBook(CalendarRepository $calendar, SessionInterface $session): Response
+    {
+        // Récupérer l'utilisateur depuis la session
+        $user = $session->get('user');
+    
+        if (!$user) {
+            // Rediriger vers la page de connexion si l'utilisateur n'est pas connecté
+            return $this->redirectToRoute('app_login');
+        }
+    
+        // Récupérer la liste des offres associées à l'entreprise de l'utilisateur
+        $filteredOffres = $calendar->findBy(['entreprise' => $user->getId()]);
+    
         return $this->render('interview/show.html.twig', [
-            'interview' => $offrerepository->findAll(),
+            'interview' => $filteredOffres,
         ]);
     }
+
+
+
+
+
+
+
+
 
     #[Route('/interview/edit/{id}', name: 'edit_interview', methods: ['GET', 'POST'])]
     public function editOffre(Request $request, ManagerRegistry $manager, $id, CalendarRepository $calendarRepository): Response
@@ -117,6 +147,8 @@ class InterviewController extends AbstractController
     #[Route('/addevent', name: 'add_interiew')]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
 {
+
+
         $candidature = $entityManager->getRepository(Candidature::class)->find(1);
 
         
@@ -140,12 +172,23 @@ class InterviewController extends AbstractController
     }
 
     #[Route('/addevent/{candidature}', name: 'add_interie')]
-public function new1(Request $request, EntityManagerInterface $entityManager, Candidature $candidature): Response
+public function new1(Request $request, EntityManagerInterface $entityManager, Candidature $candidature,SessionInterface $session): Response
 {
     // No need to fetch $candidature again, it's already injected by Symfony
+   
+
+
+    $user = $session->get('user');
+    if (!$user) {
+        // Rediriger vers la page de connexion si l'utilisateur n'est pas connecté
+        return $this->redirectToRoute('app_login');
+    }
+    // Assuming Entreprise is associated with Offre, adjust this based on your entity relationships
+    $entreprise = $entityManager->getRepository(Userentreprise::class)->find($user->getId());
     
     $calendar = new Calendar();
     $calendar->setCondidature($candidature);
+    $calendar->setEntreprise($entreprise);
 
     $form = $this->createForm(CalendarType::class, $calendar);
     $form->handleRequest($request);
@@ -170,9 +213,9 @@ public function new1(Request $request, EntityManagerInterface $entityManager, Ca
         'form' => $form->createView(),
         'candidature' => $candidature,
     ]);
-}
 
-    
+
+} 
     
     
 

@@ -1,12 +1,12 @@
 {% extends 'base.html.twig' %}
 
 
-{% block div %}
-<h3>>Edit Carpooling </h3>
-{% endblock %}
 
+
+{% block title %}New Covoiturage{% endblock %}
 
 {% block body %}
+    <h1>Create New Covoiturage</h1>
     {{ include('covoiturage/_form.html.twig') }}
     <a href="{{ path('app_covoiturage_index') }}">Back to List</a>
 

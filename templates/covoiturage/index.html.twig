@@ -1,9 +1,10 @@
-{% block title %}Carpooling{% endblock %}
-{% block div %}
-<h3>>Carpooling</h3>
-{% endblock %}
+
+
+{% block title %}Covoiturage{% endblock %}
+
 {% block body %}
 
+    <h1>Covoiturage</h1>
 
     <table class="table">
         <tbody>
@@ -12,23 +13,23 @@
                 <td>{{ covoiturage.id }}</td>
             </tr>
             <tr>
-                <th>Departure Time</th>
+                <th>Heure de Départ</th>
                 <td>{{ covoiturage.heuredepart }}</td>
             </tr>
             <tr>
-                <th>Departure Location</th>
+                <th>Lieu de Départ</th>
                 <td>{{ covoiturage.lieudepart }}</td>
             </tr>
             <tr>
-                <th>Arrival Location</th>
+                <th>Lieu d'Arrivée</th>
                 <td>{{ covoiturage.lieuarrivee }}</td>
             </tr>
             <tr>
-                <th>Price</th>
+                <th>Prix</th>
                 <td>{{ covoiturage.prix }}</td>
             </tr>
             <tr>
-                <th>Number of Available Seats</th>
+                <th>Nombre de Places Disponibles</th>
                 <td>{{ covoiturage.heurednombreplacesdisponiblesepart }}</td>
             </tr>
             <tr>
@@ -36,7 +37,7 @@
                 <td>{{ covoiturage.image }}</td>
             </tr>
             <tr>
-                <th>Username</th>
+                <th>Nom d'Utilisateur</th>
                 <td>{{ covoiturage.username }}</td>
             </tr>
         </tbody>

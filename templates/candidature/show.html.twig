@@ -1,3 +1,6 @@
+
+{% extends 'baseE.html.twig' %}
+
 {% block div %}
     <h3>La liste des candidatures </h3>
 {% endblock %}
@@ -31,7 +34,7 @@
                     {% if not candidature.isTreated %}
                         <tr>
                             <td>{{ candidature.etudiant.username }}</td>
-                            <td>{{ candidature.offre.id }}</td>
+<td>{{ candidature.offre.id | default('N/A') }}</td>
                             <td>{{ candidature.cv }}</td>
                             <td>
                                 <a href="{{ path('add_interie', { candidature: candidature.id }) }}">Ajouter un interview</a>
