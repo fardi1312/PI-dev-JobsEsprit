@@ -9,8 +9,6 @@
     <meta content="" name="keywords">
     <meta content="" name="description">
 
-
-
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 
 
@@ -33,7 +31,7 @@
         }
 
         // Met à jour le nombre de notifications toutes les 5 secondes
-        setInterval(updateNotificationCount, 5000);
+        setInterval(updateNotificationCount, 30000);
 
 
     setInterval(function () {
@@ -92,16 +90,20 @@
         </div>
         <div class="navbar-nav w-100">
 
-            <a href="{{ path('app_covoiturage_post') }}" class="nav-item nav-link"><i class="fa fa-chart-bar me-2"></i>Dashboard</a>
-                 <a href="{{ path('app_covoiturage_post') }}" class="nav-item nav-link"><i class="fa fa-laptop me-2"></i>Offers</a>
+            <a href="{{ path('stats_admin') }}" class="nav-item nav-link"><i class="fa fa-chart-bar me-2"></i>Dashboard</a>
+
+
+           
+            <a href="{{ path('list_offreadmin') }}" class="nav-item nav-link"><i class="fa fa-laptop me-2"></i>Offers</a>
+            <a href="{{ path('events_admin') }}" class="nav-item nav-link "><i class="fa fa-table me-2"></i>Events</a>
+            <a href="{{ path('app_confirm_covoiturage_indexAdmin') }}" class="nav-item nav-link"><i class="fa fa-tachometer-alt me-2"></i>Carpooling</a>
+
+
+
 
             <a href="{{ path('app_covoiturage_post') }}" class="nav-item nav-link"><i class="fa fa-th me-2"></i>Portfolio</a>
             <a href="{{ path('app_covoiturage_post') }}" class="nav-item nav-link"><i class="fa fa-keyboard me-2"></i>Candidacy</a>
-            <a href="{{ path('app_covoiturage_post') }}" class="nav-item nav-link "><i class="fa fa-table me-2"></i>Events</a>
-            <a href="{{ path('app_confirm_covoiturage_indexAdmin') }}" class="nav-item nav-link"><i class="fa fa-tachometer-alt me-2"></i>Carpooling</a>
             <a href="{{ path('app_covoiturage_post') }}" class="nav-item nav-link"><i class="fa fa-th me-2"></i>Reservations</a>
-
-
         </div>
     </nav>
     </div>

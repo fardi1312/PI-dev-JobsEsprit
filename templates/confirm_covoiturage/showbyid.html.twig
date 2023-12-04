@@ -10,36 +10,26 @@
 
 {% block body %}
 
-    <dl>
-        <dt>Username Etudiant:</dt>
-        <dd>{{ confirm_covoiturage.usernameEtud }}</dd>
+<div class="col-lg-8 col-12 mt-3 mx-auto">
+        <div class="custom-block bg-white shadow-lg">
+            <a href="topics-detail.html">
+                <div class="d-flex">
+                    <div>
+                     <h5 class="mb-2  mx-auto">Username Etudiant: {{confirm_covoiturage.usernameEtud }}</h5>
+                        <p class="mb-0">First Name Etudiant: {{ confirm_covoiturage.firstNameEtud }}</p>
+                        <p class="mb-0">Last Name Etudiant: {{ confirm_covoiturage.lastNameEtud  }}</p>
+                        <p class="mb-0">Phone Etudiant: {{ confirm_covoiturage.phoneEtud }}</p>
+                        <p class="mb-0">Email Etudiant:{{ confirm_covoiturage.emailEtud }}</p>
+                        <p class="mb-0">Number of Places Reserved:{{ confirm_covoiturage.nombrePlacesReserve }}</p>
+                        <p class="mb-0">Total Price for Reserved Places: {{ confirm_covoiturage.prixTotalePlacesReserve }}</p>
+<br>
 
-        <dt>First Name Etudiant:</dt>
-        <dd>{{ confirm_covoiturage.firstNameEtud }}</dd>
-
-        <dt>Last Name Etudiant:</dt>
-        <dd>{{ confirm_covoiturage.lastNameEtud }}</dd>
-
-        <dt>Phone Etudiant:</dt>
-        <dd>{{ confirm_covoiturage.phoneEtud }}</dd>
-
-        <dt>Email Etudiant:</dt>
-        <dd>{{ confirm_covoiturage.emailEtud }}</dd>
-
-        <dt>Number of Places Reserved:</dt>
-        <dd>{{ confirm_covoiturage.nombrePlacesReserve }}</dd>
-
-        <dt>Total Price for Reserved Places:</dt>
-        <dd>{{ confirm_covoiturage.prixTotalePlacesReserve }}</dd>
-    </dl>
-
-
-
-    {# Add a form with a Confirm button #}
+{# Add a form with a Confirm button #}
 <form method="post" action="{{ path('confirm_reservation', {'id': confirm_covoiturage.id}) }}">
     <!-- Your form fields here -->
-    <button type="submit">Confirm</button>
+    <button type="submit" class="btn custom-btn">Confirm</button>
 </form>
+<br>
     {{ include('confirm_covoiturage/_delete_form.html.twig') }}
 
 {% endblock %}

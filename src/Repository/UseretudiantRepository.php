@@ -2,27 +2,27 @@
 
 namespace App\Repository;
 
-use App\Entity\UserEtudiant;
+use App\Entity\Useretudiant;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<UserEtudiant>
+ * @extends ServiceEntityRepository<Useretudiant>
  *
- * @method UserEtudiant|null find($id, $lockMode = null, $lockVersion = null)
- * @method UserEtudiant|null findOneBy(array $criteria, array $orderBy = null)
- * @method UserEtudiant[]    findAll()
- * @method UserEtudiant[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Useretudiant|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Useretudiant|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Useretudiant[]    findAll()
+ * @method Useretudiant[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class UserEtudiantRepository extends ServiceEntityRepository
+class UseretudiantRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, UserEtudiant::class);
+        parent::__construct($registry, Useretudiant::class);
     }
 
 //    /**
-//     * @return UserEtudiant[] Returns an array of UserEtudiant objects
+//     * @return Useretudiant[] Returns an array of Useretudiant objects
 //     */
 //    public function findByExampleField($value): array
 //    {
@@ -36,7 +36,7 @@ class UserEtudiantRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-//    public function findOneBySomeField($value): ?UserEtudiant
+//    public function findOneBySomeField($value): ?Useretudiant
 //    {
 //        return $this->createQueryBuilder('u')
 //            ->andWhere('u.exampleField = :val')

@@ -1,4 +1,4 @@
-{% extends 'offre/index.html.twig' %}
+{% extends 'baseE.html.twig' %}
 {% block div %}
     <h3>La liste des Interviews</h3>
 {% endblock %}
@@ -36,8 +36,8 @@
                             <td>{{ i.heure }}</td>
                             <td>{{ i.Date ? i.Date|date('Y-m-d') : '' }}</td>
 
-                        <td>{{ i.Condidature.etudiant.username }}</td>
-                          <td>{{ i.Condidature.etudiant.email}}</td>
+                        <td>{{ i.Condidature.etudiant.username | default('N/A')  }}</td>
+                          <td>{{ i.Condidature.etudiant.email | default('N/A') }}</td>
                             <td>
                                 <a href="{{ path('edit_interview', { id: i.id }) }}">Edit</a>
                                 <a href="{{ path('interview_delete', { id: i.id }) }}">Delete</a>

@@ -1,4 +1,4 @@
-{% extends 'offre/indexetudiant.html.twig' %}
+{% extends 'base.html.twig' %}
 {% block div %}
 <h3>The Offer</h3>
 
@@ -54,27 +54,69 @@
                                N/A
                            {% endif %}
                        </span>
+ 
                     </div>
                     
                     <img src="{{ asset(offre.image) }}" class="custom-block-image img-fluid" alt="">
+<div>
+<a id="sendApplicationButton" class="btn custom-btn ml-2" data-offre-id="{{ offre.id }}" data-bs-toggle="modal" data-bs-target="#notificationsModal">Send Application</a>
 
                 </div>
+                </div>
+               
                 <div class="mt-3">
                     <a href="{{ path('like', { id: offre.id }) }}" class="btn custom-btn" onclick="toggleLike(this)" data-liked="false">Like</a>
                     <a href="{{ path('generate_pdf', { id: offre.id }) }}" class="btn custom-btn ml-2">Download PDF</a>
                     <p class="mt-2">{{ offre.getLikeCount() }} likes</p>
-                </div>
 
+                </div>
+       
+        
+    
             </div>
         {% endfor %}
 <div class="pagination justify-content-center mb-0">
     {{ knp_pagination_render(offres) }}
 </div>
 
+<div class="modal fade" id="notificationsModal" tabindex="-1" aria-labelledby="notificationsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="notificationsModalLabel">My Candidacy</h5>
+            </div>
+            <div class="modal-body" id="notificationsContent">
+                <!-- Rendered notifications content from the server -->
+                {% include 'candidature/test.html.twig' %} 
+            </div>
+            <div class="modal-footer">
+<button type="button" class="btn btn-primary" id="submitCandidatureButton" onclick="window.location='{{ path('Add_candid') }}'">Send</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 
     
+
+
 <script>
+  
+   document.getElementById('sendApplicationButton').addEventListener('click', function() {
+    // Get the value of the data-offre-id attribute directly
+    var offreId = this.getAttribute('data-offre-id');
+
+    // Do something with the offreId
+    console.log('Offre ID:', offreId);
+
+    // Now you can use the 'offreId' as needed, for example, pass it to your function or use it in an AJAX request.
+});
+
+
+
+
+
 function toggleLike(button) {
   // Get the current like status from the data-liked attribute
   const liked = button.getAttribute('data-liked') === 'true';
@@ -82,7 +124,7 @@ function toggleLike(button) {
   // Send a request to the server to add or remove the like
   const offerId = button.getAttribute('data-offer-id');
   const action = liked ? 'remove' : 'add';
-  const url = `/like/${action}/${offerId}`;
+  const url = /like/${action}/${offerId};
 
   // Assuming you are using Fetch API for making requests
   fetch(url, {

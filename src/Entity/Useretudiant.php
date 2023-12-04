@@ -2,24 +2,24 @@
 
 namespace App\Entity;
 
-use App\Repository\UserEtudiantRepository;
+use App\Repository\UseretudiantRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-#[ORM\Entity(repositoryClass: UserEtudiantRepository::class)]
-class UserEtudiant implements UserInterface
+#[ORM\Entity(repositoryClass: UseretudiantRepository::class)]
+class Useretudiant implements UserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(nullable: true)]
+    #[ORM\Column]
     private ?int $phone = null;
 
-    #[ORM\Column(length: 20)]
+    #[ORM\Column(length: 255)]
     private ?string $role = null;
 
     #[ORM\Column(length: 255)]
@@ -29,10 +29,10 @@ class UserEtudiant implements UserInterface
     private ?string $motDePasse = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $nom = null;
+    private ?string $firstName = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $prenom = null;
+    private ?string $lastName = null;
 
     #[ORM\Column(length: 255)]
     private ?string $username = null;
@@ -40,18 +40,54 @@ class UserEtudiant implements UserInterface
     #[ORM\Column(length: 255)]
     private ?string $image = null;
 
-    #[ORM\Column(nullable: true)]
+    #[ORM\Column]
     private ?int $age = null;
 
-    #[ORM\Column(nullable: true)]
-    private ?float $rate = null;
+    #[ORM\ManyToMany(targetEntity: Offre::class, mappedBy: 'likes')]
+    private Collection $offres;
+
+    #[ORM\OneToMany(mappedBy: 'etudiant', targetEntity: Candidature::class)]
+    private Collection $candidatures;
 
     #[ORM\OneToMany(mappedBy: 'id_userEtudiant', targetEntity: Covoiturage::class)]
     private Collection $covoiturages;
 
     public function __construct()
     {
+        $this->offres = new ArrayCollection();
+        $this->candidatures = new ArrayCollection();
         $this->covoiturages = new ArrayCollection();
+    }
+
+    public function getCovoiturages(): Collection
+    {
+        return $this->covoiturages;
+    }
+
+    public function addCovoiturage(Covoiturage $covoiturage): static
+    {
+        if (!$this->covoiturages->contains($covoiturage)) {
+            $this->covoiturages->add($covoiturage);
+            $covoiturage->setIdUserEtudiant($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCovoiturage(Covoiturage $covoiturage): static
+    {
+        if ($this->covoiturages->removeElement($covoiturage)) {
+            if ($covoiturage->getIdUserEtudiant() === $this) {
+                $covoiturage->setIdUserEtudiant(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getUserIdentifier(): string
+    {
+        return $this->email;
     }
 
     public function getId(): ?int
@@ -59,19 +95,12 @@ class UserEtudiant implements UserInterface
         return $this->id;
     }
 
-    public function setId(?int $id): static
-    {
-        $this->id = $id;
-
-        return $this;
-    }
-
     public function getPhone(): ?int
     {
         return $this->phone;
     }
 
-    public function setPhone(?int $phone): static
+    public function setPhone(int $phone): static
     {
         $this->phone = $phone;
 
@@ -114,26 +143,26 @@ class UserEtudiant implements UserInterface
         return $this;
     }
 
-    public function getNom(): ?string
+    public function getFirstName(): ?string
     {
-        return $this->nom;
+        return $this->firstName;
     }
 
-    public function setNom(string $nom): static
+    public function setFirstName(string $firstName): static
     {
-        $this->nom = $nom;
+        $this->firstName = $firstName;
 
         return $this;
     }
 
-    public function getPrenom(): ?string
+    public function getLastName(): ?string
     {
-        return $this->prenom;
+        return $this->lastName;
     }
 
-    public function setPrenom(string $prenom): static
+    public function setLastName(string $lastName): static
     {
-        $this->prenom = $prenom;
+        $this->lastName = $lastName;
 
         return $this;
     }
@@ -167,49 +196,57 @@ class UserEtudiant implements UserInterface
         return $this->age;
     }
 
-    public function setAge(?int $age): static
+    public function setAge(int $age): static
     {
         $this->age = $age;
 
         return $this;
     }
 
-    public function getRate(): ?float
+    public function getOffres(): Collection
     {
-        return $this->rate;
+        return $this->offres;
     }
 
-    public function setRate(?float $rate): static
+    public function addOffre(Offre $offre): static
     {
-        $this->rate = $rate;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Covoiturage>
-     */
-    public function getCovoiturages(): Collection
-    {
-        return $this->covoiturages;
-    }
-
-    public function addCovoiturage(Covoiturage $covoiturage): static
-    {
-        if (!$this->covoiturages->contains($covoiturage)) {
-            $this->covoiturages->add($covoiturage);
-            $covoiturage->setIdUserEtudiant($this);
+        if (!$this->offres->contains($offre)) {
+            $this->offres->add($offre);
+            $offre->addLike($this);
         }
 
         return $this;
     }
 
-    public function removeCovoiturage(Covoiturage $covoiturage): static
+    public function removeOffre(Offre $offre): static
     {
-        if ($this->covoiturages->removeElement($covoiturage)) {
-            // set the owning side to null (unless already changed)
-            if ($covoiturage->getIdUserEtudiant() === $this) {
-                $covoiturage->setIdUserEtudiant(null);
+        if ($this->offres->removeElement($offre)) {
+            $offre->removeLike($this);
+        }
+
+        return $this;
+    }
+
+    public function getCandidatures(): Collection
+    {
+        return $this->candidatures;
+    }
+
+    public function addCandidature(Candidature $candidature): static
+    {
+        if (!$this->candidatures->contains($candidature)) {
+            $this->candidatures->add($candidature);
+            $candidature->setEtudiant($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCandidature(Candidature $candidature): static
+    {
+        if ($this->candidatures->removeElement($candidature)) {
+            if ($candidature->getEtudiant() === $this) {
+                $candidature->setEtudiant(null);
             }
         }
 
@@ -218,27 +255,15 @@ class UserEtudiant implements UserInterface
 
     public function getRoles(): array
     {
+        // Implement the logic to return an array of roles for the user.
+        // You might want to customize this based on your application's logic.
         return [$this->role];
     }
 
-    public function getPassword(): ?string
+    public function eraseCredentials()
     {
-        return $this->motDePasse;
-    }
-
-    public function getSalt(): ?string
-    {
-        return null;
-    }
-
-    public function eraseCredentials(): void
-    {
-        // If you store any temporary, sensitive data on the user, clear it here
-        // $this->plainPassword = null;
-    }
-
-    public function getUserIdentifier(): string
-    {
-        return $this->email;
+        // Implement the logic to erase sensitive data from the user.
+        // This method is called after the user has been authenticated and
+        // is not needed in most cases.
     }
 }

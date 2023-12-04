@@ -1,55 +1,31 @@
 {# covoiturage/showbyid.html.twig #}
 
 {% extends 'base.html.twig' %}
-{% block div %}
-<h3>>Carpooling Details</h3>
-{% endblock %}
 {% block body %}
+    <div class="col-lg-8 col-12 mt-3 mx-auto">
+        <div class="custom-block bg-white shadow-lg">
+            <a href="topics-detail.html">
+                <div class="d-flex">
+                    <div>
 
-    <table>
-        <tr>
-            <th>ID</th>
-            <td>{{ covoiturage.id }}</td>
-        </tr>
-        <tr>
-            <th>Departure Time</th>
-            <td>{{ covoiturage.heuredepart }}</td>
-        </tr>
-        <tr>
-            <th>Departure Location</th>
-            <td>{{ covoiturage.lieudepart }}</td>
-        </tr>
-        <tr>
-            <th>Arrival Location</th>
-            <td>{{ covoiturage.lieuarrivee }}</td>
-        </tr>
-        <tr>
-            <th>Price</th>
-            <td>{{ covoiturage.prix }}</td>
-        </tr>
-        <tr>
-            <th>Available Seats</th>
-            <td>{{ covoiturage.nombreplacesdisponible }}</td>
-        </tr>
-        <tr>
-            <th>Username</th>
-            <td>{{ covoiturage.username }}</td>
-        </tr>
-        <!-- Add other fields as needed -->
-        <tr>
-            <th>Image</th>
-            <td>
-                {% if covoiturage.image %}
-                    <img src="{{ asset('uploads/covoiturages/' ~ covoiturage.image) }}" alt="Covoiturage Image">
-                {% else %}
-                    <p>No image available</p>
-                {% endif %}
-            </td>
-        </tr>
-    </table>
+                     <h5 class="mb-2  mx-auto">Details for Carpooling Num: {{ covoiturage.id }}</h5>
+                        <p class="mb-0">Departure Time: {{ covoiturage.heuredepart }}</p>
+                        <p class="mb-0">Departure Location: {{ covoiturage.lieudepart }}</p>
+                        <p class="mb-0">Destination: {{ covoiturage.lieuarrivee }}</p>
+                        <p class="mb-0">Price: {{ covoiturage.prix }}</p>
+                        <p class="mb-0">Available Seats: {{ covoiturage.nombreplacesdisponible }}</p>
+                        <p class="mb-0">Driver: {{ covoiturage.username }}</p>
 
-    {# Add other covoiturage details as needed #}
-    <a href="{{ path('app_covoiturage_index') }}">Back to list</a>
+                        {% if covoiturage.image %}
+                            <img src="{{ asset('uploads/covoiturages/' ~ covoiturage.image) }}" class="custom-block-image img-fluid" alt="Carpooling Image">
+                        {% else %}
+                            <p>No image available</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </a>
+        </div>
+         <a href="{{ path('app_covoiturage_index') }}">Back to list</a>
     <a href="{{ path('app_confirm_covoiturage_new', {'id': covoiturage.id}) }}">Confirm</a>
-
+    </div>
 {% endblock %}

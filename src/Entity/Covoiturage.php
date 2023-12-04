@@ -37,7 +37,7 @@ class Covoiturage
     private ?string $username = null;
 
     #[ORM\ManyToOne(inversedBy: 'covoiturages')]
-    private ?UserEtudiant $id_userEtudiant = null;
+    private ?Useretudiant $id_userEtudiant = null;
 
     public function __toString()
     {
@@ -141,12 +141,12 @@ class Covoiturage
         $this->username = $username;
     }
 
-    public function getIdUserEtudiant(): ?UserEtudiant
+    public function getIdUserEtudiant(): ?Useretudiant
     {
         return $this->id_userEtudiant;
     }
 
-    public function setIdUserEtudiant(?UserEtudiant $id_userEtudiant): void
+    public function setIdUserEtudiant(?Useretudiant $id_userEtudiant): void
     {
         $this->id_userEtudiant = $id_userEtudiant;
     }
