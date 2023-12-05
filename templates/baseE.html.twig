@@ -14,6 +14,9 @@
     <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/bootstrap-icons.css') }}" rel="stylesheet">
     <link href="{{ asset('css/templatemo-topic-listing.css') }}" rel="stylesheet">
+
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
 <!--
 TemplateMo 590 topic listing
 
@@ -78,14 +81,23 @@ https://templatemo.com/tm-590-topic-listing
                     <a class="nav-link click-scroll" href="{{ path('list_candid') }}">Candidature</a>
                 </li>
 
-                <li class="nav-item">
-                    <a class="nav-link click-scroll" href="#section_6">Contact</a>
-                </li>
+            <div class="nav-item dropdown">
+                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                    <img class="rounded-circle me-lg-2" src="{{ asset('back/img/user.jpg') }}" alt="" style="width: 40px; height: 40px;">
+                    <span class="d-none d-lg-inline-flex">John Doe</span>
+                </a>
+                <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
+                    <a href="#" class="dropdown-item">My Profile</a>
+                    <a href="#" class="dropdown-item">Settings</a>
+                    <a href="{{ path('app_logout') }}" class="dropdown-item">
+                        <i class="fa fa-sign-out"></i> Log Out
+                    </a>              
+                  </div>
+            </div>
+
             </ul>
 
-            <div class="d-none d-lg-block">
-                <a href="#top" class="navbar-icon bi-person smoothscroll"></a>
-            </div>
+
         </div>
     </div>
 </nav>
